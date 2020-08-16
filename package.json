@@ -1,0 +1,19 @@
+{
+  "name": "it-project-comp30022",
+  "version": "1.0.0",
+  "description": "Base Init",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Hello World!\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cairinmisa/IT-Project-COMP30022.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cairinmisa/IT-Project-COMP30022/issues"
+  },
+  "homepage": "https://github.com/cairinmisa/IT-Project-COMP30022#readme"
+}
