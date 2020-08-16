@@ -4,6 +4,7 @@
   "description": "Base Init",
   "main": "index.js",
   "scripts": {
+    "start" : "node index.js",
     "test": "echo \"Hello World!\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/cairinmisa/IT-Project-COMP30022/issues"
   },
-  "homepage": "https://github.com/cairinmisa/IT-Project-COMP30022#readme"
+  "homepage": "https://github.com/cairinmisa/IT-Project-COMP30022#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
 }
