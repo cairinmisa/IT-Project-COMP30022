@@ -4,7 +4,7 @@
   "description": "Base Init",
   "main": "index.js",
   "scripts": {
-    "start" : "node index.js",
+    "start": "node index.js",
     "test": "echo \"Hello World!\" && exit 1"
   },
   "repository": {
@@ -18,7 +18,11 @@
   },
   "homepage": "https://github.com/cairinmisa/IT-Project-COMP30022#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mongoose": "^5.10.3",
+    "morgan": "^1.10.0"
   }
 }
