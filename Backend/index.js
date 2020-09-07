@@ -1,9 +1,19 @@
-const express = require('express'),
-http = require('http');
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
+var http = require('http');
+
+require('./models/db.js');
 
 const hostname = 'localhost';
-const port = 8080;
+const port = 8000;
 const app = express();
+
+app.use(logger('dev'));
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use((req, res) => {
   console.log(req.headers);
@@ -15,5 +25,7 @@ app.use((req, res) => {
 const test_server = http.createServer(app);
 
 test_server.listen(port, hostname, () => {
-  console.log('Server running at http://$(hostname):${post}/');
+  console.log(`Server running at http://${hostname}:${port}/`);
 });
+
+module.exports = app;
