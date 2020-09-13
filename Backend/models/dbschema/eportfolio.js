@@ -11,5 +11,5 @@ var eportfolioSchema = new Schema({
     dateUpdated : String,
 }, {collection : 'EPortfolios'});
 
-const User = mongoose.model('eportfolio', eportfolioSchema);
+const Eportfolio = mongoose.model('eportfolio', eportfolioSchema);
 module.exports = Eportfolio;

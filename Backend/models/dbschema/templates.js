@@ -14,5 +14,5 @@ var templateSchema = new Schema({
     rating : Number,
 }, {collection : 'Templates'});
 
-const User = mongoose.model('template', templateSchema);
+const Template = mongoose.model('template', templateSchema);
 module.exports = Template;
