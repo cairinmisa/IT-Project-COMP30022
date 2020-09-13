@@ -2,12 +2,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var templateSchema = new Schema({
-    userID : Number,
-    dateCreated : String,
-    dateUpdates : String,
+    userID : {type : Number, required : true},
+    dateCreated : {type : Date, required: true},
+    dateUpdated : {type : Date, required: true},
     downloadable : Boolean,
-    public : Boolean,
-    categories : String,
+    public : {type : Boolean, required : true},
+    categories : {type : String, required : true},
     version : Number,
     comments : String,
     title : String,
