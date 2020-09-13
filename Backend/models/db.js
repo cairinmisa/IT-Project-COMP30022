@@ -23,3 +23,6 @@ db.once("open", async () => {
 
 // Require other DBs here.
 // Example: require("./users"); for a Users DB
+require("./dbschema/eportfolio");
+require("./dbschema/user");
+require("./dbschema/templates");
