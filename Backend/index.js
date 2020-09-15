@@ -10,6 +10,11 @@ const hostname = 'localhost';
 const port = 8000;
 const app = express();
 
+app.use(logger('dev'));
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 // Declaring all the routers
 const loginRouter = require('./routes/login');
 const landingRouter = require('./routes/landing');
@@ -18,10 +23,11 @@ const templatesRouter = require('./routes/templates');
 const registerRouter = require('./routes/register');
 
 app.use('/', landingRouter);
-app.use('/profile', profileRouter);p   
+app.use('/profile', profileRouter);
 app.use('/templates', templatesRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
+
 // Default request, page not found
 app.use((req, res) => {
   console.log(req.headers);
@@ -32,11 +38,6 @@ app.use((req, res) => {
 
 
 
-
-app.use(logger('dev'));
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 
 const test_server = http.createServer(app);
