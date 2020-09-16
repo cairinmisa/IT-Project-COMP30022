@@ -1,58 +1,123 @@
 const express = require("express");
 const User = require("../models/dbschema/user");
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 
-router.get('/', (req, res)=> {
-    User.find(function (err, user){
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(user);
+router.get('/login', function(req,res,next){
+    console.log(req.body.username);
+    if(req.body.username == null){
+        res.status(422);
+        res.send({error : "username required"});
+    } else if(req.body.password ==null){
+        res.status(422);
+        res.send({error : "password required"});
+    } else{
+
+        User.findOne({username : req.body.username}, {username : 1, password : 1}).then( async function(user_prop){
+            if(user_prop!= null){
+                try{
+                    console.log(req.body.password);
+                    console.log(user_prop.password);
+                    if(await bcrypt.compare(req.body.password,user_prop.password)){
+                        res.send({result : "Success"});
+                    } else {
+                        res.send({result : "Incorrect password"});
+                    }
+                } catch{
+                    // Hashing Error
+                    res.status(500).send();
+                }
+            } else{
+                // Can't find user
+                res.status(422);
+                res.send ({error : "cannot find user"});
+            }
+
+        }).catch(next);
+    }
+});
+
+router.get('/userid',function(req,res,next){
+    console.log("got here");
+    console.log(req.body.username);
+    //console.log(getIDbyUsername(req.body.username))
+    User.findOne({username : req.body.username}, {_id : 1}).then(function(user){
+        res.send(user);
+    }).catch(next);
+});
+
+
+router.get('/', function(req,res,next){
+    User.find().then(function(users){
+        res.send(users);
+    }).catch(next);
+});
+
+
+
+router.put('/', async function(req,res,next) {
+    if(req.body.password){
+        try{
+            //Password exists
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            req.body.password = hashedPassword;
+            User.create(req.body).then(function(user){
+                res.send(user);
+            }).catch(next);
+        } catch {
+            // Error Hashing
+            res.status(500).send();
         }
-    });
+    } else{
+        // Password does not exist
+        res.status(422)
+        res.send({error : "Password field required"});
+    }     
 });
 
-router.get('/:id',function(req,res){
-    let id = req.params.id;
-    User.findById(id, function(err, user){
-        res.json(user);
-    });
-});
+router.put('/update',async function(req,res,next){
 
-router.post('/add', function(req,res) {
-    // New instance of user based on our data model
-    let user = new User(req.body);
-    user.save()
-        .then(user => {
-            res.status(200).json({'user' : 'user added successfully'})
-        })
-        .catch(err => {
-            res.status(400).send('adding new user failed')
+    // If update wants to change the password, then hash the new password
+    if(req.body.password){
+        try{
+
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            req.body.password = hashedPassword;
+        } catch {
+            // Error Hashing
+            res.status(500).send();
+        }
+    }
+
+    User.findByIdAndUpdate({_id : req.body._id}, req.body).then(function(user){
+        console.log(user._id);
+
+        User.findOne({_id : user._id}).then(function(user){
+
+            res.send(user);
         });
-
+    }).catch(next);
 });
 
-router.post('/update/:id', function(req, res) {
-    User.findById(req.params.id, function (err, user){
-        if(!user)
-            res.status(404).send('data is not found');
-        else
-            user.userID = req.body.userID;
-            user.username = req.body.username;
-            user.password = req.body.password;
-            user.firstName = req.body.firstName;
-            user.lastName = req.body.lastName;
-            user.emailAddress = req.body.emailAddress;
-            user.dOB = req.body.dOB;
-            user.save().then(user =>{
-                res.json('User updated');
-            })
 
-            .catch(err => {
-                res.status(400).send("Update not possible");
-            });
 
+router.delete('/:id', function(req,res, next){
+    if(req.body.username==null){
+        res.status(422);
+        res.send({error: "no username provided"});
+    } else {
+        User.findOne({username : req.body.username}, {_id : 1}).then(function(user_id){
+            User.findByIdAndDelete({_id : user_id._id}).then(function(user){
+                res.send(user);
+            }).catch(next);
+        }).catch(next);
+    }
+});
+
+function getIDbyUsername(username){
+    User.findOne({username : username}, {_id : 1}).then(function(id){
+        return id;
     });
-});
+};
 
 module.exports = router;
