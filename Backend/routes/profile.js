@@ -2,105 +2,65 @@ const express = require("express");
 const User = require("../models/dbschema/user");
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const authController = require('../controllers/authentication');
+const fetchController = require('../controllers/fetch');
+const errorController = require('../controllers/error');
 
+// LOGIN CHECK
 router.get('/login', function(req,res,next){
     console.log(req.body.username);
     if(req.body.username == null){
-        res.status(422);
-        res.send({error : "username required"});
+        errorController.error(res, "username field missing",422);
     } else if(req.body.password ==null){
-        res.status(422);
-        res.send({error : "password required"});
+        errorController.error(res, "password field missing",422);
     } else{
-
-        User.findOne({username : req.body.username}, {username : 1, password : 1}).then( async function(user_prop){
-            if(user_prop!= null){
-                try{
-                    console.log(req.body.password);
-                    console.log(user_prop.password);
-                    if(await bcrypt.compare(req.body.password,user_prop.password)){
-                        res.send({result : "Success"});
-                    } else {
-                        res.send({result : "Incorrect password"});
-                    }
-                } catch{
-                    // Hashing Error
-                    res.status(500).send();
-                }
-            } else{
-                // Can't find user
-                res.status(422);
-                res.send ({error : "cannot find user"});
-            }
-
-        }).catch(next);
+        authController.login(req,res,next);
     }
 });
 
-router.get('/userid',function(req,res,next){
-    console.log("got here");
-    console.log(req.body.username);
-    //console.log(getIDbyUsername(req.body.username))
-    User.findOne({username : req.body.username}, {_id : 1}).then(function(user){
-        res.send(user);
-    }).catch(next);
+
+// GET USER BY USERNAME
+router.get('/userid', async function(req,res,next){
+    if(req.body.username==null){
+        errorController.error(res,"username field missing",422);
+    } else{
+        await fetchController.getOne(req, res, next);
+    }
+});
+
+// GET ALL USERS
+router.get('/',async function(req,res,next){
+    userlist = await fetchController.getAll(req,res,next);
+    res.send(userlist);
 });
 
 
-router.get('/', function(req,res,next){
-    User.find().then(function(users){
-        res.send(users);
-    }).catch(next);
-});
-
-
-
+// ADD A NEW USER
 router.put('/', async function(req,res,next) {
-    if(req.body.password){
-        try{
-            //Password exists
-            const hashedPassword = await bcrypt.hash(req.body.password, 10);
-            req.body.password = hashedPassword;
-            User.create(req.body).then(function(user){
-                res.send(user);
-            }).catch(next);
-        } catch {
-            // Error Hashing
-            res.status(500).send();
-        }
+    if(req.body.password==null){
+        errorController.error(res,"password field required",422);
+    } else if(req.body.username==null){
+        errorController.error(res,"username field required",422);
+    } else if(req.body.emailAddress==null){
+        errorController.error(res,"emailAddress field required",422);
     } else{
-        // Password does not exist
-        res.status(422)
-        res.send({error : "Password field required"});
-    }     
-});
-
-router.put('/update',async function(req,res,next){
-
-    // If update wants to change the password, then hash the new password
-    if(req.body.password){
-        try{
-
-            const hashedPassword = await bcrypt.hash(req.body.password, 10);
-            req.body.password = hashedPassword;
-        } catch {
-            // Error Hashing
-            res.status(500).send();
-        }
+        authController.register(req,res,next);
     }
-
-    User.findByIdAndUpdate({_id : req.body._id}, req.body).then(function(user){
-        console.log(user._id);
-
-        User.findOne({_id : user._id}).then(function(user){
-
-            res.send(user);
-        });
-    }).catch(next);
+        
 });
 
 
+// UPDATE A PARTICULAR USER
+router.put('/update',async function(req,res,next){
+    if(req.body.username==null){
+        errorController.error(res,"username field required",422);
+    } else {
+        authController.update(req,res,next);
+    }  
+});
 
+
+// Which controller?
 router.delete('/:id', function(req,res, next){
     if(req.body.username==null){
         res.status(422);
@@ -114,10 +74,5 @@ router.delete('/:id', function(req,res, next){
     }
 });
 
-function getIDbyUsername(username){
-    User.findOne({username : username}, {_id : 1}).then(function(id){
-        return id;
-    });
-};
 
 module.exports = router;
