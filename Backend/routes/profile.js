@@ -10,8 +10,8 @@ const userController = require('../controllers/user');
 // LOGIN CHECK
 router.get('/login', function(req,res,next){
     console.log(req.body.username);
-    if(req.body.username == null){
-        errorController.error(res, "username field missing",422);
+    if(req.body.emailAddress == null){
+        errorController.error(res, "email field missing",422);
     } else if(req.body.password ==null){
         errorController.error(res, "password field missing",422);
     } else{
@@ -53,8 +53,8 @@ router.put('/', async function(req,res,next) {
 
 // UPDATE A PARTICULAR USER
 router.put('/update',async function(req,res,next){
-    if(req.body.username==null){
-        errorController.error(res,"username field required",422);
+    if(req.body.userID==null){
+        errorController.error(res,"userID field required",422);
     } else {
         authController.update(req,res,next);
     }  
