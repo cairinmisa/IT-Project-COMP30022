@@ -25,14 +25,19 @@ exports.login = async (req, res, next) => {
 };
 
 exports.register = async (req,res,next) =>{
-     //Password exists
+    //Password exists
+
     const hashedPassword = await this.passgen(req.body.password);
     req.body.password = hashedPassword;
-    if(fetchController.usernameExists(req.body.username)){
+    if(await fetchController.usernameExists(req.body.username)){
         errorController.error(res, "Username already exists", 400);
-    } else if(fetchController.emailExists(req.body.emailAddress)){
+    } else if(await fetchController.emailExists(req.body.emailAddress)){
         errorController.error(res, "Email already exists", 400);
-    } else{
+    } else if((req.body.userID)){
+        errorController.error(res, "Cannot provide userID", 422);
+    }else{
+        //Temporary UserID Line, Needs to be replaced with function
+        req.body.userID = "TempID";
         User.create(req.body).then(function(user){
             res.send(user);
         }).catch(next);
@@ -47,7 +52,6 @@ exports.update = async (req,res,next) =>{
             const hashedPassword = await this.passgen(req.body.password);
             req.body.password = hashedPassword;
         }
-        console.log("gothere4");
         const user = await fetchController.userfromUsername(req.body.username);
         console.log(user);
         await User.findByIdAndUpdate({_id : user._id}, req.body).then(async function(user){
@@ -57,7 +61,6 @@ exports.update = async (req,res,next) =>{
         }).catch(next);
     }
 }
-
 
 exports.passgen = async(password) =>{
     const hashedPassword = await bcrypt.hash(password, 10);
