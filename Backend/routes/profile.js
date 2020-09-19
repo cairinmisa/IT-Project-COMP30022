@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const authController = require('../controllers/authentication');
 const fetchController = require('../controllers/fetch');
 const errorController = require('../controllers/error');
+const userController = require('../controllers/user');
 
 // LOGIN CHECK
 router.get('/login', function(req,res,next){
@@ -63,20 +64,10 @@ router.put('/update',async function(req,res,next){
 // Which controller?
 router.delete('/', function(req,res, next){
     if(req.body.username==null){
-        res.status(422);
-        res.send({error: "no username provided"});
+        errorController.error(res, "user not found", 400);
     } else {
-        User.findOne({username : req.body.username}, {_id : 1}).then(function(user_id){
-            if(user_id == null){
-                errorController.error(res, "user not found", 400);
-            } else {
-                User.findByIdAndDelete({_id : user_id._id}).then(function(user){
-                    res.send(user);
-                }).catch(next);
-            }            
-        }).catch(next);
+        userController.delete(req,res,next);
     }
 });
-
 
 module.exports = router;
