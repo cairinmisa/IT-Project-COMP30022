@@ -17,9 +17,13 @@ db.on("error", err=> {
   process.exit(1);
 })
 
+// Event to respond to
 db.once("open", async () => {
   console.log("Mongo connection started on" + db.host + ":" + db.port);
 });
 
 // Require other DBs here.
 // Example: require("./users"); for a Users DB
+require("./dbschema/eportfolio");
+require("./dbschema/user");
+require("./dbschema/templates");
