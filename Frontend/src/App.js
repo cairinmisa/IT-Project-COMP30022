@@ -1,28 +1,30 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom' ;
+import React from "react";
+import "./App.css";
+import Home from "./Home";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Nav from "./Nav";
+import TextEditor from "./TextEditor";
+import Template from "./pages/Template";
+import SignUp from "./pages/SignUpPage";
+import Footer from "./Footer";
+import SignUpForm from "./pages/SignUpForm";
+import LoginPage from "./pages/LoginPage";
 
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <Router>
+        <Nav />
+        <Switch>
+          <Route path="/login" exact component={LoginPage}></Route>
+          <Route path="/editor" exact component={TextEditor}></Route>
+          <Route path="/" exact component={Home}></Route>
+          <Route path="/signup" exact component={SignUpForm}></Route>
+        </Switch>
+        <Footer />
+      </Router>
+    );
+  }
 }
 
 export default App;
