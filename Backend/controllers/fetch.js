@@ -10,7 +10,6 @@ exports.getAll = async (req, res, next) => {
 };
 
 exports.getOne = async (req,res,next) => {
-    
     user = await this.userfromUsername(req.body.username);
 
     if(user==null){
@@ -50,7 +49,6 @@ exports.usernameExists = async (username) =>{
     if(user_check != null){
         return true;
     } else{
-        console.log("returning false");
         return false;
     }
 }
@@ -61,7 +59,6 @@ exports.emailExists = async (email) =>{
     if(email_check != null){
         return true;
     } else{
-        console.log("email check is false");
         return false;
     }
 }
