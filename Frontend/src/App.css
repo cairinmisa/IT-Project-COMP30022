@@ -1,38 +1,219 @@
-.App {
+@font-face {
+  font-family: "neue-montreal-bold";
+  src: url("https://dafonttop.com/wp-data/n/927/7927/file/NeueMontreal-MediumItalic.otf");
+}
+
+:root {
+  --scheme-white: #f4f4f9;
+  --scheme-blue: #5762d5;
+  --scheme-black: #21273b;
+  --scheme-red: #ff6b6b;
+  --sceme-aqua: #00bfb2;
+}
+
+.red {
+  color: var(--scheme-red);
+}
+
+.blue {
+  color: var(--scheme-blue);
+}
+
+body {
+  background-color: var(--scheme-blue);
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 23px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+.text-editor {
+  width: 80%;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.editorComponent {
+  border: solid;
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: #999;
+  margin: 10px;
+}
+
+.container {
+  font-size: 28px;
+}
+
+.navBar {
+  background-image: url("images/svgs/top_blue_1.svg");
+  background-size: cover;
+  background-position: bottom;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+  position: relative;
+  color: var(--scheme-white);
+  height: 100px;
+}
+
+.navBar ul {
+  padding-top: 5px;
+  text-align: right;
+  padding-right: 5%;
+}
+
+.navBar li {
+  display: inline-block;
+  padding-left: 25px;
+  color: var(--scheme-white);
+}
+
+.footer {
+  background-image: url("images/svgs/bottom_blue_1.svg");
+  background-size: cover;
+  background-position: top;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+  position: relative;
+  color: var(--scheme-white);
+  height: 125px;
+}
+
+.btn {
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 28px;
+}
+
+div {
+  background-color: var(--scheme-white);
+  text-align: center;
+  font-family: neue-montreal-bold, helvetica;
+  font-weight: bold;
+  clear: both;
+}
+
+.welcome {
+  height: 70vh;
+}
+
+.welcome-content {
+  position: absolute;
+  width: 66%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  letter-spacing: -1px;
+}
+
+.welcome a {
+  color: var(--scheme-blue);
+}
+
+.highlight {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 80%;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.highlight-text {
+  text-align: left;
+  width: 100%;
+}
+
+.highlight img {
+  float: right;
+  width: 48%;
+  padding-bottom: 20px;
+  padding-left: 20px;
+}
+
+.loginForm {
+  width: 400px;
+  height: 70vh;
+  width: 100%;
+}
+
+.loginForm-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loginForm p {
+  font-size: 16px;
+}
+
+.loginForm a {
+  text-decoration: none;
+}
+
+.inputField {
+  width: 100%;
+}
+
+.inputField input {
+  box-sizing: border-box;
+  width: 100%;
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 28px;
+  padding-left: 10px;
+  background-color: var(--scheme-white);
+  font-family: neue-montreal-bold, helvetica;
+}
+
+.submitButton {
+  border: none;
+  color: white;
+  padding: 15px 32px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.submitButton {
+  width: 100%;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.submitButton button {
+  background-color: var(--scheme-red);
+  color: var(--scheme-white);
+  width: 100%;
+}
+
+@media screen and (min-width: 1200px) {
+  h1 {
+    font-size: 35px;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  h2 {
+    font-size: 30px;
   }
-  to {
-    transform: rotate(360deg);
+  h3 {
+    font-size: 25px;
+  }
+  body {
+    font-size: 22px;
+  }
+  .welcome-content {
+    width: 60%;
   }
 }
