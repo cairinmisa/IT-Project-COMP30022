@@ -6,10 +6,9 @@ const errorController = require('./error');
 
 exports.login = async (req, res, next) => {
     var response = null;
-    user = await fetchController.userfromUsername(req.body.username);
-    
-    if(user.error!=null){
-        errorController.error(res,"user not found", 400);
+    user = await fetchController.userfromEmail(req.body.emailAddress);
+    if(user==null){
+        errorController.error(res,"email not found", 400);
     } else  {
         try{
             if(await bcrypt.compare(req.body.password,user.password)){
@@ -45,19 +44,22 @@ exports.register = async (req,res,next) =>{
 }    
 
 exports.update = async (req,res,next) =>{
+    // Checks email and username's existence
+    console.log(await fetchController.emailExists(req.body.emailAddress));
     if(await fetchController.emailExists(req.body.emailAddress)){
         errorController.error(res, "Email already exists", 400);
+    } else if(await fetchController.usernameExists(req.body.username)){
+        errorController.error(res, "Username already exists", 400);
     } else{
         if(req.body.password != null){
             const hashedPassword = await this.passgen(req.body.password);
             req.body.password = hashedPassword;
         }
-        const user = await fetchController.userfromUsername(req.body.username);
-        console.log(user);
+        const user = await fetchController.userfromUserID(req.body.userID);
         await User.findByIdAndUpdate({_id : user._id}, req.body).then(async function(user){
             console.log(user._id);
-            user = await fetchController.userfromUsername(req.body.username);
-                res.send(user);
+            updated_user = await fetchController.userfromUserID(req.body.userID);
+                res.send(updated_user);
         }).catch(next);
     }
 }

@@ -17,7 +17,7 @@ db.on("error", err=> {
   process.exit(1);
 })
 
-// Event to respond to
+// Responds to event only once
 db.once("open", async () => {
   console.log("Mongo connection started on" + db.host + ":" + db.port);
 });
