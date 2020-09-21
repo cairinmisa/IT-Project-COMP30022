@@ -221,6 +221,7 @@ div {
   padding-left: 20px;
   background-color: var(--scheme-white);
   font-family: neue-montreal-light, helvetica;
+  font-size: 17px;
 }
 
 .submitButton {
@@ -240,6 +241,8 @@ div {
   background-color: var(--scheme-red);
   color: var(--scheme-white);
   width: 100%;
+  font-family: neue-montreal-bold, helvetica;
+  font-size: 17px;
 }
 
 @media screen and (min-width: 1200px) {
