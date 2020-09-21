@@ -3,6 +3,11 @@
   src: url("fonts/NeueMontreal-Bold.otf");
 }
 
+@font-face {
+  font-family: "neue-montreal-light";
+  src: url("fonts/NeueMontreal-Light.otf");
+}
+
 :root {
   --scheme-white: #f4f4f9;
   --scheme-blue: #5762d5;
@@ -21,7 +26,7 @@
 
 body {
   background-color: var(--scheme-blue);
-  font-size: 16px;
+  font-size: 15px;
 }
 
 h1 {
@@ -104,7 +109,6 @@ div {
   background-color: var(--scheme-white);
   text-align: center;
   font-family: neue-montreal-bold, helvetica;
-  font-weight: bold;
   clear: both;
 }
 
@@ -146,7 +150,6 @@ div {
 }
 
 .loginForm {
-  width: 400px;
   height: 70vh;
   width: 100%;
 }
@@ -156,10 +159,16 @@ div {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 400px;
+}
+
+.loginForm-content h1{
+  font-size: 40px;
+  margin: 0;
 }
 
 .loginForm p {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .loginForm a {
@@ -168,17 +177,24 @@ div {
 
 .inputField {
   width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .inputField input {
+  height: 33px;
   box-sizing: border-box;
   width: 100%;
   border-color: var(--scheme-black);
   border-style: solid;
   border-radius: 28px;
-  padding-left: 10px;
+  padding-left: 20px;
   background-color: var(--scheme-white);
-  font-family: neue-montreal-bold, helvetica;
+  font-family: neue-montreal-light, helvetica;
+}
+
+.inputField input:focus {
+  outline-width: 0;
 }
 
 .submitButton {
@@ -194,6 +210,7 @@ div {
 }
 
 .submitButton button {
+  height: 33px;
   background-color: var(--scheme-red);
   color: var(--scheme-white);
   width: 100%;
