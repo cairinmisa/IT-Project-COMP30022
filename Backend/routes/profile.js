@@ -9,7 +9,7 @@ const userController = require('../controllers/user');
 
 // LOGIN CHECK
 router.get('/login', function(req,res,next){
-    console.log(req.body.username);
+    req.body = req.query;
     if(req.body.emailAddress == null){
         errorController.error(res, "email field missing",422);
     } else if(req.body.password ==null){
@@ -22,8 +22,9 @@ router.get('/login', function(req,res,next){
 
 // GET USER BY USERNAME
 router.get('/userid', async function(req,res,next){
+    req.body.username = req.query.username;
     if(req.body.username==null){
-        errorController.error(res,"username field missing",422);
+        errorController.error(res,"username field missing",200);
     } else{
         await fetchController.getOne(req, res, next);
     }
@@ -63,6 +64,7 @@ router.put('/update',async function(req,res,next){
 
 // Which controller?
 router.delete('/', function(req,res, next){
+    console.log(req.body);
     if(req.body.username==null){
         errorController.error(res, "user not found", 400);
     } else {

@@ -3,7 +3,14 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import axios from "axios";
 
+var bodyFormData = new FormData();
+bodyFormData.append('username', 'harold');
+bodyFormData.append('password', 'wow'); 
+bodyFormData.append('emailAddress', '1@gmail.com'); 
+
+///
 ReactDOM.render(
   <React.StrictMode>
     <App />

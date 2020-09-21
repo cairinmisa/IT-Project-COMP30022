@@ -1,6 +1,6 @@
 @font-face {
   font-family: "neue-montreal-bold";
-  src: url("https://dafonttop.com/wp-data/n/927/7927/file/NeueMontreal-MediumItalic.otf");
+  src: url("fonts/NeueMontreal-Bold.otf");
 }
 
 :root {
@@ -118,7 +118,6 @@ div {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  letter-spacing: -1px;
 }
 
 .welcome a {
