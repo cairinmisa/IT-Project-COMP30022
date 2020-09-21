@@ -41,6 +41,10 @@ h3 {
   font-size: 18px;
 }
 
+input:focus {
+  outline-width: 0;
+}
+
 .text-editor {
   width: 80%;
   position: relative;
@@ -162,6 +166,32 @@ div {
   width: 400px;
 }
 
+.signupForm {
+  height: 70vh;
+  width: 100%;
+}
+
+.signupForm-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+}
+
+.signupForm-content h1{
+  font-size: 40px;
+  margin: 0;
+}
+
+.signupForm p {
+  font-size: 15px;
+}
+
+.signupForm a {
+  text-decoration: none;
+}
+
 .loginForm-content h1{
   font-size: 40px;
   margin: 0;
@@ -191,10 +221,6 @@ div {
   padding-left: 20px;
   background-color: var(--scheme-white);
   font-family: neue-montreal-light, helvetica;
-}
-
-.inputField input:focus {
-  outline-width: 0;
 }
 
 .submitButton {
