@@ -8,7 +8,7 @@ class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      email: "",
       password: "",
       buttonDisabled: false
     };
@@ -81,17 +81,12 @@ class LoginForm extends Component {
     return (
       <div className="loginForm">
         <div className="loginForm-content">
-          Log in
+          <h1>✨ Log in ✨</h1>
           <InputField
             type="text"
-<<<<<<< Updated upstream
-            placeholder="Username"
-            value={this.state.username ? this.state.username : ""}
-=======
             placeholder="Email"
             value={this.state.email ? this.state.email : ""}
->>>>>>> Stashed changes
-            onChange={(val) => this.setInputValue("username", val)}
+            onChange={(val) => this.setInputValue("email", val)}
           ></InputField>
           <InputField
             type="password"
