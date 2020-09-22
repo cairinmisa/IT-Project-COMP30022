@@ -10,6 +10,21 @@ const authController = require('../controllers/authentication');
 const fetchController = require('../controllers/fetch');
 const errorController = require('../controllers/error');
 const userController = require('../controllers/user');
+const {OAuth2Client} = require('google-auth-library');
+const CLIENT_ID = "678370899290-c6n53p7t4351dtqgmdjl6a80qjq5h26i.apps.googleusercontent.com"
+const client = new OAuth2Client(CLIENT_ID);
+
+async function verifyGoogleToken(token, res) {
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: CLIENT_ID
+    });
+    const payload = ticket.getPayload();
+    res.send({
+        result : "Success",
+        name : payload['name']
+    });
+}
 
 // Load input validation
 const validateRegisterInput = require('../controllers/validators/register');
