@@ -223,6 +223,7 @@ input:focus {
   border-color: var(--scheme-black);
   border-style: solid;
   border-radius: 28px;
+  cursor: pointer;
 }
 
 div {
@@ -296,7 +297,7 @@ div {
 
 .signupForm-content h1{
   font-size: 40px;
-  margin: 0;
+  margin-bottom: 10px;
 }
 
 .signupForm p {
@@ -309,7 +310,7 @@ div {
 
 .loginForm-content h1{
   font-size: 40px;
-  margin: 0;
+  margin-bottom: 10px;
 }
 
 .loginForm p {
@@ -351,22 +352,13 @@ div {
   padding-bottom: 5px;
 }
 
-.submitButton {
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-}
-
-.submitButton {
+.submitButton, .googleButton {
   width: 100%;
   padding: 0;
 }
 
-.submitButton button {
+.submitButton button, .googleButton button {
   height: 38px;
-  background-color: var(--scheme-red);
-  color: var(--scheme-white);
   width: 100%;
   font-family: neue-montreal-bold, helvetica;
   font-size: 17px;
@@ -374,6 +366,23 @@ div {
 
 .templateList li {
   list-style: none;
+}
+
+.submitButton button {
+  background-color: var(--scheme-red);
+  color: var(--scheme-white);
+}
+
+.googleButton button {
+  background-color: var(--scheme-white);
+  color: var(--scheme-black);
+}
+
+.googleButton img {
+  height: 18px;
+  float: left;
+  padding-left: 11px;
+  padding-top: 1px;
 }
 
 @media screen and (min-width: 1200px) {

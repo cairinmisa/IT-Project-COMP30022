@@ -5,6 +5,7 @@ import UserStore from "../stores/UserStore";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {host} from "../stores/Settings"
+import GoogleLoginButton from "../components/GoogleLoginButton"
 
 class LoginForm extends Component {
   constructor(props) {
@@ -127,6 +128,7 @@ class LoginForm extends Component {
       <div className="loginForm">
         <div className="loginForm-content">
           <h1>✨ Log in ✨</h1>
+          <GoogleLoginButton/>
           <InputField
             type="text"
             placeholder="Email"

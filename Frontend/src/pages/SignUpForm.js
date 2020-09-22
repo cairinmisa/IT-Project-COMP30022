@@ -4,6 +4,7 @@ import SubmitButton from "./SubmitButton";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {host} from "../stores/Settings"
+import GoogleLoginButton from "../components/GoogleLoginButton";
 
 class SignUpForm extends Component {
   constructor(props) {
@@ -142,6 +143,7 @@ class SignUpForm extends Component {
       <div className="signupForm">
         <div className="signupForm-content">
           <h1>✏️ Sign up ✏️</h1>
+          <GoogleLoginButton/>
           <InputField
             type="email"
             placeholder="Email"
