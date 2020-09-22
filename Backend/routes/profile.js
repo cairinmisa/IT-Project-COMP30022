@@ -14,6 +14,8 @@ const userController = require('../controllers/user');
 const validateRegisterInput = require('../controllers/validators/register');
 const validateLoginInput = require('../controllers/validators/login');
 const validateDeleteInput = require('../controllers/validators/delete');
+const validategetUserInput = require('../controllers/validators/getUser');
+
 
 // Load User model
 const User = require("../models/dbschema/user");
@@ -72,13 +74,31 @@ router.post('/login', async (req,res) => {
   });
 });
 
-// GET USER BY USERNAME
-router.get('/userid', async function(req,res,next){
-    if(req.body.username==null){
-        errorController.error(res,"username field missing",422);
-    } else{
-        await fetchController.getOne(req, res, next);
-    }
+// @Route GET api/
+// @desc RETURN User
+// @access PUBLIC
+router.get('/findUser/', async function(req,res,next){
+  const { errors, isValid } = validategetUserInput(req.query);
+  if (!isValid) {
+    return res.status(200).json(errors);
+  }
+  let response = {}
+    await User.findOne({emailAddress : req.query.emailAddress}).then(function(user){
+      if(user==null){
+        res.send({"emailnotFound" : "True", "hasErrors" : "True"})
+      } else{
+        response.hasErrors = "False";
+        response.username = user.username;
+        response.emailAddress = user.emailAddress;
+        response.firstName = user.firstName;
+        response.lastName = user.lastName;
+        response.userID = user.userID;
+        if(user.dOB){
+          response.dOB = user.dOB;
+        }
+        res.send(response);
+      }
+  });
 });
 
 // GET ALL USERS
