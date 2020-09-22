@@ -53,7 +53,7 @@ class SignUpForm extends Component {
     return (
       <div className="signupForm">
         <div className="signupForm-content">
-          Sign up
+          <h1>✏️ Sign up ✏️</h1>
           <InputField
             type="text"
             placeholder="Name"
@@ -78,9 +78,9 @@ class SignUpForm extends Component {
             onClick={() => this.doSignUp()}
           ></SubmitButton>
           <p>
-            Don't have an account?{" "}
-            <Link to="/signup" className="red">
-              Sign up
+            Already have an account?{" "}
+            <Link to="/login" className="red">
+              Log in
             </Link>
           </p>
         </div>

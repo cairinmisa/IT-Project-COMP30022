@@ -1,6 +1,11 @@
 @font-face {
   font-family: "neue-montreal-bold";
-  src: url("https://dafonttop.com/wp-data/n/927/7927/file/NeueMontreal-MediumItalic.otf");
+  src: url("fonts/NeueMontreal-Bold.otf");
+}
+
+@font-face {
+  font-family: "neue-montreal-light";
+  src: url("fonts/NeueMontreal-Light.otf");
 }
 
 :root {
@@ -21,7 +26,7 @@
 
 body {
   background-color: var(--scheme-blue);
-  font-size: 16px;
+  font-size: 15px;
 }
 
 h1 {
@@ -34,6 +39,10 @@ h2 {
 
 h3 {
   font-size: 18px;
+}
+
+input:focus {
+  outline-width: 0;
 }
 
 .text-editor {
@@ -104,7 +113,6 @@ div {
   background-color: var(--scheme-white);
   text-align: center;
   font-family: neue-montreal-bold, helvetica;
-  font-weight: bold;
   clear: both;
 }
 
@@ -118,7 +126,6 @@ div {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  letter-spacing: -1px;
 }
 
 .welcome a {
@@ -147,7 +154,6 @@ div {
 }
 
 .loginForm {
-  width: 400px;
   height: 70vh;
   width: 100%;
 }
@@ -157,10 +163,42 @@ div {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 400px;
+}
+
+.signupForm {
+  height: 70vh;
+  width: 100%;
+}
+
+.signupForm-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+}
+
+.signupForm-content h1{
+  font-size: 40px;
+  margin: 0;
+}
+
+.signupForm p {
+  font-size: 15px;
+}
+
+.signupForm a {
+  text-decoration: none;
+}
+
+.loginForm-content h1{
+  font-size: 40px;
+  margin: 0;
 }
 
 .loginForm p {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .loginForm a {
@@ -169,17 +207,21 @@ div {
 
 .inputField {
   width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .inputField input {
+  height: 33px;
   box-sizing: border-box;
   width: 100%;
   border-color: var(--scheme-black);
   border-style: solid;
   border-radius: 28px;
-  padding-left: 10px;
+  padding-left: 20px;
   background-color: var(--scheme-white);
-  font-family: neue-montreal-bold, helvetica;
+  font-family: neue-montreal-light, helvetica;
+  font-size: 17px;
 }
 
 .submitButton {
@@ -195,9 +237,12 @@ div {
 }
 
 .submitButton button {
+  height: 33px;
   background-color: var(--scheme-red);
   color: var(--scheme-white);
   width: 100%;
+  font-family: neue-montreal-bold, helvetica;
+  font-size: 17px;
 }
 
 @media screen and (min-width: 1200px) {
