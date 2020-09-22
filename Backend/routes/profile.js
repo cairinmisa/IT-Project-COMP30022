@@ -11,8 +11,9 @@ const errorController = require('../controllers/error');
 const userController = require('../controllers/user');
 
 // Load input validation
-const validateRegisterInput = require('../controllers/register');
-const validateLoginInput = require('../controllers/login');
+const validateRegisterInput = require('../controllers/validators/register');
+const validateLoginInput = require('../controllers/validators/login');
+const validateDeleteInput = require('../controllers/validators/delete');
 
 // Load User model
 const User = require("../models/dbschema/user");
@@ -24,7 +25,6 @@ const User = require("../models/dbschema/user");
 router.post('/login', async (req,res) => {
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
-  console.log({errors, isValid});
 
   // Check Validation
   if (!isValid) {
@@ -72,19 +72,6 @@ router.post('/login', async (req,res) => {
   });
 });
 
-/* LOGIN CHECK
-// router.get('/login', function(req,res,next){
-//     console.log(req.body.username);
-//     if(req.body.username == null){
-//         errorController.error(res, "username field missing",422);
-//     } else if(req.body.password ==null){
-//         errorController.error(res, "password field missing",422);
-//     } else{
-//         authController.login(req,res,next);
-//     }
-// }); */
-
-
 // GET USER BY USERNAME
 router.get('/userid', async function(req,res,next){
     if(req.body.username==null){
@@ -114,32 +101,8 @@ router.post("/", async (req,res) => {
     return res.status(200).json(errors);
   }
   await authController.register(req,res);
- 
-  
-  /*User.findOne({ emailAddress: req.body.emailAddress }).then(user => {
-    if (user) {
-      return res.status(400).json({ emailAddress: "Email already exists"});
-    } else {
-      authController.register(req,res);
-    }})
-    }*/
 
 });
-
-/* ADD A NEW USER
-// router.put('/', async function(req,res,next) {
-//     if(req.body.password==null){
-//         errorController.error(res,"password field required",422);
-//     } else if(req.body.username==null){
-//         errorController.error(res,"username field required",422);
-//     } else if(req.body.emailAddress==null){
-//         errorController.error(res,"emailAddress field required",422);
-//     } else{
-//         authController.register(req,res,next);
-//     }
-//
-// }); */
-
 
 // UPDATE A PARTICULAR USER
 router.put('/update',async function(req,res,next){
@@ -151,11 +114,18 @@ router.put('/update',async function(req,res,next){
 });
 
 
-// Which controller?
+// @Route DELETE api/
+// @desc DELETE User
+// @access PUBLIC
 router.delete('/', function(req,res, next){
-    if(req.body.username==null){
-        errorController.error(res, "user not found", 400);
-    } else {
+
+  // Validate Input
+  const { errors, isValid } = validateDeleteInput(req.body);
+  if (!isValid){
+    return res.status(200).json(errors);
+  }
+  else {
+        // Delete User
         userController.delete(req,res,next);
     }
 });

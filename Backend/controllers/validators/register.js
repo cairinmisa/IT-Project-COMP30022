@@ -2,7 +2,7 @@ const validator = require('validator');
 const isEmpty = require('is-empty');
 const bcrypt = require('bcryptjs');
 
-const User = require('../models/dbschema/user');
+const User = require('../../models/dbschema/user');
 
 // vi. Setting up form Validation
 // export function validateRegisterInput, which takes in data as a parameter (sent from frontend registration form)
