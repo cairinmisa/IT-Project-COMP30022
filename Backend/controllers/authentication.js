@@ -5,6 +5,26 @@ const User = require('../models/dbschema/user');
 const fetchController = require('./fetch');
 const errorController = require('./error');
 
+// Google Authentication Library
+const {OAuth2Client} = require('google-auth-library');
+
+// Constants used for Google Authentication
+const CLIENT_ID = "678370899290-c6n53p7t4351dtqgmdjl6a80qjq5h26i.apps.googleusercontent.com"
+const client = new OAuth2Client(CLIENT_ID);
+
+// Verifies a specified Google Token and then sends response
+exports.verifyGoogleToken = async (token, res) => {
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: CLIENT_ID
+    });
+    const payload = ticket.getPayload();
+    res.send({
+        result : "Success",
+        name : payload['name']
+    });
+};
+
 exports.login = async (req, res, next) => {
     var response = null;
     user = await fetchController.userfromEmail(req.body.emailAddress);
