@@ -16,7 +16,14 @@ class LoginForm extends Component {
 
   setInputValue(property, val) {
     val = val.trim();
-    if (val.length > 12) {
+    this.setState({
+      [property]: val
+    });
+  }
+
+  setLimitedInputValue(property, val) {
+    val = val.trim();
+    if (val.length > 16) {
       return;
     }
     this.setState({
@@ -26,14 +33,14 @@ class LoginForm extends Component {
 
   resetForm() {
     this.setState({
-      username: "",
+      email: "",
       password: "",
       buttonDisabled: false
     });
   }
 
   async doLogin() {
-    if (!this.state.username) {
+    if (!this.state.email) {
       return;
     }
     if (!this.state.password) {
@@ -50,7 +57,7 @@ class LoginForm extends Component {
           "Content-Type": "application"
         },
         body: JSON.stringify({
-          username: this.state.username,
+          email: this.state.email,
           password: this.state.password
         })
       });
@@ -77,15 +84,20 @@ class LoginForm extends Component {
           Log in
           <InputField
             type="text"
+<<<<<<< Updated upstream
             placeholder="Username"
             value={this.state.username ? this.state.username : ""}
+=======
+            placeholder="Email"
+            value={this.state.email ? this.state.email : ""}
+>>>>>>> Stashed changes
             onChange={(val) => this.setInputValue("username", val)}
           ></InputField>
           <InputField
             type="password"
             placeholder="Password"
             value={this.state.password ? this.state.password : ""}
-            onChange={(val) => this.setInputValue("password", val)}
+            onChange={(val) => this.setLimitedInputValue("password", val)}
           ></InputField>
           <SubmitButton
             text="Continue"
