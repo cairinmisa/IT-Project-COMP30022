@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs');
-
 const User = require('../models/dbschema/user');
 const fetchController = require('./fetch');
 const errorController = require('./error');
@@ -7,7 +6,7 @@ const errorController = require('./error');
 exports.login = async (req, res, next) => {
     var response = null;
     user = await fetchController.userfromUsername(req.body.username);
-    
+
     if(user.error!=null){
         errorController.error(res,"user not found", 400);
     } else  {
@@ -35,14 +34,15 @@ exports.register = async (req,res,next) =>{
         errorController.error(res, "Email already exists", 400);
     } else if((req.body.userID)){
         errorController.error(res, "Cannot provide userID", 422);
-    }else{
+    }
+    else{
         //Temporary UserID Line, Needs to be replaced with function
         req.body.userID = "TempID";
         User.create(req.body).then(function(user){
             res.send(user);
         }).catch(next);
     }
-}    
+}
 
 exports.update = async (req,res,next) =>{
     if(await fetchController.emailExists(req.body.emailAddress)){

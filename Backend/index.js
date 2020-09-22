@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 var http = require('http');
 require('./models/db.js');
+const passport = require("passport");
 
 // Setup express app
 const hostname = 'localhost';
@@ -12,7 +13,7 @@ const app = express();
 
 
 
-// Setup 
+// Setup
 app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use(cors());
@@ -24,13 +25,21 @@ const profileRouter = require('./routes/profile');
 const templatesRouter = require('./routes/templates');
 const registerRouter = require('./routes/register');
 
-// Initialize routes
+// Middleware
+app.use(passport.initialize());
 
+// passport config
+require("./config/passport")(passport);
+
+// Initialize routes
 app.use('/', landingRouter);
 app.use('/profile', profileRouter);
 app.use('/templates', templatesRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
+
+
+
 
 // Error Handling
 app.use(function(err,req,res,next){
