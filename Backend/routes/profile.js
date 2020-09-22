@@ -24,10 +24,11 @@ const User = require("../models/dbschema/user");
 router.post('/login', async (req,res) => {
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
+  console.log({errors, isValid});
 
   // Check Validation
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(200).json(errors);
   }
 
   const emailAddress = req.body.emailAddress;
@@ -37,7 +38,7 @@ router.post('/login', async (req,res) => {
   User.findOne({emailAddress}).then(user => {
     // Check if user exists
     if (!user) {
-      return res.status(404).json({ emailnotfound: "Email not found"
+      return res.status(200).json({ emailnotFound: "True", hasErrors: "True"
     });
     }
 
@@ -57,15 +58,15 @@ router.post('/login', async (req,res) => {
         {expiresIn: 3600},
         (err, token) => {
           res.json({
-            success: true,
+            hasErrors: false,
             token: "Bearer " + token,
           });
         }
       );
     } else {
       return res
-        .status(400)
-        .json({passwordincorrect:"Password incorrect"});
+        .status(200)
+        .json({passwordIncorrect:"True", hasErrors : "True"});
       }
     });
   });
@@ -104,23 +105,26 @@ router.get('/',async function(req,res,next){
 // @desc REGISTER User
 // @access PUBLIC
 
-router.post("/", (req,res) => {
+router.post("/", async (req,res) => {
   // Form Validation
   const {errors, isValid} = validateRegisterInput(req.body);
 
   // Check Validation
   if (!isValid){
-    return res.status(400).json(errors);
+    return res.status(200).json(errors);
   }
-
-  User.findOne({ emailAddress: req.body.emailAddress }).then(user => {
+  await authController.register(req,res);
+ 
+  
+  /*User.findOne({ emailAddress: req.body.emailAddress }).then(user => {
     if (user) {
       return res.status(400).json({ emailAddress: "Email already exists"});
     } else {
       authController.register(req,res);
     }})
-    }
-  );
+    }*/
+
+});
 
 /* ADD A NEW USER
 // router.put('/', async function(req,res,next) {

@@ -3,6 +3,7 @@ const isEmpty = require('is-empty');
 const bcrypt = require('bcryptjs');
 
 const User = require('../models/dbschema/user');
+const { error } = require('./error');
 
 // Login validation and Authentication
 module.exports = function validateLoginInput(data) {
@@ -14,20 +15,24 @@ module.exports = function validateLoginInput(data) {
 
   // Email Checks
   if (validator.isEmpty(data.emailAddress)) {
-    errors.emailAddress = "Email field is required";
+    errors.emailGiven = "False";
   } else if (!validator.isEmail(data.emailAddress)){
-    errors.emailAddress = "Email is invalid";
+    errors.emailValid = "False";
   }
 
   // Password Checks
   if (validator.isEmpty(data.password)) {
-    errors.password = "Password field is required";
+    errors.passwordGiven = "False";
+  }
+  if (!isEmpty(errors)){
+    errors.hasErrors = "True";
+  } else {
+    errors.hasErrors = "False";
   }
 
   return {
     errors,
-    isValid: isEmpty(errors)
+    isValid: (errors.hasErrors == "False")
   };
 }
 
-// Part 6 end of tutorial
