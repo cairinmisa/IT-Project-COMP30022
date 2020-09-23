@@ -64,6 +64,10 @@ input:focus {
   font-size: 28px;
 }
 
+.block {
+  background-color: black;
+}
+
 .navBar {
   background-image: url("images/svgs/top_blue_1.svg");
   background-size: cover;

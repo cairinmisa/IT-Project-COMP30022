@@ -12,6 +12,9 @@ class Nav extends Component {
           <Link to="/editor">
             <li>Create</li>
           </Link>
+          <Link to = "/template">
+            <li>Templates</li>
+          </Link>
           <li>|</li>
           <Link to="/login">
             <li>Log in</li>

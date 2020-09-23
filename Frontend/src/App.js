@@ -20,6 +20,7 @@ class App extends React.Component {
           <Route path="/editor" exact component={TextEditor}></Route>
           <Route path="/" exact component={Home}></Route>
           <Route path="/signup" exact component={SignUpForm}></Route>
+          <Route path="/template" exact component={Template}></Route>
         </Switch>
         <Footer />
       </Router>
