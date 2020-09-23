@@ -19,7 +19,7 @@ class Home extends Component {
         <div className="highlight">
           <div className="highlight-text">
             <h2>
-              <img src="images/highlight-2.png" alt="Portfolio Highlight 2" />A{" "}
+              <img src={require("./images/highlight-2.png")} alt="Portfolio Highlight 1" />A{" "}
               <span className="blue">new way</span> to create portfolios.
             </h2>
             <h3>
@@ -32,7 +32,7 @@ class Home extends Component {
         <div className="highlight">
           <div className="highlight-text">
             <h2>
-              <img src="images/highlight-2.png" alt="Portfolio Highlight 2" />
+              <img src={require("./images/highlight-2.png")} alt="Portfolio Highlight 2" />
               <span className="blue">Show off</span> your work.
             </h2>
             <h3>

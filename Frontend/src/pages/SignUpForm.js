@@ -64,7 +64,7 @@ class SignUpForm extends Component {
     return (
       <div className="signupForm">
         <div className="signupForm-content">
-          Sign up
+          <h1>✏️ Sign up ✏️</h1>
           <InputField
             type="email"
             placeholder="Email"
@@ -84,26 +84,27 @@ class SignUpForm extends Component {
             onChange={(val) => this.setInputValue("fullname", val)}
           ></InputField>
           <InputField
-            type="date"
-            placeholder="Date of birth"
-            value={this.state.dob ? this.state.dob : ""}
-            onChange={(val) => this.setInputValue("dob", val)}
-          ></InputField>
-          <InputField
             type="password"
             placeholder="Password"
             value={this.state.password ? this.state.password : ""}
-            onChange={(val) => this.setInputLimitedValue("password", val)}
+            onChange={(val) => this.setInputValue("password", val)}
           ></InputField>
+          <span className="inputHint">| Date of birth.</span>
+            <InputField
+              type="date"
+              placeholder="Date of birth"
+              value={this.state.dob ? this.state.dob : ""}
+              onChange={(val) => this.setInputValue("dob", val)}
+            ></InputField>
           <SubmitButton
             text="Sign Up"
             disabled={this.state.buttonDisabled}
             onClick={() => this.doSignUp()}
           ></SubmitButton>
           <p>
-            Don't have an account?{" "}
-            <Link to="/signup" className="red">
-              Sign up
+            Already have an account?{" "}
+            <Link to="/login" className="red">
+              Log in
             </Link>
           </p>
         </div>
