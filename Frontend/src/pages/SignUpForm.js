@@ -89,7 +89,7 @@ class SignUpForm extends Component {
             value={this.state.password ? this.state.password : ""}
             onChange={(val) => this.setInputValue("password", val)}
           ></InputField>
-          <span className="inputHint">| Date of birth.</span>
+          <span className="inputHint">Date of birth.</span>
             <InputField
               type="date"
               placeholder="Date of birth"
