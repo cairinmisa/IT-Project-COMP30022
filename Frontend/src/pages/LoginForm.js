@@ -96,7 +96,7 @@ class LoginForm extends Component {
           ></InputField>
           <SubmitButton
             text="Continue"
-            disbaled={this.state.buttonDisabled}
+            disabled={this.state.buttonDisabled}
             onClick={() => this.doLogin()}
           ></SubmitButton>
           <p>
