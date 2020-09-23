@@ -87,7 +87,7 @@ class SignUpForm extends Component {
             type="password"
             placeholder="Password"
             value={this.state.password ? this.state.password : ""}
-            onChange={(val) => this.setInputLimitedValue("password", val)}
+            onChange={(val) => this.setInputValue("password", val)}
           ></InputField>
           <span className="inputHint">| Date of birth.</span>
             <InputField
