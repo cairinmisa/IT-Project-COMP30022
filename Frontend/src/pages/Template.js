@@ -6,7 +6,7 @@ class Template extends Component {
     return (
       <div>
         <h1>Template Page</h1>
-        <div>
+        <div className="templateList">
           <li>
             <Link to = "/editor"><img src={require("../images/Template1.PNG")}/></Link>
           </li>

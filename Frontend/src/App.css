@@ -249,6 +249,10 @@ div {
   font-size: 17px;
 }
 
+.templateList li {
+  list-style: none;
+}
+
 @media screen and (min-width: 1200px) {
   h1 {
     font-size: 35px;

@@ -31,16 +31,6 @@ export default class TextEditor extends Component {
         <div className="editorComponent">
           <CKEditor
             editor={InlineEditor}
-            data="<h1>John Smith</h1>"
-            onInit={(editor) => {
-              // You can store the "editor" and use when it is needed.
-              console.log("Editor is ready to use!", editor);
-            }}
-          />
-        </div>
-        <div className="editorComponent">
-          <CKEditor
-            editor={InlineEditor}
             data= {this.state.currentTemplate}
             onInit={(editor) => {
               // You can store the "editor" and use when it is needed.
@@ -48,7 +38,6 @@ export default class TextEditor extends Component {
             }}
           />
         </div>
-        <button>+</button>
       </div>
     );
   }
