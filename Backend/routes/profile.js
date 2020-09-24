@@ -103,6 +103,7 @@ router.get('/findUser/', async function(req,res,next){
 
 // GET ALL USERS
 router.get('/',async function(req,res,next){
+    
     userlist = await fetchController.getAll(req,res,next);
     res.send(userlist);
 });
@@ -150,4 +151,20 @@ router.delete('/', function(req,res, next){
     }
 });
 
+/*function authenticateToken(req,res,next){
+  const authHeader = req.headers['authorization'];
+  // If we have an authHeader, take the second part of it and save as the token
+  const token = authHeader && authHeader.split(' ')[1]
+  if(token ==null) return res.sendStatus(401);
+
+  jwt.verify(token, key.secretOrKey, (err, user) => {
+    // Invalid token check
+    if(err) return res.sendStatus(403)
+    req.user = user
+  })
+}*/
+
+
 module.exports = router;
+
+

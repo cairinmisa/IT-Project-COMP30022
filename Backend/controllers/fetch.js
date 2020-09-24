@@ -44,6 +44,15 @@ exports.userfromUserID = async(test_userID) =>{
     return target_user;
 }
 
+exports.userIDExists = async (userID) =>{
+    user_check = await this.userfromUserID(userID);
+    if(user_check != null){
+        return true;
+    } else{
+        return false;
+    }
+}
+
 exports.usernameExists = async (username) =>{
     user_check = await this.userfromUsername(username);
     if(user_check != null){
@@ -52,6 +61,7 @@ exports.usernameExists = async (username) =>{
         return false;
     }
 }
+
 
 exports.emailExists = async (email) =>{
     email_check = await this.userfromEmail(email);

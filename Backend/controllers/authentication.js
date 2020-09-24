@@ -36,8 +36,17 @@ exports.register = async (req,res,next) =>{
         res.send({"emailExists" : "True", "hasErrors" : "True"});
     }
     else{
-        //Temporary UserID Line, Needs to be replaced with function
-        req.body.userID = "TempID";
+        //Generate User ID based on number of documents, if already exists,
+        // keep incrementing until it does exist
+        testID = await User.countDocuments() + 1;
+        while(1){
+            if(!await fetchController.userIDExists(testID)){
+                req.body.userID = testID;
+                break;
+            }
+            testID ++;
+        }
+
         User.create(req.body).then(function(user){
             response.hasErrors = "False";
             response.username = user.username;
