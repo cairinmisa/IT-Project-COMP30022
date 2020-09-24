@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
-import InlineEditor from "@ckeditor/ckeditor5-build-inline";
+import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
 import template2 from "./templates/template2.js";
 import template1 from "./templates/template.js";
 
@@ -30,7 +30,7 @@ export default class TextEditor extends Component {
         <h2>Create a portfolio below.</h2>
         <div className="editorComponent">
           <CKEditor
-            editor={InlineEditor}
+            editor={BalloonEditor}
             data= {this.state.currentTemplate}
             onInit={(editor) => {
               // You can store the "editor" and use when it is needed.
