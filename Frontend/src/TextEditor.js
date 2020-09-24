@@ -23,11 +23,17 @@ export default class TextEditor extends Component {
 
     return (
       <div className="text-editor">
-        <ul>
-            <li onClick = {() => this.handleClick(template1)}>Template 1</li>
-            <li onClick = {() => this.handleClick(template2)}>Template 2</li>
-        </ul>
-        <h2>Create a portfolio below.</h2>
+        <div className="userPanel">
+          <div className="panelContent">
+            <p>Welcome [Insert Username]</p>
+            <p>Your folios:</p>
+            <ul>
+                <li onClick = {() => this.handleClick(template1)}>Template 1</li>
+                <li onClick = {() => this.handleClick(template2)}>Template 2</li>
+            </ul>
+            <p>+ Create new</p>
+          </div>
+        </div>
         <div className="editorComponent">
           <CKEditor
             editor={BalloonEditor}
