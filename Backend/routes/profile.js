@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../config/keys');
+const passport = require('passport');
 
 // Load controllers
 const authController = require('../controllers/authentication');
@@ -15,10 +16,15 @@ const validateRegisterInput = require('../controllers/validators/register');
 const validateLoginInput = require('../controllers/validators/login');
 const validateDeleteInput = require('../controllers/validators/delete');
 const validategetUserInput = require('../controllers/validators/getUser');
+const validateupdateInput = require('../controllers/validators/update');
 
 
 // Load User model
 const User = require("../models/dbschema/user");
+
+
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
 
 
 // @route POST api/login
@@ -116,7 +122,8 @@ router.get('/',async function(req,res,next){
 router.post("/", async (req,res) => {
   // Form Validation
   const {errors, isValid} = validateRegisterInput(req.body);
-
+  console.log(req.user);
+  console.log(req.body.username);
   // Check Validation
   if (!isValid){
     return res.status(200).json(errors);
@@ -125,13 +132,24 @@ router.post("/", async (req,res) => {
 
 });
 
-// UPDATE A PARTICULAR USER
-router.put('/update',async function(req,res,next){
-    if(req.body.username==null){
-        errorController.error(res,"username field required",422);
-    } else {
-        authController.update(req,res,next);
-    }
+// @Route PUT api/
+// @desc MODIFY User
+// @access PUBLIC
+router.put('/update',passport.authenticate('jwt', {session : false}),async function(req,res,next){
+  
+  // Validate input
+  const {errors, isValid} = validateupdateInput(req.body);
+  if (!isValid){
+    return res.status(200).json(errors);
+  }
+
+  // Confirm that the user is modifying their own account
+  if(!(req.user.userID == req.body.userID)){
+    return res.send({unauthorizedAccess : "True", hasErrors : "True"})
+  }
+  
+  // Update the information
+  authController.update(req,res,next);
 });
 
 
@@ -151,18 +169,6 @@ router.delete('/', function(req,res, next){
     }
 });
 
-/*function authenticateToken(req,res,next){
-  const authHeader = req.headers['authorization'];
-  // If we have an authHeader, take the second part of it and save as the token
-  const token = authHeader && authHeader.split(' ')[1]
-  if(token ==null) return res.sendStatus(401);
-
-  jwt.verify(token, key.secretOrKey, (err, user) => {
-    // Invalid token check
-    if(err) return res.sendStatus(403)
-    req.user = user
-  })
-}*/
 
 
 module.exports = router;

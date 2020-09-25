@@ -61,17 +61,18 @@ exports.register = async (req,res,next) =>{
 }
 
 exports.update = async (req,res,next) =>{
+    // Check if email exists
     if(await fetchController.emailExists(req.body.emailAddress)){
         errorController.error(res, "Email already exists", 400);
     } else{
+        // Hash the new password if provided
         if(req.body.password != null){
             const hashedPassword = await this.passgen(req.body.password);
             req.body.password = hashedPassword;
         }
-        const user = await fetchController.userfromUsername(req.body.username);
-        console.log(user);
+        const user = await fetchController.userfromUserID(req.body.userID);
+        // Update the user with data in the request body
         await User.findByIdAndUpdate({_id : user._id}, req.body).then(async function(user){
-            console.log(user._id);
             user = await fetchController.userfromUsername(req.body.username);
                 res.send(user);
         }).catch(next);

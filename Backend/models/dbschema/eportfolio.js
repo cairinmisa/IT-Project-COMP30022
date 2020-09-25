@@ -5,6 +5,7 @@ var eportfolioSchema = new Schema({
     iD : {type : Number, required: true},
     userID : { type : Number, required : true},
     templateID : {type : Number},
+    public : {type : Boolean},
     data : {type : String},
     title : {type : String, required : true},
     version : {type :String},
