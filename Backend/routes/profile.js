@@ -109,7 +109,7 @@ router.get('/findUser/', async function(req,res,next){
 
 // GET ALL USERS
 router.get('/',async function(req,res,next){
-    
+
     userlist = await fetchController.getAll(req,res,next);
     res.send(userlist);
 });
@@ -136,7 +136,7 @@ router.post("/", async (req,res) => {
 // @desc MODIFY User
 // @access PUBLIC
 router.put('/update',passport.authenticate('jwt', {session : false}),async function(req,res,next){
-  
+
   // Validate input
   const {errors, isValid} = validateupdateInput(req.body);
   if (!isValid){
@@ -147,7 +147,7 @@ router.put('/update',passport.authenticate('jwt', {session : false}),async funct
   if(!(req.user.userID == req.body.userID)){
     return res.send({unauthorizedAccess : "True", hasErrors : "True"})
   }
-  
+
   // Update the information
   authController.update(req,res,next);
 });
@@ -164,7 +164,6 @@ router.delete('/', function(req,res, next){
     return res.status(200).json(errors);
   }
   else {
-        // Delete User
         userController.delete(req,res,next);
     }
 });
@@ -172,5 +171,3 @@ router.delete('/', function(req,res, next){
 
 
 module.exports = router;
-
-

@@ -7,10 +7,9 @@ const errorController = require('./error');
 
 exports.login = async (req, res, next) => {
     var response = null;
-    user = await fetchController.userfromUsername(req.body.username);
-
-    if(user.error!=null){
-        errorController.error(res,"user not found", 400);
+    user = await fetchController.userfromEmail(req.body.emailAddress);
+    if(user==null){
+        errorController.error(res,"email not found", 400);
     } else  {
         try{
             if(await bcrypt.compare(req.body.password,user.password)){
@@ -61,9 +60,11 @@ exports.register = async (req,res,next) =>{
 }
 
 exports.update = async (req,res,next) =>{
-    // Check if email exists
+    // Checks email and username's existence
     if(await fetchController.emailExists(req.body.emailAddress)){
         errorController.error(res, "Email already exists", 400);
+    } else if(await fetchController.usernameExists(req.body.username)){
+        errorController.error(res, "Username already exists", 400);
     } else{
         // Hash the new password if provided
         if(req.body.password != null){
@@ -75,6 +76,7 @@ exports.update = async (req,res,next) =>{
         await User.findByIdAndUpdate({_id : user._id}, req.body).then(async function(user){
             user = await fetchController.userfromUsername(req.body.username);
                 res.send(user);
+
         }).catch(next);
     }
 }

@@ -74,10 +74,10 @@ class LoginForm extends Component {
     return (
       <div className="loginForm">
         <div className="loginForm-content">
-          Log in
+          <h1>✨ Log in ✨</h1>
           <InputField
             type="text"
-            placeholder="Username"
+            placeholder="Email"
             value={this.state.username ? this.state.username : ""}
             onChange={(val) => this.setInputValue("username", val)}
           ></InputField>
