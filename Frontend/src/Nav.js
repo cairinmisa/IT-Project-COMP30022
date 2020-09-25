@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class Nav extends Component {
+
+  pleaseUpdate(value){
+    this.props.updateWorkshop(value)
+  }
+
+
   render() {
     return (
       <div className="navBar">
@@ -9,7 +15,7 @@ class Nav extends Component {
           <Link to="/">
             <li>Home</li>
           </Link>
-          <Link to="/editor">
+          <Link to="/editor" onClick = {() => this.pleaseUpdate(true)}>
             <li>Create</li>
           </Link>
           <Link to = "/template">

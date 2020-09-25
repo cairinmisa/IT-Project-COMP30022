@@ -3,28 +3,32 @@ import CKEditor from "@ckeditor/ckeditor5-react";
 import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
 import template2 from "./templates/template2.js";
 import template1 from "./templates/template.js";
+import {Link} from "react-router-dom";
+
 
 export default class TextEditor extends Component {
   state = {
     currentTemplate : template1
   }
-  constructor(props){
-    super(props);
-    this.state = {currentTemplate : template1}
-    this.handleClick = this.handleClick.bind(this);
-  }
+  
 
   handleClick(templateClicked) {
     console.log(templateClicked);
     this.setState({currentTemplate : templateClicked})
   }
 
-  render() {
+  pleaseUpdate(value){
+    this.props.updateWorkshop(value)
+  }
 
+  
+
+  render() {
     return (
       <div className="text-editor">
         <div className="userPanel">
           <div className="panelContent">
+            <Link to = "/" onClick = {() => this.pleaseUpdate(false)}>Back</Link>
             <p>Welcome [Insert Username]</p>
             <p>Your folios:</p>
             <ul>
