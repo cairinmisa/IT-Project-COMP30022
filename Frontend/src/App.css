@@ -252,16 +252,25 @@ div {
 }
 
 .inputField input {
-  height: 33px;
+  height: 38px;
   box-sizing: border-box;
   width: 100%;
   border-color: var(--scheme-black);
   border-style: solid;
   border-radius: 28px;
   padding-left: 20px;
+  padding-right: 16px;
   background-color: var(--scheme-white);
   font-family: neue-montreal-light, helvetica;
   font-size: 17px;
+}
+
+.inputHint {
+  float: left;
+  padding-left: 10px;
+  font-size: 15px;
+  color: #666;
+  padding-bottom: 5px;
 }
 
 .submitButton {
@@ -277,7 +286,7 @@ div {
 }
 
 .submitButton button {
-  height: 33px;
+  height: 38px;
   background-color: var(--scheme-red);
   color: var(--scheme-white);
   width: 100%;

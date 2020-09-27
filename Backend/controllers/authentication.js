@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
-
+const validator = require('validator');
+const isEmpty = require('is-empty');
 const User = require('../models/dbschema/user');
 const fetchController = require('./fetch');
 const errorController = require('./error');
@@ -12,7 +13,7 @@ exports.login = async (req, res, next) => {
     } else  {
         try{
             if(await bcrypt.compare(req.body.password,user.password)){
-                res.send({result : "Success"});
+                res.send({result : "Success", user : user});
             } else {
                 res.send({result : "Incorrect Password"});
             }
@@ -25,41 +26,57 @@ exports.login = async (req, res, next) => {
 
 exports.register = async (req,res,next) =>{
     //Password exists
-
+    let response = {}
     const hashedPassword = await this.passgen(req.body.password);
     req.body.password = hashedPassword;
     if(await fetchController.usernameExists(req.body.username)){
-        errorController.error(res, "Username already exists", 400);
+        res.send({"usernameExists" : "True", "hasErrors" : "True"});
     } else if(await fetchController.emailExists(req.body.emailAddress)){
-        errorController.error(res, "Email already exists", 400);
-    } else if((req.body.userID)){
-        errorController.error(res, "Cannot provide userID", 422);
-    }else{
-        //Temporary UserID Line, Needs to be replaced with function
-        req.body.userID = "TempID";
+        res.send({"emailExists" : "True", "hasErrors" : "True"});
+    }
+    else{
+        //Generate User ID based on number of documents, if already exists,
+        // keep incrementing until it does exist
+        testID = await User.countDocuments() + 1;
+        while(1){
+            if(!await fetchController.userIDExists(testID)){
+                req.body.userID = testID;
+                break;
+            }
+            testID ++;
+        }
+
         User.create(req.body).then(function(user){
-            res.send(user);
+            response.hasErrors = "False";
+            response.username = user.username;
+            response.firstName = user.firstName;
+            response.lastName = user.lastName;
+            response.userID = user.userID;
+            response.emailAddress = user.emailAddress
+            console.log(response);
+            res.send(response);
         }).catch(next);
     }
-}    
+}
 
 exports.update = async (req,res,next) =>{
     // Checks email and username's existence
-    console.log(await fetchController.emailExists(req.body.emailAddress));
     if(await fetchController.emailExists(req.body.emailAddress)){
         errorController.error(res, "Email already exists", 400);
     } else if(await fetchController.usernameExists(req.body.username)){
         errorController.error(res, "Username already exists", 400);
     } else{
+        // Hash the new password if provided
         if(req.body.password != null){
             const hashedPassword = await this.passgen(req.body.password);
             req.body.password = hashedPassword;
         }
         const user = await fetchController.userfromUserID(req.body.userID);
+        // Update the user with data in the request body
         await User.findByIdAndUpdate({_id : user._id}, req.body).then(async function(user){
-            console.log(user._id);
-            updated_user = await fetchController.userfromUserID(req.body.userID);
-                res.send(updated_user);
+            user = await fetchController.userfromUsername(req.body.username);
+                res.send(user);
+
         }).catch(next);
     }
 }
