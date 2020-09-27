@@ -11,7 +11,7 @@ class Home extends Component {
           <div className="welcome-content">
             <h1>
               Welcome to the Notion-esque ePortfolio editor. Browse community
-              made <Link to="/templates">templates</Link> or{" "}
+              made <Link to="/template">templates</Link> or{" "}
               <Link to="/login">create your own</Link>.
             </h1>
           </div>
