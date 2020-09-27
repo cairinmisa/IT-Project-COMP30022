@@ -122,7 +122,7 @@ class LoginForm extends Component {
     return (
       <div className="loginForm">
         <div className="loginForm-content">
-          Log in
+          <h1>✨ Log in ✨</h1>
           <InputField
             type="text"
             placeholder="Email"
