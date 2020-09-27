@@ -45,6 +45,7 @@ class LoginForm extends Component {
     //handle success
     if(!response.data.hasErrors) {
       UserStore.isLoggedIn = true;
+      UserStore.token = response.data.token;
 
       // Get username from token
       await axios({
@@ -55,11 +56,10 @@ class LoginForm extends Component {
         }
         })
         .then(response => {
-          console.log(response.data);
-          UserStore.username = response.data.username;
+          UserStore.user = response.data;
         })
         .catch(response => {
-          console.log("error");
+          console.log(response);
         });
     }
     else if (response.data.hasErrors){

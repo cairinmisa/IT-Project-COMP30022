@@ -4,34 +4,10 @@ import "../App.css";
 import LoginForm from "./LoginForm";
 import SubmitButton from "./SubmitButton";
 import UserStore from "../stores/UserStore";
+import {Redirect} from 'react-router-dom';
 
 class LoginPage extends Component {
-  async componentDidMount() {
-    try {
-      let res = await fetch("/isLoggedIn", {
-        method: "post",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        }
-      });
-
-      let result = await res.json();
-      if (result && result.success) {
-        UserStore.loading = false;
-        UserStore.isLoggedIn = true;
-        UserStore.username = result.username;
-      } else {
-        UserStore.loading = false;
-        UserStore.isLoggedIn = false;
-      }
-    } catch (e) {
-      UserStore.loading = false;
-      UserStore.isLoggedIn = false;
-    }
-  }
-
-  async doLogout() {
+   async doLogout() {
     try {
       let res = await fetch("/logout", {
         method: "post",
@@ -54,18 +30,7 @@ class LoginPage extends Component {
 
   render() {
     if (UserStore.isLoggedIn) {
-      return (
-        <div className="app">
-          <div className="container">
-            Welcome {UserStore.username}
-            <SubmitButton
-              text={"Log out"}
-              disabled={false}
-              onClick={() => this.doLogout()}
-            ></SubmitButton>
-          </div>
-        </div>
-      );
+      return  <Redirect  to="/" />
     } else {
       return (
         <div className="app">
