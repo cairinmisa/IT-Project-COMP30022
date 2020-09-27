@@ -12,7 +12,7 @@ class Home extends Component {
             <h1>
               Welcome to the Notion-esque ePortfolio editor. Browse community
               made <Link to="/template">templates</Link> or{" "}
-              <Link to="/login">create your own</Link>.
+              <Link to="/editor">create your own</Link>.
             </h1>
           </div>
         </div>

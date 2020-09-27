@@ -59,10 +59,10 @@ input:focus {
 }
 
 .editorNavBar {
-  padding-top: 3px;
+  padding-top: 5px;
   background-color: var(--scheme-blue);
-  height: 23px;
-  font-size: 15px;
+  height: 27px;
+  font-size: 18px;
   color: white;
 }
 
