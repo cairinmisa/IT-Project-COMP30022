@@ -13,7 +13,7 @@
   --scheme-blue: #5762d5;
   --scheme-black: #21273b;
   --scheme-red: #ff6b6b;
-  --sceme-aqua: #00bfb2;
+  --scheme-aqua: #00bfb2;
 }
 
 .red {
@@ -22,6 +22,10 @@
 
 .blue {
   color: var(--scheme-blue);
+}
+
+.green {
+  color: var(--scheme-aqua);
 }
 
 body {
@@ -47,11 +51,29 @@ input:focus {
 
 .text-editor {
   width: 100%;
-  height: 80vh;
+  height: 100vh;
   position: relative;
   left: 50%;
   transform: translate(-50%, 0);
   background-color: var(--scheme-white);
+}
+
+.editorNavBar {
+  padding-top: 3px;
+  background-color: var(--scheme-blue);
+  height: 23px;
+  font-size: 15px;
+  color: white;
+}
+
+.editorNavBar .leftAlign {
+  background-color: var(--scheme-blue);
+  text-align: left;
+  padding-left: 30px;
+}
+
+.editorNavBar a {
+  color: white;
 }
 
 .editorComponent {
@@ -59,8 +81,8 @@ input:focus {
   border-radius: 5px;
   border-width: 2px;
   border-color: #999;
-  margin: 10px;
-  width: 75%;
+  margin-top: 50px;
+  width: 78%;
   float:right;
   margin-right: 2%;
 }
@@ -76,6 +98,7 @@ input:focus {
   float:left;
   position: absolute;
   background-color: var(--scheme-black);
+  padding-top: 30px;
 }
 
 .userPanel p {
@@ -261,8 +284,11 @@ div {
   padding-left: 20px;
   padding-right: 16px;
   background-color: var(--scheme-white);
-  font-family: neue-montreal-light, helvetica;
+  font-family: neue-montreal-bold, helvetica;
   font-size: 17px;
+}
+::placeholder {
+  font-family: neue-montreal-light, helvetica;
 }
 
 .inputHint {
