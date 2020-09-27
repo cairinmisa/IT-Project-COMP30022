@@ -44,7 +44,24 @@ class SignUpForm extends Component {
     });
   }
 
+  handleResponse(response) {
+    //handle success
+    console.log(this);
+    console.log(response.data);
+    if(response.data.result == "Success") {
+      return;
+    }
+    else {
+      alert("An error has occurred.");
+      this.resetForm();
+    }
+  }
 
+  handleResponseError(response) {
+    //handle error
+    console.log(response);
+    this.resetSignUp();
+  }
 
   async doSignUp() {
     if (!this.state.email) {
@@ -63,7 +80,7 @@ class SignUpForm extends Component {
     axios({
       method: 'post',
       url: 'http://localhost:8000/profile',
-      params: {
+      data: {
         email: this.state.email,
         username: this.state.username,
         fullname: this.state.fullname,
@@ -104,7 +121,7 @@ class SignUpForm extends Component {
             type="password"
             placeholder="Password"
             value={this.state.password ? this.state.password : ""}
-            onChange={(val) => this.setInputValue("password", val)}
+            onChange={(val) => this.setLimitedInputValue("password", val)}
           ></InputField>
           <span className="inputHint">Date of birth.</span>
             <InputField
