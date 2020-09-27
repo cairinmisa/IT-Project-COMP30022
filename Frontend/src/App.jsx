@@ -5,14 +5,15 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Nav from "./Nav";
 import TextEditor from "./TextEditor";
 import Template from "./pages/Template";
-import SignUp from "./pages/SignUpPage";
 import Footer from "./Footer";
 import SignUpForm from "./pages/SignUpForm";
 import LoginPage from "./pages/LoginPage";
+import UserStore from "./stores/UserStore";
 
 class App extends React.Component {
   state = {
-    onWorkshop : false
+    onWorkshop : false,
+    isLoggedIn : UserStore.isLoggedIn
   }
 
   constructor(props){
@@ -31,10 +32,10 @@ class App extends React.Component {
     else{
     return (
           <Router>
-            <Nav updateWorkshop = {this.updateWorkshop.bind(this)}/>
+            <Nav updateWorkshop = {this.updateWorkshop.bind(this)} isLoggedIn = {this.state.isLoggedIn}/>
             <Switch>
               <Route path="/login" exact component={LoginPage}></Route>
-              <Route path="/editor" render = {(props) => (<TextEditor updateWorkshop = {this.updateWorkshop.bind(this)}/>)}></Route>
+              <Route path="/editor" render = {() => (<TextEditor updateWorkshop = {this.updateWorkshop.bind(this)}/>)}></Route>
               <Route path="/" exact component={Home}></Route>
               <Route path="/signup" exact component={SignUpForm}></Route>
               <Route path="/template" exact component={Template}></Route>

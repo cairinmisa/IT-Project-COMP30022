@@ -11,6 +11,10 @@ export default class TextEditor extends Component {
     currentTemplate : template1
   }
   
+  constructor(props){
+    super(props)
+    this.props.updateWorkshop(true)
+  }
 
   handleClick(templateClicked) {
     console.log(templateClicked);
@@ -21,7 +25,10 @@ export default class TextEditor extends Component {
     this.props.updateWorkshop(value)
   }
 
-  
+  resetData(){
+    this.setState({currentTemplate : ""})
+  }
+
 
   render() {
     return (
@@ -35,7 +42,7 @@ export default class TextEditor extends Component {
                 <li onClick = {() => this.handleClick(template1)}>Template 1</li>
                 <li onClick = {() => this.handleClick(template2)}>Template 2</li>
             </ul>
-            <p>+ Create new</p>
+            <p onClick = {() => this.resetData()}>+ Create new</p>
           </div>
         </div>
         <div className="editorComponent">
