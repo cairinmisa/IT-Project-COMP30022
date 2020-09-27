@@ -42,14 +42,27 @@ class LoginForm extends Component {
 
   handleResponse(response) {
     //handle success
-    console.log(this);
-    console.log(response.data);
-    if(response.data.result == "Success") {
+    if(!response.data.hasErrors) {
       UserStore.isLoggedIn = true;
-      UserStore.username = response.data.user.username;
+      UserStore.username = response.data.token;
     }
-    else {
-      alert("Incorrect Password");
+    else if (response.data.hasErrors){
+      if(response.data.emailnotFound === "True"){
+        alert("Email not found.");
+      }
+      if(response.data.passwordIncorrect === "True"){
+        alert("Password is incorrect.");
+      }
+      if(response.data.emailValid === "False"){
+        alert("Email not valid.");
+      }
+      if(response.data.passwordGiven === "False"){
+        alert("Password not given.");
+      }
+      if(response.data.emailGiven === "False"){
+        alert("Email not given.");
+      }
+      
       this.resetForm();
     }
   }
@@ -77,41 +90,15 @@ class LoginForm extends Component {
 
     // Fetch user from database
     axios({
-      method: 'get',
+      method: 'post',
       url: 'http://localhost:8000/profile/login',
-      params: {
+      data: {
         emailAddress: this.state.email,
         password: this.state.password
       }
       })
       .then(response => this.handleResponse(response))
       .catch(response => this.handleResponseError(response));
-
-    // try {
-    //   let res = await fetch("/login", {
-    //     method: "post",
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "application"
-    //     },
-    //     body: JSON.stringify({
-    //       email: this.state.email,
-    //       password: this.state.password
-    //     })
-    //   });
-
-    //   let result = await res.json();
-    //   if (res && result.success) {
-    //     UserStore.isLoggedIn = true;
-    //     UserStore.username = result.username;
-    //   } else if (res && result.success === false) {
-    //     this.resetForm();
-    //     alert(result.msg);
-    //   }
-    // } catch (e) {
-    //   console.log(e);
-    //   this.resetForm();
-    // }
   }
 
   state = {};
