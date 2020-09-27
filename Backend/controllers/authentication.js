@@ -13,7 +13,7 @@ exports.login = async (req, res, next) => {
     } else  {
         try{
             if(await bcrypt.compare(req.body.password,user.password)){
-                res.send({result : "Success"});
+                res.send({result : "Success", user : user});
             } else {
                 res.send({result : "Incorrect Password"});
             }

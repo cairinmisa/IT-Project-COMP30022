@@ -8,8 +8,10 @@ class SignUpForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
       email: "",
+      username: "",
+      fullname: "",
+      dob: "",
       password: "",
       buttonDisabled: false
     };
@@ -33,8 +35,10 @@ class SignUpForm extends Component {
 
   resetSignUp() {
     this.setState({
-      name: "",
       email: "",
+      username: "",
+      fullname: "",
+      dob: "",
       password: "",
       buttonDisabled: false
     });
@@ -60,17 +64,17 @@ class SignUpForm extends Component {
   }
 
   async doSignUp() {
-    if (!this.state.name) {
+    if (!this.state.email) {
       return;
     }
-    if (!this.state.email) {
+    if (!this.state.username) {
       return;
     }
     if (!this.state.password) {
       return;
     }
     this.setState({
-      buttonDisbaled: true
+      buttonDisabled: true
     });
 
     axios({
@@ -96,16 +100,22 @@ class SignUpForm extends Component {
         <div className="signupForm-content">
           <h1>✏️ Sign up ✏️</h1>
           <InputField
-            type="text"
-            placeholder="Name"
-            value={this.state.name ? this.state.name : ""}
-            onChange={(val) => this.setInputValue("name", val)}
-          ></InputField>
-          <InputField
             type="email"
             placeholder="Email"
             value={this.state.email ? this.state.email : ""}
             onChange={(val) => this.setInputValue("email", val)}
+          ></InputField>
+          <InputField
+            type="text"
+            placeholder="Display Username"
+            value={this.state.username ? this.state.username : ""}
+            onChange={(val) => this.setLimitedInputValue("username", val)}
+          ></InputField>
+          <InputField
+            type="text"
+            placeholder="Full name"
+            value={this.state.fullname ? this.state.fullname : ""}
+            onChange={(val) => this.setInputValue("fullname", val)}
           ></InputField>
           <InputField
             type="password"
@@ -113,9 +123,16 @@ class SignUpForm extends Component {
             value={this.state.password ? this.state.password : ""}
             onChange={(val) => this.setLimitedInputValue("password", val)}
           ></InputField>
+          <span className="inputHint">Date of birth.</span>
+            <InputField
+              type="date"
+              placeholder="Date of birth"
+              value={this.state.dob ? this.state.dob : ""}
+              onChange={(val) => this.setInputValue("dob", val)}
+            ></InputField>
           <SubmitButton
-            text="Continue"
-            disbaled={this.state.buttonDisabled}
+            text="Sign Up"
+            disabled={this.state.buttonDisabled}
             onClick={() => this.doSignUp()}
           ></SubmitButton>
           <p>

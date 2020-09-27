@@ -114,7 +114,6 @@ router.get('/',async function(req,res,next){
     res.send(userlist);
 });
 
-
 // @Route POST api/
 // @desc REGISTER User
 // @access PUBLIC
@@ -129,7 +128,6 @@ router.post("/", async (req,res) => {
     return res.status(200).json(errors);
   }
   await authController.register(req,res);
-
 });
 
 // @Route PUT api/
