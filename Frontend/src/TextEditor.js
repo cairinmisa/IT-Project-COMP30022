@@ -15,16 +15,11 @@ export default class TextEditor extends Component {
   
   constructor(props){
     super(props)
-    this.props.updateWorkshop(true)
   }
 
   handleClick(templateClicked) {
     console.log(templateClicked);
     this.setState({currentTemplate : templateClicked})
-  }
-
-  pleaseUpdate(value){
-    this.props.updateWorkshop(value)
   }
 
   resetData(){
@@ -44,9 +39,9 @@ export default class TextEditor extends Component {
         <div className="text-editor">
           <div className="editorNavBar">
             <div className="leftAlign">
-              <Link to = "/" onClick = {() => this.pleaseUpdate(false)}>Home</Link>{" "}|{" "}
-              <Link to = "/template" onClick = {() => this.pleaseUpdate(false)}>Templates</Link>{" "}|{" "}
-              <Link to = "" onClick = {() => this.pleaseUpdate(false)}>Help</Link>
+              <Link to = "/" >Home</Link>{" "}|{" "}
+              <Link to = "/template" >Templates</Link>{" "}|{" "}
+              <Link to = "" >Help</Link>
             </div>
           </div>
           <div className="userPanel">
