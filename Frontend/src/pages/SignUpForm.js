@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import InputField from "./InputField";
 import SubmitButton from "./SubmitButton";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 class SignUpForm extends Component {
   constructor(props) {
@@ -17,7 +18,6 @@ class SignUpForm extends Component {
   }
 
   setInputValue(property, val) {
-    val = val.trim();
     this.setState({
       [property]: val
     });

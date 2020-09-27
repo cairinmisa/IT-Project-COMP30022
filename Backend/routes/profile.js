@@ -38,7 +38,7 @@ router.get('/',async function(req,res,next){
 
 
 // ADD A NEW USER
-router.put('/', async function(req,res,next) {
+router.post('/', async function(req,res,next) {
     if(req.body.password==null){
         errorController.error(res,"password field required",422);
     } else if(req.body.username==null){
