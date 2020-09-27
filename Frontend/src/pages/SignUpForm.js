@@ -44,6 +44,8 @@ class SignUpForm extends Component {
     });
   }
 
+
+
   async doSignUp() {
     if (!this.state.email) {
       return;
@@ -55,8 +57,23 @@ class SignUpForm extends Component {
       return;
     }
     this.setState({
-      buttonDisbaled: true
+      buttonDisabled: true
     });
+
+    axios({
+      method: 'post',
+      url: 'http://localhost:8000/profile',
+      params: {
+        email: this.state.email,
+        username: this.state.username,
+        fullname: this.state.fullname,
+        dob: this.state.dob,
+        password: this.state.password,
+      }
+      })
+      .then(res => this.handleResponse(res))
+      .catch(res => this.handleResponseError(res));    
+    
   }
 
   state = {};
