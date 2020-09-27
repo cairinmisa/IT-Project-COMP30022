@@ -60,6 +60,7 @@ class LoginForm extends Component {
         })
         .catch(response => {
           console.log("error");
+          console.log(response);
         });
     }
     else if (response.data.hasErrors){

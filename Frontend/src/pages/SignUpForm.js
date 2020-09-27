@@ -11,9 +11,11 @@ class SignUpForm extends Component {
     this.state = {
       email: "",
       username: "",
-      fullname: "",
+      firstName: "",
+      lastName: "",
       dob: "",
       password: "",
+      confirmPassword: "",
       buttonDisabled: false
     };
   }
@@ -38,23 +40,63 @@ class SignUpForm extends Component {
     this.setState({
       email: "",
       username: "",
-      fullname: "",
+      firstName: "",
+      lastName: "",
       dob: "",
       password: "",
+      confirmPassword: "",
       buttonDisabled: false
     });
   }
 
   handleResponse(response) {
     //handle success
-    console.log(this);
     console.log(response.data);
-    if(response.data.result == "Success") {
-      return;
+    if(response.data.hasErrors === "False") {
+      alert("SUCCEEEED");
+      console.log("SUCCCESSFUL");
+      this.props.history.push('/login');
     }
-    else {
-      alert("An error has occurred.");
-      this.resetForm();
+    else if (response.data.hasErrors === "True"){
+      if(response.data.emailnotFound === "True"){
+        alert("Email not found.");
+      }
+      if(response.data.passwordIncorrect === "True"){
+        alert("Password is incorrect.");
+      }
+      if(response.data.emailValid === "False"){
+        alert("Email not valid.");
+      }
+      if(response.data.passwordGiven === "False"){
+        alert("Password not given.");
+      }
+      if(response.data.password2Given === "False"){
+        alert("Confirm password not given.");
+      }
+      if(response.data.emailGiven === "False"){
+        alert("Email not given.");
+      }
+      if(response.data.firstnameGiven === "False"){
+        alert("First name not given.");
+      }
+      if(response.data.lastnameGiven === "False"){
+        alert("Last name not given.");
+      }
+      if(response.data.usernameGiven === "False"){
+        alert("Username not given.");
+      }
+      if(response.data.passwordLength === "False"){
+        alert("Password must be 6-20 characters.");
+      }
+      if(response.data.passwordMatch === "False"){
+        alert("Passwords do not match.");
+      }
+      if(response.data.emailExists === "True"){
+        alert("Email already exists.");
+      }
+      if(response.data.usernameExists === "True"){
+        alert("Username already exists.");
+      }
     }
   }
 
@@ -82,11 +124,13 @@ class SignUpForm extends Component {
       method: 'post',
       url:  host+'/profile',
       data: {
-        email: this.state.email,
+        emailAddress: this.state.email,
         username: this.state.username,
-        fullname: this.state.fullname,
-        dob: this.state.dob,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        dOB: this.state.dob,
         password: this.state.password,
+        password2: this.state.confirmPassword
       }
       })
       .then(res => this.handleResponse(res))
@@ -114,15 +158,27 @@ class SignUpForm extends Component {
           ></InputField>
           <InputField
             type="text"
-            placeholder="Full name"
-            value={this.state.fullname ? this.state.fullname : ""}
-            onChange={(val) => this.setInputValue("fullname", val)}
+            placeholder="First name"
+            value={this.state.firstName ? this.state.firstName : ""}
+            onChange={(val) => this.setInputValue("firstName", val)}
+          ></InputField>
+          <InputField
+            type="text"
+            placeholder="Last name"
+            value={this.state.lastName ? this.state.lastName : ""}
+            onChange={(val) => this.setInputValue("lastName", val)}
           ></InputField>
           <InputField
             type="password"
             placeholder="Password"
             value={this.state.password ? this.state.password : ""}
             onChange={(val) => this.setLimitedInputValue("password", val)}
+          ></InputField>
+          <InputField
+            type="password"
+            placeholder="Confirm Password"
+            value={this.state.confirmPassword ? this.state.confirmPassword : ""}
+            onChange={(val) => this.setLimitedInputValue("confirmPassword", val)}
           ></InputField>
           <span className="inputHint">Date of birth.</span>
             <InputField
