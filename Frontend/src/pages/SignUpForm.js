@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import InputField from "./InputField";
 import SubmitButton from "./SubmitButton";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 class SignUpForm extends Component {
   constructor(props) {
@@ -15,8 +16,14 @@ class SignUpForm extends Component {
   }
 
   setInputValue(property, val) {
+    this.setState({
+      [property]: val
+    });
+  }
+
+  setLimitedInputValue(property, val) {
     val = val.trim();
-    if (val.length > 12) {
+    if (val.length > 16) {
       return;
     }
     this.setState({
@@ -33,6 +40,25 @@ class SignUpForm extends Component {
     });
   }
 
+  handleResponse(response) {
+    //handle success
+    console.log(this);
+    console.log(response.data);
+    if(response.data.result == "Success") {
+      return;
+    }
+    else {
+      alert("An error has occurred.");
+      this.resetForm();
+    }
+  }
+
+  handleResponseError(response) {
+    //handle error
+    console.log(response);
+    this.resetSignUp();
+  }
+
   async doSignUp() {
     if (!this.state.name) {
       return;
@@ -46,6 +72,21 @@ class SignUpForm extends Component {
     this.setState({
       buttonDisbaled: true
     });
+
+    axios({
+      method: 'post',
+      url: 'http://localhost:8000/profile',
+      data: {
+        email: this.state.email,
+        username: this.state.username,
+        fullname: this.state.fullname,
+        dob: this.state.dob,
+        password: this.state.password,
+      }
+      })
+      .then(res => this.handleResponse(res))
+      .catch(res => this.handleResponseError(res));    
+    
   }
 
   state = {};
@@ -70,7 +111,7 @@ class SignUpForm extends Component {
             type="password"
             placeholder="Password"
             value={this.state.password ? this.state.password : ""}
-            onChange={(val) => this.setInputValue("password", val)}
+            onChange={(val) => this.setLimitedInputValue("password", val)}
           ></InputField>
           <SubmitButton
             text="Continue"
