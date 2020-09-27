@@ -26,13 +26,13 @@ module.exports = function validategetUserInput(data){
  
   // Return errors if any. If not, return true if all is Valid
   if (!isEmpty(errors)){
-    errors.hasError = "True";
+    errors.hasErrors = "True";
   } else {
-    errors.hasError = "False";
+    errors.hasErrors = "False";
   }
 
   return {
     errors,
-    isValid: (errors.hasError == "False")
+    isValid: (errors.hasErrors == "False")
   };
 };
