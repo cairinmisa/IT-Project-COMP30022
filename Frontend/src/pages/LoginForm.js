@@ -4,6 +4,7 @@ import SubmitButton from "./SubmitButton";
 import UserStore from "../stores/UserStore";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import {host} from "../stores/Settings"
 
 class LoginForm extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class LoginForm extends Component {
       // Get username from token
       await axios({
         method: 'get',
-        url: 'http://localhost:8000/profile/findUser',
+        url: host+'/profile/findUser',
         params: {
           emailAddress: this.state.email
         }
@@ -106,7 +107,7 @@ class LoginForm extends Component {
     // Fetch user from database
     axios({
       method: 'post',
-      url: 'http://localhost:8000/profile/login',
+      url:  host+'/profile/login',
       data: {
         emailAddress: this.state.email,
         password: this.state.password

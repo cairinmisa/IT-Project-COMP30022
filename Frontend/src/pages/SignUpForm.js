@@ -3,6 +3,7 @@ import InputField from "./InputField";
 import SubmitButton from "./SubmitButton";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import {host} from "../stores/Settings"
 
 class SignUpForm extends Component {
   constructor(props) {
@@ -79,7 +80,7 @@ class SignUpForm extends Component {
 
     axios({
       method: 'post',
-      url: 'http://localhost:8000/profile',
+      url:  host+'/profile',
       data: {
         email: this.state.email,
         username: this.state.username,
