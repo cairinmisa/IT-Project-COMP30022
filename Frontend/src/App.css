@@ -25,8 +25,8 @@
 }
 
 body {
-  background-color: var(--scheme-blue);
   font-size: 15px;
+  background-color: var(--scheme-blue);
 }
 
 h1 {
@@ -46,10 +46,12 @@ input:focus {
 }
 
 .text-editor {
-  width: 80%;
+  width: 100%;
+  height: 80vh;
   position: relative;
   left: 50%;
   transform: translate(-50%, 0);
+  background-color: var(--scheme-white);
 }
 
 .editorComponent {
@@ -58,10 +60,48 @@ input:focus {
   border-width: 2px;
   border-color: #999;
   margin: 10px;
+  width: 75%;
+  float:right;
+  margin-right: 2%;
+}
+
+.editorComponent h2 {
+  border-bottom: solid;
+  border-width: 2px;
+}
+
+.userPanel {
+  height: 100%;
+  width: 17%;
+  float:left;
+  position: absolute;
+  background-color: var(--scheme-black);
+}
+
+.userPanel p {
+  font-size: 20px;
+}
+
+.panelContent {
+  color: var(--scheme-white);
+  background-color: var(--scheme-black);
+  width: 90%;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0);
+  text-align: left;
+}
+
+.panelContent li {
+  text-decoration: underline;
 }
 
 .container {
   font-size: 28px;
+}
+
+.block {
+  background-color: black;
 }
 
 .navBar {
@@ -252,6 +292,10 @@ div {
   width: 100%;
   font-family: neue-montreal-bold, helvetica;
   font-size: 17px;
+}
+
+.templateList li {
+  list-style: none;
 }
 
 @media screen and (min-width: 1200px) {
