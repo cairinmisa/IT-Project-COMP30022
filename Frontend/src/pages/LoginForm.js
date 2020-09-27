@@ -40,11 +40,26 @@ class LoginForm extends Component {
     });
   }
 
-  handleResponse(response) {
+  async handleResponse(response) {
     //handle success
     if(!response.data.hasErrors) {
       UserStore.isLoggedIn = true;
-      UserStore.username = response.data.token;
+
+      // Get username from token
+      await axios({
+        method: 'get',
+        url: 'http://localhost:8000/profile/findUser',
+        params: {
+          emailAddress: this.state.email
+        }
+        })
+        .then(response => {
+          console.log(response.data);
+          UserStore.username = response.data.username;
+        })
+        .catch(response => {
+          console.log("error");
+        });
     }
     else if (response.data.hasErrors){
       if(response.data.emailnotFound === "True"){
