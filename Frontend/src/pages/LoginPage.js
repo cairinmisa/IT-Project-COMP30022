@@ -53,35 +53,27 @@ class LoginPage extends Component {
   }
 
   render() {
-    if (UserStore.loading) {
+    if (UserStore.isLoggedIn) {
       return (
         <div className="app">
-          <div className="container">Loading...</div>
+          <div className="container">
+            Welcome {UserStore.username}
+            <SubmitButton
+              text={"Log out"}
+              disabled={false}
+              onClick={() => this.doLogout()}
+            ></SubmitButton>
+          </div>
         </div>
       );
     } else {
-      if (UserStore.isLoggedIn) {
-        return (
-          <div className="app">
-            <div className="container">
-              Welcome {UserStore.username}
-              <SubmitButton
-                text={"Log out"}
-                disabled={false}
-                onClick={() => this.doLogout()}
-              ></SubmitButton>
-            </div>
+      return (
+        <div className="app">
+          <div className="container">
+            <LoginForm />
           </div>
-        );
-      } else {
-        return (
-          <div className="app">
-            <div className="container">
-              <LoginForm />
-            </div>
-          </div>
-        );
-      }
+        </div>
+      );
     }
   }
 }
