@@ -67,6 +67,7 @@ export default class TextEditor extends Component {
                 console.log("Editor is ready to use!", editor);
               }}
             />
+            <div class="editorBorder"></div>
           </div>
         </div>
       );

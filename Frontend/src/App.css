@@ -78,6 +78,7 @@ input:focus {
   left: 50%;
   transform: translate(-50%, 0);
   background-color: var(--scheme-white);
+  overflow: hidden;
 }
 
 .editorNavBar {
@@ -117,6 +118,20 @@ input:focus {
   width: 78%;
   float:right;
   margin-right: 2%;
+  overflow-y:scroll;
+  height: 85%;
+}
+
+.editorBorder {
+  margin-top: 5px;
+  width: 95%;
+  height: 2px;
+  border-top: solid;
+  border-bottom: solid;
+  border-width: 2px;
+  position:relative;
+  left: 50%;
+  transform:translate(-50%,0);
 }
 
 .editorComponent h2 {
