@@ -18,7 +18,7 @@ class App extends React.Component {
   setupUserInfo() {
     const user = localStorage.getItem("user");
     const token = localStorage.getItem("token");
-    if(user != "null"){
+    if(user != null){
       UserStore.user = JSON.parse(user);
       UserStore.isLoggedIn = true;
       UserStore.token = token;
