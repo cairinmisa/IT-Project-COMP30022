@@ -7,8 +7,7 @@ class ProfilePage extends Component {
     }
 
     doLogout() {
-        localStorage.setItem("user", null);
-        localStorage.setItem("token", null);
+        localStorage.clear();
         this.props.history.push('/');
         window.location.reload(false);
     }
