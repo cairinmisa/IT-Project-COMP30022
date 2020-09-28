@@ -55,7 +55,7 @@ export default class TextEditor extends Component {
                   <li onClick = {() => this.handleClick(template1)}>Template 1</li>
                   <li onClick = {() => this.handleClick(template2)}>Template 2</li>
               </ul>
-              <p className="medium" onClick = {() => this.resetData()}><span className="green">+</span> Create new</p>
+              <p className="medium clickable" onClick = {() => this.resetData()}><span className="green">+</span> Create new</p>
             </div>
           </div>
           <div className="editorComponent">
