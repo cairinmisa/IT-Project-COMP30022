@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
-import template2 from "./templates/template2.js";
-import template1 from "./templates/template.js";
+import Resume from "./templates/template2.js";
+import Diary from "./templates/template.js";
 import {Link} from "react-router-dom";
+import LoginForm from "./pages/LoginForm.js";
 
 
 export default class TextEditor extends Component {
   state = {
-    currentTemplate : template1
+    userPortfolios : ["Portfolio 1", "Portfolio 2", "Portfolio 3"], //dummy
+    currentTemplate : ""
   }
   
   constructor(props){
@@ -36,11 +38,15 @@ export default class TextEditor extends Component {
         <div className="userPanel">
           <div className="panelContent">
             <Link to = "/" onClick = {() => this.pleaseUpdate(false)}>Back</Link>
-            <p>Welcome [Insert Username]</p>
+            <p>Welcome asshole</p>
             <p>Your folios:</p>
             <ul>
-                <li onClick = {() => this.handleClick(template1)}>Template 1</li>
-                <li onClick = {() => this.handleClick(template2)}>Template 2</li>
+              {this.state.userPortfolios.map((portfolio) => <li>{portfolio}</li>)}
+            </ul>
+            <p>Templates:</p>
+            <ul>
+                <li onClick = {() => this.handleClick(Diary)}>Diary</li>
+                <li onClick = {() => this.handleClick(Resume)}>Resume</li>
             </ul>
             <p onClick = {() => this.resetData()}>+ Create new</p>
           </div>
