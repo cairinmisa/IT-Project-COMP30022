@@ -9,6 +9,7 @@ import Footer from "./Footer";
 import SignUpForm from "./pages/SignUpForm";
 import LoginPage from "./pages/LoginPage";
 import UserStore from "./stores/UserStore";
+import {Helmet} from "react-helmet";
 
 class App extends React.Component {
   render() {
@@ -28,9 +29,12 @@ class App extends React.Component {
       );
     };
 
-    // Render components with no Nav Bar first 
+    // Route components with no Nav Bar first 
     return (
         <Router>
+          <Helmet>
+            <title>ePortfolio Editor</title>
+          </Helmet>
           <Switch>
             <Route path="/editor" exact component={TextEditor} ></Route>
             <Route component={NavRoutes}/>
