@@ -9,7 +9,7 @@ import LoginForm from "./pages/LoginForm.js";
 
 export default class TextEditor extends Component {
   state = {
-    userPortfolios : ["Portfolio 1", "Portfolio 2", "Portfolio 3"], //dummy
+    userPortfolios : ["This is portfolio 1", "This is portfolio 2", "This is portfolio 3"], //dummy
     currentTemplate : ""
   }
   
@@ -41,7 +41,7 @@ export default class TextEditor extends Component {
             <p>Welcome asshole</p>
             <p>Your folios:</p>
             <ul>
-              {this.state.userPortfolios.map((portfolio) => <li>{portfolio}</li>)}
+              {this.state.userPortfolios.map((portfolio) => <li onClick = {() => this.handleClick(portfolio)}>{portfolio}</li>)}
             </ul>
             <p>Templates:</p>
             <ul>
