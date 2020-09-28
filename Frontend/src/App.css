@@ -8,6 +8,16 @@
   src: url("fonts/NeueMontreal-Light.otf");
 }
 
+@font-face {
+  font-family: "neue-montreal-medium";
+  src: url("fonts/NeueMontreal-Medium.otf");
+}
+
+@font-face {
+  font-family: "neue-montreal-regular";
+  src: url("fonts/NeueMontreal-Regular.otf");
+}
+
 :root {
   --scheme-white: #f4f4f9;
   --scheme-blue: #5762d5;
@@ -31,18 +41,30 @@
 body {
   font-size: 15px;
   background-color: var(--scheme-blue);
+  font-family: neue-montreal-regular, helvetica;
+}
+
+.bold {
+  font-family: neue-montreal-bold, helvetica;
+}
+
+.medium {
+  font-family: neue-montreal-medium, helvetica;
 }
 
 h1 {
   font-size: 30px;
+  font-family: neue-montreal-bold, helvetica;
 }
 
 h2 {
   font-size: 23px;
+  font-family: neue-montreal-bold, helvetica;
 }
 
 h3 {
   font-size: 18px;
+  font-family: neue-montreal-regular, helvetica;
 }
 
 input:focus {
@@ -64,12 +86,22 @@ input:focus {
   height: 27px;
   font-size: 18px;
   color: white;
+  font-family: neue-montreal-medium, helvetica;
+  position: relative;
 }
 
 .editorNavBar .leftAlign {
   background-color: var(--scheme-blue);
-  text-align: left;
+  //text-align: left;
+  float: left;
   padding-left: 30px;
+}
+
+.editorNavBar .rightAlign {
+  background-color: var(--scheme-blue);
+  position:absolute;
+  right: 0;
+  padding-right: 30px;
 }
 
 .editorNavBar a {
@@ -137,6 +169,7 @@ input:focus {
   position: relative;
   color: var(--scheme-white);
   height: 100px;
+  font-family: neue-montreal-medium, helvetica;
 }
 
 .navBar ul {
@@ -175,7 +208,6 @@ input:focus {
 div {
   background-color: var(--scheme-white);
   text-align: center;
-  font-family: neue-montreal-bold, helvetica;
   clear: both;
 }
 

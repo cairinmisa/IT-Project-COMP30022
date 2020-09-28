@@ -39,20 +39,23 @@ export default class TextEditor extends Component {
         <div className="text-editor">
           <div className="editorNavBar">
             <div className="leftAlign">
-              <Link to = "/" >Home</Link>{" "}|{" "}
+              <Link to = "/" >Home</Link>
+            </div>
+            <div className="rightAlign">
               <Link to = "/template" >Templates</Link>{" "}|{" "}
+              <Link to = "/profile" >Profile</Link>{" "}|{" "}
               <Link to = "" >Help</Link>
             </div>
           </div>
           <div className="userPanel">
             <div className="panelContent">
-              <p>Welcome {this.capitaliseName(UserStore.user.firstName)} </p>
-              <p>Your folios:</p>
+              <p className="bold">Welcome {this.capitaliseName(UserStore.user.firstName)} </p>
+              <p className="bold">Your folios:</p>
               <ul>
                   <li onClick = {() => this.handleClick(template1)}>Template 1</li>
                   <li onClick = {() => this.handleClick(template2)}>Template 2</li>
               </ul>
-              <p onClick = {() => this.resetData()}><span className="green">+</span> Create new</p>
+              <p className="medium" onClick = {() => this.resetData()}><span className="green">+</span> Create new</p>
             </div>
           </div>
           <div className="editorComponent">
