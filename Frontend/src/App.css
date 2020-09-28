@@ -128,6 +128,7 @@ input:focus {
 
 .editorBorder {
   margin-top: 5px;
+  margin-bottom:20px;
   width: 95%;
   height: 2px;
   border-top: solid;
