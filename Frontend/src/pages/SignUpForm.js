@@ -53,8 +53,6 @@ class SignUpForm extends Component {
     //handle success
     console.log(response.data);
     if(response.data.hasErrors === "False") {
-      alert("SUCCEEEED");
-      console.log("SUCCCESSFUL");
       this.props.history.push('/login');
     }
     else if (response.data.hasErrors === "True"){

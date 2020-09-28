@@ -5,45 +5,58 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Nav from "./Nav";
 import TextEditor from "./TextEditor";
 import Template from "./pages/Template";
+import ProfilePage from "./pages/ProfilePage";
 import Footer from "./Footer";
 import SignUpForm from "./pages/SignUpForm";
 import LoginPage from "./pages/LoginPage";
 import UserStore from "./stores/UserStore";
+import {Helmet} from "react-helmet";
 
 class App extends React.Component {
-  state = {
-    onWorkshop : false,
-    isLoggedIn : UserStore.isLoggedIn
+  // When app is first loaded we want to get user information from local storage
+  // and setup user store accordingly
+  setupUserInfo() {
+    const user = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+    if(user != "null"){
+      UserStore.user = JSON.parse(user);
+      UserStore.isLoggedIn = true;
+      UserStore.token = token;
+    }
   }
 
-  constructor(props){
-    super(props)
-  }
-
-  updateWorkshop(value){
-    this.setState({onWorkshop : value})
-    console.log(this.state.onWorkshop)
-  }
 
   render() {
-    if(this.state.onWorkshop === true){
-      return(<Router><Route path="/editor" render = {(props) => (<TextEditor updateWorkshop = {this.updateWorkshop.bind(this)}/>)}></Route></Router>)
-    } 
-    else{
-    return (
-          <Router>
-            <Nav updateWorkshop = {this.updateWorkshop.bind(this)} isLoggedIn = {this.state.isLoggedIn}/>
-            <Switch>
-              <Route path="/login" exact component={LoginPage}></Route>
-              <Route path="/editor" render = {() => (<TextEditor updateWorkshop = {this.updateWorkshop.bind(this)}/>)}></Route>
-              <Route path="/" exact component={Home}></Route>
-              <Route path="/signup" exact component={SignUpForm}></Route>
-              <Route path="/template" exact component={Template}></Route>
-            </Switch>
-            <Footer />
-          </Router>
+    this.setupUserInfo();
+    // Specifies all the pages that the Nav Bar will be rendered on
+    const NavRoutes = () => {
+      return (
+        <div>
+          <Nav isLoggedIn = {UserStore.isLoggedIn}/>
+          <Switch>
+            <Route path="/login" exact component={LoginPage}></Route>
+            <Route path="/" exact component={Home}></Route>
+            <Route path="/signup" exact component={SignUpForm}></Route>
+            <Route path="/template" exact component={Template}></Route>
+            <Route path="/profile" exact component={ProfilePage}></Route>
+          </Switch>
+          <Footer />
+          </div>
       );
-    }
+    };
+
+    // Route components with no Nav Bar first 
+    return (
+        <Router>
+          <Helmet>
+            <title>ePortfolio Editor</title>
+          </Helmet>
+          <Switch>
+            <Route path="/editor" exact component={TextEditor} ></Route>
+            <Route component={NavRoutes}/>
+          </Switch>
+        </Router>
+    );
   }
 }
 

@@ -57,6 +57,10 @@ class LoginForm extends Component {
         })
         .then(response => {
           UserStore.user = response.data;
+
+          // Set local storage
+          localStorage.setItem("user", JSON.stringify(UserStore.user));
+          localStorage.setItem("token", UserStore.token);
         })
         .catch(response => {
           console.log(response);

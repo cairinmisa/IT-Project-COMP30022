@@ -2,12 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class Nav extends Component {
-
-  updateWorkshop(value){
-    this.props.updateWorkshop(value)
-  }
-
-
   render() {
     if(this.props.isLoggedIn === false){
       return (
@@ -16,7 +10,7 @@ class Nav extends Component {
             <Link to="/">
               <li>Home</li>
             </Link>
-            <Link to="/editor" onClick = {() => this.updateWorkshop(true)}>
+            <Link to="/editor" >
               <li>Create</li>
             </Link>
             <Link to = "/template">
@@ -40,7 +34,7 @@ class Nav extends Component {
           <Link to="/">
             <li>Home</li>
           </Link>
-          <Link to="/editor" onClick = {() => this.pleaseUpdate(true)}>
+          <Link to="/editor">
             <li>Create</li>
           </Link>
           <Link to = "/template">
