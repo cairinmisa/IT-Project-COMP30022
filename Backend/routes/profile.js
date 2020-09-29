@@ -31,6 +31,13 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 // @desc Login user and return JWT token
 // @access PUBLIC
 router.post('/login', async (req,res) => {
+  // Check if logging in with Google 
+  if(req.body.googleToken != null) {
+    console.log("A User Logged in With Google");
+    authController.verifyGoogleToken(req.body.googleToken, res);
+    return;
+  }
+
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
 

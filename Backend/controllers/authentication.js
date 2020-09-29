@@ -19,9 +19,10 @@ exports.verifyGoogleToken = async (token, res) => {
         audience: CLIENT_ID
     });
     const payload = ticket.getPayload();
+
+    // This is where we register a user if need be
     res.send({
-        result : "Success",
-        name : payload['name']
+        token: "Bearer " + token
     });
 };
 
