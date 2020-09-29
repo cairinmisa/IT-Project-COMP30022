@@ -1,13 +1,24 @@
 const User = require('../models/dbschema/user');
+const Eportfolio = require('../models/dbschema/eportfolio');
 const errorController = require('./error');
 
-exports.getAll = async (req, res, next) => {
+exports.getAllUsers = async (req, res, next) => {
     var userlist;
     await User.find().then(function(users){
         userlist = users;   
     }).catch(next);
     return userlist;
 };
+
+exports.getAllEports = async (req, res, next) => {
+    var eportList;
+    await Eportfolio.find().then(function(users){
+        eportList = users;   
+    }).catch(next);
+    return eportList;
+};
+
+
 
 exports.getOne = async (req,res,next) => {
     user = await this.userfromUsername(req.body.username);
@@ -67,6 +78,18 @@ exports.emailExists = async (email) =>{
     email_check = await this.userfromEmail(email);
 
     if(email_check != null){
+        return true;
+    } else{
+        return false;
+    }
+}
+
+exports.eportExists = async (eportID) =>{
+    var target_eport;
+        await Eportfolio.findOne({id : eportID}).then(function(eport){
+        target_eport = eport;
+        });
+    if(target_eport != null){
         return true;
     } else{
         return false;
