@@ -20,7 +20,10 @@ exports.verifyGoogleToken = async (token, res) => {
     });
     const payload = ticket.getPayload();
 
-    // This is where we register a user if need be
+    // This is where we register a user if user does not 
+    // already exist. 
+    
+    // Here just send a default response with the token
     res.send({
         token: "Bearer " + token
     });
