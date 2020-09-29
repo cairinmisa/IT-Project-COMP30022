@@ -28,11 +28,13 @@ class App extends React.Component {
 
   render() {
     this.setupUserInfo();
+    
+    console.log("Done second");
     // Specifies all the pages that the Nav Bar will be rendered on
     const NavRoutes = () => {
       return (
         <div>
-          <Nav isLoggedIn = {UserStore.isLoggedIn}/>
+          <Nav />
           <Switch>
             <Route path="/login" exact component={LoginPage}></Route>
             <Route path="/" exact component={Home}></Route>

@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import UserStore from "./stores/UserStore";
 
 class Nav extends Component {
+  capitaliseName(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   render() {
-    if(this.props.isLoggedIn === false){
+    if(UserStore.isLoggedIn === false){
       return (
         <div className="navBar">
           <ul>
@@ -42,7 +47,7 @@ class Nav extends Component {
           </Link>
           <li>|</li>
           <Link to = "/profile">
-            <li>Profile</li>
+            <li>{this.capitaliseName(UserStore.user ? UserStore.user.firstName : "")}</li>
           </Link>
         </ul>
       </div>

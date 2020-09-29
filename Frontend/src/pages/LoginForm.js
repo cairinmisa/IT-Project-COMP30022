@@ -44,9 +44,6 @@ class LoginForm extends Component {
   async handleResponse(response) {
     //handle success
     if(!response.data.hasErrors) {
-      UserStore.isLoggedIn = true;
-      UserStore.token = response.data.token;
-
       // Get username from token
       await axios({
         method: 'get',
@@ -57,6 +54,8 @@ class LoginForm extends Component {
         })
         .then(response => {
           UserStore.user = response.data;
+          UserStore.isLoggedIn = true;
+          UserStore.token = response.data.token;
 
           // Set local storage
           localStorage.setItem("user", JSON.stringify(UserStore.user));
