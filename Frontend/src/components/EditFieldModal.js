@@ -17,17 +17,21 @@ class EditFieldModal extends React.Component {
             this.resetModal = true;
         }
         return (
-            <div className="modal">
-                <div>{this.props.children}</div>
-                <div>
-                    <InputField
-                        type={this.props.fieldType}
-                        placeholder={this.props.whichField}
-                        value={this.state.input ? this.state.input : ""}
-                        onChange={(val) => this.setState({input:val})}
-                    ></InputField>
-                    <button onClick={()=> this.props.onSubmit(this.props.whichField,this.state.input)}>Submit</button>
-                    <button className="closeBtn" onClick={()=> this.props.onClose()}>Close</button>
+            <div className="greyOutBG">
+                <div className="modal">
+                    <button className="closeBtn" onClick={()=> this.props.onClose()}>X</button>
+                    <div className="modal-content">
+                        <div>{this.props.children}</div>
+                        <div>
+                            <InputField
+                                type={this.props.fieldType}
+                                placeholder={this.props.whichField}
+                                value={this.state.input ? this.state.input : ""}
+                                onChange={(val) => this.setState({input:val})}
+                            ></InputField>
+                            <button onClick={()=> this.props.onSubmit(this.props.whichField,this.state.input)}>Submit</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

@@ -75,6 +75,15 @@ input:focus {
   cursor: pointer;
 }
 
+.greyOutBG {
+  position: absolute;
+  top:0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(200, 200, 200, 0.8);
+  z-index: 1;
+}
+
 .text-editor {
   width: 100%;
   height: 100vh;
@@ -270,19 +279,54 @@ div {
 
 .modal {
   width: 500px;
-  height: 250px;
+  height: 150px;
   position: absolute;
   left:50%;
   top:50%;
   transform: translate(-50%,-50%);
   border:solid;
+  border-radius: 15px;
   padding: 20px;
+}
+
+.modal-content {
+  width: 75%;;
+  position:absolute;
+  top:50%;
+  left: 50%;
+  transform:translate(-50%,-50%);
 }
 
 .modal .closeBtn {
   position:absolute;
-  top:10px;
+  top:5px;
   right: 10px;
+  width: 40px;
+  height: 28px;
+  background-color: var(--scheme-white);
+  color: var(--scheme-black);
+  padding-right: 6px;
+}
+
+.modal button {
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 28px;
+  font-family: neue-montreal-bold, helvetica;
+  height: 38px;
+  width: 100%;
+  margin: 5px 0 0 0;
+  background-color: var(--scheme-red);
+  color: white;
+  font-size: 17px;
+}
+
+.modal h2 {
+  margin: 0 0 5px 0;
+}
+
+.modal input {
+  margin: 5px 0 5px 0;
 }
 
 .accountForm {
@@ -295,7 +339,26 @@ div {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 375px;
+  width: 470px;
+}
+
+.accountForm-content h1 {
+  margin: 0 0 10px 0;
+}
+
+.accountForm-content p {
+  font-size: 24px;
+  margin: 0 0 10px 0;
+}
+
+.accountForm-content button {
+  margin-left: 10px;
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 28px;
+  font-family: neue-montreal-medium, helvetica;
+  font-size: 17px;
+  width: 50px;
 }
 
 .loginForm {
@@ -400,6 +463,7 @@ div {
   width: 100%;
   font-family: neue-montreal-bold, helvetica;
   font-size: 17px;
+  margin: 0;
 }
 
 .templateList li {
