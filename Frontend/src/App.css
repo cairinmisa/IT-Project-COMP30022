@@ -67,6 +67,10 @@ h3 {
   font-family: neue-montreal-regular, helvetica;
 }
 
+button {
+  cursor: pointer;
+}
+
 input:focus {
   outline-width: 0;
 }
