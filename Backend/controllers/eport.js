@@ -45,3 +45,65 @@ exports.register = async (req,res,next) =>{
             res.send(response);
         }).catch(next);
 }
+
+
+
+exports.fetch = async (req,res) =>{
+    //Password exists
+    console.log(req.user)
+    let response = {}
+    // Check eportfolio exists
+     if(!( await fetchController.eportExists(req.body.eportID))){
+         return res.send({eportfolioExists : false, hasErrors : true})
+     } else{
+        const eportfolio = await fetchController.eportfromEportID(req.body.eportID);
+
+        // If another user accessing and the eportfolio is private
+        if(!(req.user.userID == eportfolio.userID) && (eportfolio.isPublic == "False")){
+             return res.send({unauthorizedAccess : "True", hasErrors : "True"})
+        } else{
+            // Otherwise return its information
+            response.hasErrors = "False";
+            response.eportID = eportfolio.eportID;
+            response.isPublic = eportfolio.isPublic;
+            response.data = eportfolio.data;
+            response.title = eportfolio.title;
+            response.version = eportfolio.version;
+            response.userID = eportfolio.userID;
+            response.dateCreated = eportfolio.dateCreated
+            res.send(response);
+        }
+     }
+    
+}
+
+exports.delete = async (req,res) =>{
+
+    let response = {}
+
+    // Check eportfolio exists
+     if(!( await fetchController.eportExists(req.body.eportID))){
+         return res.send({eportfolioExists : false, hasErrors : true})
+     } else{
+        const eport = await fetchController.eportfromEportID(req.body.eportID);
+        
+        // Check the correct user is accessing
+        if(!(req.user.userID == eport.userID)){
+             return res.send({unauthorizedAccess : "True", hasErrors : "True"})
+        } else{
+            // Return information to the sender
+            Eportfolio.findByIdAndDelete({_id : eport._id}).then(function(eportfolio){
+            response.hasErrors = "False";
+            response.eportID = eportfolio.eportID;
+            response.isPublic = eportfolio.isPublic;
+            response.data = eportfolio.data;
+            response.title = eportfolio.title;
+            response.version = eportfolio.version;
+            response.userID = eportfolio.userID;
+            response.dateCreated = eportfolio.dateCreated
+            res.send(response);
+        });
+     }
+    
+}
+}

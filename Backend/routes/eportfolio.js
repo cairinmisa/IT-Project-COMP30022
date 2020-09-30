@@ -28,7 +28,7 @@ router.get('/', async (req, res,next)=> {
     res.send(eportlist);
 })
 
-
+// Create a new Eportfolio
 router.post('/create',passport.authenticate('jwt', {session : false}), (req, res)=> {
 
     const { errors, isValid } = validatenewEportInput(req.body);
@@ -42,6 +42,27 @@ router.post('/create',passport.authenticate('jwt', {session : false}), (req, res
         return res.send({unauthorizedAccess : "True", hasErrors : "True"})
       }
     eportController.register(req,res)
+})
+
+// Fetch Eportfolio from EportID
+router.post('/fetch',passport.authenticate('jwt', {session : false}), (req, res)=> {
+
+    if(req.body.eportID ==null){
+        return res.send({eportGiven : "False", hasErrors : "True"})
+    }
+    eportController.fetch(req,res)
+    
+})
+
+
+// Delete Eportfolio from EportID
+router.delete('/',passport.authenticate('jwt', {session : false}), (req, res)=> {
+
+    if(req.body.eportID ==null){
+        return res.send({eportGiven : "False", hasErrors : "True"})
+    }
+    eportController.delete(req,res)
+    
 })
 
 module.exports = router;

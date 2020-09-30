@@ -55,6 +55,17 @@ exports.userfromUserID = async(test_userID) =>{
     return target_user;
 }
 
+exports.eportfromEportID = async(test_eportID) =>{
+    var target_eport;
+    console.log(test_eportID)
+    await Eportfolio.findOne({eportID : test_eportID}).then(function(user){
+        target_eport = user;
+        console.log(target_eport)
+    });
+    return target_eport;
+}
+
+
 exports.userIDExists = async (userID) =>{
     user_check = await this.userfromUserID(userID);
     if(user_check != null){
@@ -85,11 +96,8 @@ exports.emailExists = async (email) =>{
 }
 
 exports.eportExists = async (eportID) =>{
-    var target_eport;
-        await Eportfolio.findOne({id : eportID}).then(function(eport){
-        target_eport = eport;
-        });
-    if(target_eport != null){
+    eport_check = await this.eportfromEportID(eportID);
+    if(eport_check != null){
         return true;
     } else{
         return false;
