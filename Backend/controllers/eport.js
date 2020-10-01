@@ -20,6 +20,7 @@ exports.register = async (req,res,next) =>{
     }
     req.body.dateUpdated = req.body.dateCreated
     req.body.version = 1;
+    req.body.isLatest = "True";
     //Generate User ID based on number of documents, if already exists,
      // keep incrementing until it does exist
     testID = await Eportfolio.countDocuments() + 1;
@@ -42,13 +43,14 @@ exports.register = async (req,res,next) =>{
             response.version = eport.version;
             response.userID = eport.userID;
             response.dateCreated = eport.dateCreated
+            response.isLatest = eport.isLatest;
             res.send(response);
         }).catch(next);
 }
 
 
 
-exports.fetch = async (req,res) =>{
+exports.fetchOne = async (req,res) =>{
     //Password exists
     console.log(req.user)
     let response = {}
@@ -76,6 +78,58 @@ exports.fetch = async (req,res) =>{
      }
     
 }
+
+exports.fetchAll = async (req,res) =>{
+    // Check user exists
+    if(!( await fetchController.userIDExists(req.body.userID))){
+        return res.send({userExists : false, hasErrors : true})
+    }
+    // Check right user accessing
+    if(!(req.user.userID == req.body.userID)){
+        return res.send({unauthorizedAccess : "True", hasErrors : "True"});
+    }
+    // Find all folios matching userID
+    await Eportfolio.find({userID : req.body.userID})
+    .then(function(allFolios){
+        return res.send(allFolios);
+    });
+}
+
+exports.saveEport = async (req,res) =>{
+    // Check eport exists
+    if(!( await fetchController.eportExists(req.body.eportID))){
+         return res.send({eportExists : false, hasErrors : true});
+    }
+    const eportfolio = await fetchController.eportfromEportID(req.body.eportID);
+    const eport_info = {}
+    // If another user accessing and the eportfolio is private
+    console.log(req.user);
+    console.log(eportfolio.userID)
+    if(!(req.user.userID == eportfolio.userID)){
+        return res.send({unauthorizedAccess : "True", hasErrors : "True"})
+   }
+   eport_info.data = req.body.data
+   eport_info.dateUpdated = req.body.dateUpdated
+   eport_info.version = eportfolio.version + 1
+   if(req.body.isPublic != null){
+       eport_info.isPublic = req.body.isPublic
+   }
+   if(req.body.title != null){
+    eport_info.title = req.body.title
+   }
+
+   await Eportfolio.findByIdAndUpdate({_id : eportfolio._id}, eport_info)
+   .then(async function(user){
+        const response = await fetchController.eportfromEportID(req.body.eportID);
+        res.send(response);
+
+}).catch(next);
+    // Find all folios matching userID
+    await Eportfolio.find({userID : req.body.userID}).then(function(allFolios){
+        return res.send(allFolios);
+    });
+}
+
 
 exports.delete = async (req,res) =>{
 

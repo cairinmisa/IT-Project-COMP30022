@@ -8,6 +8,7 @@ var eportfolioSchema = new Schema({
     isPublic : {type : String},
     data : {type : String},
     title : {type : String, required : true},
+    isLatest : {type : String},
     version : {type :Number},
     dateCreated : {type : Date},
     dateUpdated : {type : Date},

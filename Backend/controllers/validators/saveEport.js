@@ -6,20 +6,20 @@ const Eportfolio = require('../../models/dbschema/eportfolio');
 const { error } = require('../error');
 
 // Login validation and Authentication
-module.exports = function validatenewEportInput(data) {
+module.exports = function validatesaveEportInput(data) {
   let errors = {};
 
   // If field is not empty then empty it to work with validator
-  data.userID =  !isEmpty(data.userID) ? data.userID : "";
-  data.title = !isEmpty(data.title) ? data.title : "";
-  data.dateCreated = !isEmpty(data.dateCreated) ? data.dateCreated : "";
+  data.eportID =  !isEmpty(data.eportID) ? data.eportID : "";
+  data.data = !isEmpty(data.data) ? data.data : "";
+  data.dateUpdated = !isEmpty(data.dateUpdated) ? data.dateUpdated : "";
   
-  // Email Checks
-  if (validator.isEmpty(data.title)) {
-    errors.titleGiven = "False";
-  } else if (validator.isEmpty(data.userID)){
-    errors.userIDGiven = "False";
-  } else if (validator.isEmpty(data.dateCreated)){
+  // Field Checks
+  if (validator.isEmpty(data.eportID)) {
+    errors.eportIDGiven = "False";
+  } else if (validator.isEmpty(data.data)){
+    errors.dataGiven = "False";
+  } else if (validator.isEmpty(data.dateUpdated)){
     errors.dateGiven = "False";
   }
 
