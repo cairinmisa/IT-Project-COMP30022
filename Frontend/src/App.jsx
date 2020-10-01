@@ -11,6 +11,7 @@ import SignUpForm from "./pages/SignUpForm";
 import LoginPage from "./pages/LoginPage";
 import UserStore from "./stores/UserStore";
 import {Helmet} from "react-helmet";
+import jwt_decode from "jwt-decode";
 
 class App extends React.Component {
   // When app is first loaded we want to get user information from local storage
@@ -19,17 +20,23 @@ class App extends React.Component {
     const user = localStorage.getItem("user");
     const token = localStorage.getItem("token");
     if(user != null){
-      UserStore.user = JSON.parse(user);
-      UserStore.isLoggedIn = true;
-      UserStore.token = token;
+      // Check if jwt has expired
+      var decoded = jwt_decode(token);
+      if(Date.now()/1000 > decoded.exp) {
+        localStorage.clear();
+      } 
+      else {
+        UserStore.user = JSON.parse(user);
+        UserStore.isLoggedIn = true;
+        UserStore.token = token;
+      }
     }
   }
 
 
   render() {
     this.setupUserInfo();
-    
-    console.log("Done second");
+
     // Specifies all the pages that the Nav Bar will be rendered on
     const NavRoutes = () => {
       return (

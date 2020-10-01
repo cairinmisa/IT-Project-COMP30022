@@ -3,9 +3,15 @@ import InputField from "../pages/InputField";
 
 class EditFieldModal extends React.Component {
     state = {
-        input: null
+        input: null,
+        password: null
     };
     resetModal = false;
+
+    // Send edit request to server
+    submitValue(whichField, input, password) {
+
+    }
 
     render() {
         if(!this.props.show) {
@@ -14,6 +20,7 @@ class EditFieldModal extends React.Component {
         }
         else if (!this.resetModal) {
             this.state.input = this.props.prevInput;
+            this.state.password = null;
             this.resetModal = true;
         }
         return (
@@ -29,7 +36,13 @@ class EditFieldModal extends React.Component {
                                 value={this.state.input ? this.state.input : ""}
                                 onChange={(val) => this.setState({input:val})}
                             ></InputField>
-                            <button onClick={()=> this.props.onSubmit(this.props.whichField,this.state.input)}>Submit</button>
+                            <InputField
+                                type="password"
+                                placeholder="Password"
+                                value={this.state.password ? this.state.password : ""}
+                                onChange={(val) => this.setState({password:val})}
+                            ></InputField>
+                            <button onClick={()=> this.props.onSubmit()}>Submit</button>
                         </div>
                     </div>
                 </div>

@@ -40,11 +40,9 @@ class ProfilePage extends Component {
     }
 
     // Occurs when user submits new information
-    submitEditModal = (field, value) => {
-        console.log("Received new change: Changing field " + field + " to " + value);
+    submitEditModal = () => {
         this.setState({
-            showEdit: false,
-            whichField: field
+            showEdit: false
         });
     };
 
