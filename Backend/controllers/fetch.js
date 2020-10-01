@@ -57,10 +57,8 @@ exports.userfromUserID = async(test_userID) =>{
 
 exports.eportfromEportID = async(test_eportID) =>{
     var target_eport;
-    console.log(test_eportID)
     await Eportfolio.findOne({eportID : test_eportID}).then(function(user){
         target_eport = user;
-        console.log(target_eport)
     });
     return target_eport;
 }

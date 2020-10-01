@@ -9,9 +9,15 @@ const errorController = require('./error');
 
 exports.register = async (req,res,next) =>{
     //Password exists
-    console.log("first console log")
-    console.log(req.body)
     let response = {}
+    let result = {}
+    await Eportfolio.find({userID : req.body.userID, title : req.body.title}).then(async function(list){
+        result = list
+    });
+
+    if(result.length != 0){
+        return res.send({titleExists : "True", hasErrors : "True"})
+    }
     if(req.body.isPublic == null){
         req.body.isPublic = "False"
     }
@@ -30,11 +36,9 @@ exports.register = async (req,res,next) =>{
             break;
           }
           testID ++;
-    }console.log("final console log")
-        console.log(req.body);
+    }
         Eportfolio.create(req.body).then(function(eport){
-            console.log("final product")
-            console.log(eport)
+
             response.hasErrors = "False";
             response.eportID = eport.eportID;
             response.isPublic = eport.isPublic;
@@ -52,11 +56,10 @@ exports.register = async (req,res,next) =>{
 
 exports.fetchOne = async (req,res) =>{
     //Password exists
-    console.log(req.user)
     let response = {}
     // Check eportfolio exists
      if(!( await fetchController.eportExists(req.body.eportID))){
-         return res.send({eportfolioExists : false, hasErrors : true})
+         return res.send({eportfolioExists : "False", hasErrors : "True"})
      } else{
         const eportfolio = await fetchController.eportfromEportID(req.body.eportID);
 
@@ -103,8 +106,7 @@ exports.saveEport = async (req,res) =>{
     const eportfolio = await fetchController.eportfromEportID(req.body.eportID);
     const eport_info = {}
     // If another user accessing and the eportfolio is private
-    console.log(req.user);
-    console.log(eportfolio.userID)
+
     if(!(req.user.userID == eportfolio.userID)){
         return res.send({unauthorizedAccess : "True", hasErrors : "True"})
    }
@@ -137,7 +139,7 @@ exports.delete = async (req,res) =>{
 
     // Check eportfolio exists
      if(!( await fetchController.eportExists(req.body.eportID))){
-         return res.send({eportfolioExists : false, hasErrors : true})
+         return res.send({eportExists : false, hasErrors : true})
      } else{
         const eport = await fetchController.eportfromEportID(req.body.eportID);
         

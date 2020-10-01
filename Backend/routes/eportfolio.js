@@ -33,10 +33,9 @@ router.get('/', async (req, res,next)=> {
 router.post('/create',passport.authenticate('jwt', {session : false}), (req, res)=> {
 
     const { errors, isValid } = validatenewEportInput(req.body);
-    console.log(errors, isValid)
     // Check Validation
     if (!isValid) {
-    return res.status(200).json(errors);
+     return res.status(200).json(errors);
     }
     // Check user is modifying their own account
     if(!(req.user.userID == req.body.userID)){
