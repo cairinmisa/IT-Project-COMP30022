@@ -56,7 +56,11 @@ class ProfilePage extends Component {
                     <p className="medium"><span className="bold">Email</span> {UserStore.user.emailAddress}<button onClick={() => this.showEditModal("Email", UserStore.user.emailAddress, "text")}>Edit</button></p>
                     <p className="medium"><span className="bold">Date of birth:</span> {UserStore.user.dOB ? UserStore.user.dOB : "Not Specified"}<button onClick={() => this.showEditModal("Date of Birth", UserStore.user.dOB, "date")}>Edit</button></p>
                     <SubmitButton
-                    text="Logout"
+                    text="Change Password" derivedClass="whiteBG"
+                    onClick={() => this.showEditModal("Password", "", "password")}
+                    ></SubmitButton>
+                    <SubmitButton
+                    text="Logout" derivedClass="redBG"
                     onClick={() => this.doLogout()}
                     ></SubmitButton>
                 </div>

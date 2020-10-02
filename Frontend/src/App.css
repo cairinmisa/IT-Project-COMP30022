@@ -38,6 +38,16 @@
   color: var(--scheme-aqua);
 }
 
+.whiteBG {
+  background-color: var(--scheme-white);
+  color: var(--scheme-black);
+}
+
+.redBG {
+  background-color: var(--scheme-red);
+  color: var(--scheme-white);
+}
+
 body {
   font-size: 15px;
   background-color: var(--scheme-blue);
@@ -363,6 +373,11 @@ div {
   font-family: neue-montreal-medium, helvetica;
   font-size: 17px;
   width: 50px;
+  margin-bottom: 10px;
+}
+
+.accountForm-content .submitButton {
+  margin-bottom: 10px;
 }
 
 .loginForm {
@@ -462,8 +477,6 @@ div {
 
 .submitButton button {
   height: 38px;
-  background-color: var(--scheme-red);
-  color: var(--scheme-white);
   width: 100%;
   font-family: neue-montreal-bold, helvetica;
   font-size: 17px;

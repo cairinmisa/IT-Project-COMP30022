@@ -141,7 +141,7 @@ class LoginForm extends Component {
             onChange={(val) => this.setLimitedInputValue("password", val)}
           ></InputField>
           <SubmitButton
-            text="Continue"
+            text="Continue" derivedClass="redBG"
             disabled={this.state.buttonDisabled}
             onClick={() => this.doLogin()}
           ></SubmitButton>

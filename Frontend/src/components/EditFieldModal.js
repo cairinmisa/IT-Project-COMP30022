@@ -100,13 +100,13 @@ class EditFieldModal extends React.Component {
                             ></InputField>
                             <InputField
                                 type="password"
-                                placeholder="Password"
+                                placeholder={this.props.whichField === "Password" ? "Old Password" : "Password"}
                                 value={this.state.password ? this.state.password : ""}
                                 onChange={(val) => this.setState({password:val})}
                             ></InputField>
                             <InputField
                                 type="password"
-                                placeholder="Confirm Password"
+                                placeholder={this.props.whichField === "Password" ? "Confirm Old Password" : "Confirm Password"}
                                 value={this.state.password2 ? this.state.password2 : ""}
                                 onChange={(val) => this.setState({password2:val})}
                             ></InputField>
