@@ -6,6 +6,8 @@ import Diary from "./templates/template.js";
 import {Link} from "react-router-dom";
 import UserStore from "./stores/UserStore";
 import {Redirect} from 'react-router-dom';
+import Axios from "axios";
+import LoginForm from "./pages/LoginForm.js";
 
 
 export default class TextEditor extends Component {
@@ -36,6 +38,13 @@ export default class TextEditor extends Component {
       return <Redirect  to="/login" />
     }
     else{
+      await axios({
+        method: 'post',
+        url:  host+'/profile/login',
+        data: {
+          emailAddress: LoginForm.user.emailAddress,
+        }
+      })
       return (
         <div className="text-editor">
           <div className="editorNavBar">
@@ -57,8 +66,8 @@ export default class TextEditor extends Component {
               </ul>
               <p className="bold">Templates</p>
               <ul>
-                  <li onClick = {() => this.handleClick(template1)}>Template 1</li>
-                  <li onClick = {() => this.handleClick(template2)}>Template 2</li>
+                  <li onClick = {() => this.handleClick(Resume)}>Resume</li>
+                  <li onClick = {() => this.handleClick(Diary)}>Diary</li>
               </ul>
               <p className="medium clickable" onClick = {() => this.resetData()}><span className="green">+</span> Create new</p>
             </div>
