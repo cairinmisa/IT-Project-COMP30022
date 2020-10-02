@@ -60,25 +60,48 @@ exports.register = async (req,res,next) =>{
 }
 
 exports.update = async (req,res,next) =>{
-    // Checks email and username's existence
-    if(await fetchController.emailExists(req.body.emailAddress)){
-        errorController.error(res, "Email already exists", 400);
-    } else if(await fetchController.usernameExists(req.body.username)){
-        errorController.error(res, "Username already exists", 400);
-    } else{
-        // Hash the new password if provided
-        if(req.body.password != null){
-            const hashedPassword = await this.passgen(req.body.password);
-            req.body.password = hashedPassword;
-        }
-        const user = await fetchController.userfromUserID(req.body.userID);
-        // Update the user with data in the request body
-        await User.findByIdAndUpdate({_id : user._id}, req.body).then(async function(user){
-            user = await fetchController.userfromUsername(req.body.username);
-                res.send(user);
-
-        }).catch(next);
+    if(!(await fetchController.userIDExists(req.body.userID))){
+        return res.send({userExists : "False", hasErrors : "True"})
     }
+    
+    // Checks given password is correct
+    const user = await fetchController.userfromUserID(req.body.userID);
+    if(!(await bcrypt.compare(req.body.oldpassword,user.password))){
+        return res.send({incorrectPassword : "True", hasErrors : "True"})
+    }
+    
+    // Checks new email is valid
+    if(req.body.emailAddress != null){
+        if(await fetchController.emailExists(req.body.emailAddress)){
+            return res.send({emailExists : "True", hasErrors : "True"})
+        }
+    }
+    // Check new username is valid
+    if(req.body.username != null){
+        if(await fetchController.usernameExists(req.body.username)){
+            return res.send({usernameExists : "True", hasErrors : "True"})
+        }
+    }
+    // Hash the new password if provided
+    if(req.body.password != null){
+        const hashedPassword = await this.passgen(req.body.password);
+        req.body.password = hashedPassword;
+    }
+    console.log(req.body)
+    delete req.body.oldpassword;
+    delete req.body.oldpassword2;
+    console.log(req.body)
+    
+
+    
+    // Update the user with data in the request body
+    await User.findByIdAndUpdate({_id : user._id}, req.body).then(async function(user){
+        await fetchController.userfromUserID(req.body.userID).then(async function(newuser){
+            console.log("got here")
+            newuser.hasErrors = "False"
+            res.send(newuser);
+        });
+    }).catch(next);
 }
 
 exports.passgen = async(password) =>{
