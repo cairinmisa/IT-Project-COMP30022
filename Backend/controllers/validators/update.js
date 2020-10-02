@@ -14,26 +14,27 @@ const User = require('../../models/dbschema/user');
 // Registration Validation and Authentication
 module.exports = function validateupdateInput(data){
   let errors = {};
-
+  console.log(data)
   // Convert empty fields to an empty string so we can use validator functions
-  data.username = !isEmpty(data.userID) ? data.userID : "";
-  data.password = !isEmpty(data.password) ? data.password : "";
-  data.password2 = !isEmpty(data.password2) ?data.password2 : "";
+  data.userID = !isEmpty(data.userID) ? data.userID : "";
+  data.oldpassword = !isEmpty(data.oldpassword) ? data.oldpassword : "";
+  data.oldpassword2 = !isEmpty(data.oldpassword2) ?data.oldpassword2 : "";
+  console.log(data)
   // Implement the checks for
   // UserID Check
   if (validator.isEmpty(data.userID)) {
     errors.userIDGiven = "False";
   }
   // Password Checks
-  if (validator.isEmpty(data.password)) {
-    errors.passwordGiven = "False";
+  if (validator.isEmpty(data.oldpassword)) {
+    errors.oldpasswordGiven = "False";
   }
 
-  if (validator.isEmpty(data.password2)) {
-    errors.password2Given = "False";
+  if (validator.isEmpty(data.oldpassword2)) {
+    errors.oldpassword2Given = "False";
   }
 
-  if (!validator.equals(data.password, data.password2)) {
+  if (!validator.equals(data.oldpassword, data.oldpassword2)) {
     errors.passwordMatch = "False";
   }
 
