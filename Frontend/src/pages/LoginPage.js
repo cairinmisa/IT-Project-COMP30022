@@ -9,7 +9,8 @@ import {Redirect} from 'react-router-dom';
 class LoginPage extends Component {
   render() {
     if (UserStore.isLoggedIn) {
-      return  <Redirect  to="/" />
+      this.props.history.push('/');
+      window.location.reload(false);
     } else {
       return (
         <div className="app">

@@ -21,16 +21,16 @@ class EditFieldModal extends React.Component {
     }
 
     handleResponse(response) {
-        console.log(response);
         // Modifying success
         if(!response.data.hasErrors) {
             // Submit if everything went smoooth
             this.props.onSubmit();
 
             // Also force app reload so data is up to date
-            console.log(response.data);
-            //window.location.reload(false);
+            localStorage.setItem("emailAddress", response.data.emailAddress);
+            window.location.reload(false);
         } else if(response.data.hasErrors) {
+            alert("An error has occured.");
             this.resetForm();
         }
     }
