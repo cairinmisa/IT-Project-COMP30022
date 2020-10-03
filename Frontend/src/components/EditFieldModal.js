@@ -28,7 +28,8 @@ class EditFieldModal extends React.Component {
             this.props.onSubmit();
 
             // Also force app reload so data is up to date
-            window.location.reload(false);
+            console.log(response.data);
+            //window.location.reload(false);
         } else if(response.data.hasErrors) {
             this.resetForm();
         }
@@ -55,13 +56,18 @@ class EditFieldModal extends React.Component {
             } else if(whichField === "Username") {
                 valueModifying = "username";
             } else if(whichField === "Date of Birth") {
-                valueModifying = "dob";
+                valueModifying = "dOB";
+            } else if(whichField === "Password") {
+                valueModifying = "password";
             }
             
             // Run check to server
             await axios({
                 method: 'put',
                 url:  host+'/profile/update',
+                headers: {
+                    "Authorization": "Bearer " + UserStore.token
+                },
                 data: {
                     userID: UserStore.user.userID,
                     oldpassword: password,
