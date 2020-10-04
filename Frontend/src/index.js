@@ -11,6 +11,15 @@ import UserStore from "./stores/UserStore";
 async function setupApp() {
   const token = localStorage.getItem("token");
   const emailAddress = localStorage.getItem("emailAddress");
+
+  // Check if jwt has expired
+  if(token != null) {
+    var decoded = jwt_decode(token);
+    if(Date.now()/1000 > decoded.exp) {
+      localStorage.clear();
+      return;
+    } 
+  }
   
   // If email address of user isn't null then grab user data
   if(emailAddress != null){
@@ -22,20 +31,13 @@ async function setupApp() {
       }
       })
       .then(response => {
-        console.log(response.data);
-        // Check if jwt has expired
-        var decoded = jwt_decode(token);
-        if(Date.now()/1000 > decoded.exp) {
-          localStorage.clear();
-        } 
-        else {
-          UserStore.user = response.data;
-          UserStore.isLoggedIn = true;
-          UserStore.token = token;
-        }
+        UserStore.user = response.data;
+        UserStore.isLoggedIn = true;
+        UserStore.token = token;
       })
       .catch(response => {
-        console.log(response);
+        console.log("Unable to find server or an unknown error has occured. Wiping Local Storage.");
+        localStorage.clear();
       });
   }
 
