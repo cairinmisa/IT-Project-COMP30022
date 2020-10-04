@@ -42,6 +42,10 @@ class EditFieldModal extends React.Component {
                 alert("Password is incorrect.");
             } if(response.data.emailExists === "True"){
                 alert("Email already exists.");
+            } if(response.data.passwordLength === "False"){
+                alert("Password must be 6-20 characters.");
+            } if(response.data.emailValid === "False"){
+                alert("Email not valid.");
             }
             this.resetForm();
         }
