@@ -30,7 +30,19 @@ class EditFieldModal extends React.Component {
             localStorage.setItem("emailAddress", response.data.emailAddress);
             window.location.reload(false);
         } else if(response.data.hasErrors) {
-            alert("An error has occured.");
+            if(response.data.usernameExists === "True"){
+                alert("Username already exists.");
+            } if(response.data.oldPasswordGiven === "False"){
+                alert("Please provide your password.");
+            } if(response.data.oldPassword2Given === "False"){
+                alert("Please confirm your password.");
+            } if(response.data.passwordMatch === "False"){
+                alert("Passwords do not match.");
+            } if(response.data.incorrectPassword === "True"){
+                alert("Password is incorrect.");
+            } if(response.data.emailExists === "True"){
+                alert("Email already exists.");
+            }
             this.resetForm();
         }
     }
