@@ -92,6 +92,48 @@ class EditFieldModal extends React.Component {
         }
     }
 
+    handleDeleteResponse(response) {
+        console.log(response);
+        // Modifying success
+        if(response.data.hasErrors === "False") {
+            // Send the user back to login page
+            localStorage.clear();
+            window.location.reload(false);
+        } else if (response.data.hasErrors === "True") {
+            if(response.data.passwordGiven === "False"){
+                alert("Please enter your password.");
+            } if(response.data.password2Given === "False"){
+                alert("Please confirm your password.");
+            } if(response.data.passwordMatch === "False"){
+                alert("Passwords do not match.");
+            } if(response.data.passwordIncorrect === "True"){
+                alert("Password is incorrect.");
+            }
+        }
+    }
+
+    deleteUser(password, password2) {
+        if(password != "" && password2 != "") {
+            axios({
+                method: 'delete',
+                url:  host+'/profile/',
+                headers: {
+                    "Authorization": "Bearer " + UserStore.token
+                },
+                data: {
+                    password: password,
+                    password2: password2,
+                    emailAddress: UserStore.user.emailAddress
+                }
+                })
+                .then(response => this.handleDeleteResponse(response))
+                .catch(response => {
+                    console.log(response);
+                    alert("An unknown error has occured.");
+                });
+        }
+    }
+
     render() {
         if(!this.props.show) {
             this.resetModal = false;
@@ -103,37 +145,67 @@ class EditFieldModal extends React.Component {
             this.state.password2 = null;
             this.resetModal = true;
         }
-        return (
-            <div className="greyOutBG">
-                <div className="modal">
-                    <button className="closeBtn" onClick={()=> this.props.onClose()}>X</button>
-                    <div className="modal-content">
-                        <div>{this.props.children}</div>
-                        <div>
-                            <InputField
-                                type={this.props.fieldType}
-                                placeholder={this.props.whichField}
-                                value={this.state.input ? this.state.input : ""}
-                                onChange={(val) => this.setState({input:val})}
-                            ></InputField>
-                            <InputField
-                                type="password"
-                                placeholder={this.props.whichField === "Password" ? "Old Password" : "Password"}
-                                value={this.state.password ? this.state.password : ""}
-                                onChange={(val) => this.setState({password:val})}
-                            ></InputField>
-                            <InputField
-                                type="password"
-                                placeholder={this.props.whichField === "Password" ? "Confirm Old Password" : "Confirm Password"}
-                                value={this.state.password2 ? this.state.password2 : ""}
-                                onChange={(val) => this.setState({password2:val})}
-                            ></InputField>
-                            <button onClick={()=> this.submitValue(this.props.whichField, this.state.input, this.state.password, this.state.password2)}>Submit</button>
+        if(this.props.whichField === "Delete Account") {
+            return (
+                <div className="greyOutBG">
+                    <div className="modal">
+                        <button className="closeBtn" onClick={()=> this.props.onClose()}>X</button>
+                        <div className="modal-content">
+                            <h2>Delete Account.</h2>
+                            <div>
+                                <p>This process cannot be reversed.</p>
+                                <InputField
+                                    type="password"
+                                    placeholder={this.props.whichField === "Password" ? "Old Password" : "Password"}
+                                    value={this.state.password ? this.state.password : ""}
+                                    onChange={(val) => this.setState({password:val})}
+                                ></InputField>
+                                <InputField
+                                    type="password"
+                                    placeholder={this.props.whichField === "Password" ? "Confirm Old Password" : "Confirm Password"}
+                                    value={this.state.password2 ? this.state.password2 : ""}
+                                    onChange={(val) => this.setState({password2:val})}
+                                ></InputField>
+                                <button onClick={()=> this.deleteUser(this.state.password,this.state.password2)}>Confirm</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
+        else{
+            return (
+                <div className="greyOutBG">
+                    <div className="modal">
+                        <button className="closeBtn" onClick={()=> this.props.onClose()}>X</button>
+                        <div className="modal-content">
+                            <div>{this.props.children}</div>
+                            <div>
+                                <InputField
+                                    type={this.props.fieldType}
+                                    placeholder={this.props.whichField}
+                                    value={this.state.input ? this.state.input : ""}
+                                    onChange={(val) => this.setState({input:val})}
+                                ></InputField>
+                                <InputField
+                                    type="password"
+                                    placeholder={this.props.whichField === "Password" ? "Old Password" : "Password"}
+                                    value={this.state.password ? this.state.password : ""}
+                                    onChange={(val) => this.setState({password:val})}
+                                ></InputField>
+                                <InputField
+                                    type="password"
+                                    placeholder={this.props.whichField === "Password" ? "Confirm Old Password" : "Confirm Password"}
+                                    value={this.state.password2 ? this.state.password2 : ""}
+                                    onChange={(val) => this.setState({password2:val})}
+                                ></InputField>
+                                <button onClick={()=> this.submitValue(this.props.whichField, this.state.input, this.state.password, this.state.password2)}>Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
     }
 }
 

@@ -47,34 +47,43 @@ class ProfilePage extends Component {
     };
 
     render() {
-        return (
-            <div className="accountForm">
-                <div className="accountForm-content"><h1>👨‍💼 Manage your account 👩‍💼</h1>
-                    <p className="medium"><span className="bold">First name:</span> {this.capitaliseName(UserStore.user.firstName)}<button onClick={() => this.showEditModal("First Name", UserStore.user.firstName, "text")}>Edit</button></p> 
-                    <p className="medium"><span className="bold">Last name:</span> {this.capitaliseName(UserStore.user.lastName)}<button onClick={() => this.showEditModal("Last Name", UserStore.user.lastName, "text")}>Edit</button></p> 
-                    <p className="medium"><span className="bold">Username:</span> {UserStore.user.username}<button onClick={() => this.showEditModal("Username", UserStore.user.username, "text")}>Edit</button></p>
-                    <p className="medium"><span className="bold">Email</span> {UserStore.user.emailAddress}<button onClick={() => this.showEditModal("Email", UserStore.user.emailAddress, "text")}>Edit</button></p>
-                    <p className="medium"><span className="bold">Date of birth:</span> {UserStore.user.dOB ? UserStore.user.dOB : "Not Specified"}<button onClick={() => this.showEditModal("Date of Birth", UserStore.user.dOB, "date")}>Edit</button></p>
-                    <SubmitButton
-                    text="Change Password" derivedClass="whiteBG"
-                    onClick={() => this.showEditModal("Password", "", "password")}
-                    ></SubmitButton>
-                    <SubmitButton
-                    text="Logout" derivedClass="redBG"
-                    onClick={() => this.doLogout()}
-                    ></SubmitButton>
+        if(UserStore.user == null){
+            this.props.history.push('/login');
+            window.location.reload(false);
+        } else{ 
+            return (
+                <div className="accountForm">
+                    <div className="accountForm-content"><h1>👨‍💼 Manage your account 👩‍💼</h1>
+                        <p className="medium"><span className="bold">First name:</span> {this.capitaliseName(UserStore.user.firstName)}<button onClick={() => this.showEditModal("First Name", UserStore.user.firstName, "text")}>Edit</button></p> 
+                        <p className="medium"><span className="bold">Last name:</span> {this.capitaliseName(UserStore.user.lastName)}<button onClick={() => this.showEditModal("Last Name", UserStore.user.lastName, "text")}>Edit</button></p> 
+                        <p className="medium"><span className="bold">Username:</span> {UserStore.user.username}<button onClick={() => this.showEditModal("Username", UserStore.user.username, "text")}>Edit</button></p>
+                        <p className="medium"><span className="bold">Email</span> {UserStore.user.emailAddress}<button onClick={() => this.showEditModal("Email", UserStore.user.emailAddress, "text")}>Edit</button></p>
+                        <p className="medium"><span className="bold">Date of birth:</span> {UserStore.user.dOB ? UserStore.user.dOB : "Not Specified"}<button onClick={() => this.showEditModal("Date of Birth", UserStore.user.dOB, "date")}>Edit</button></p>
+                        <SubmitButton
+                        text="Change Password" derivedClass="whiteBG"
+                        onClick={() => this.showEditModal("Password", "", "password")}
+                        ></SubmitButton>
+                        <SubmitButton
+                        text="Delete Account" derivedClass="whiteBG"
+                        onClick={() => this.showEditModal("Delete Account", "", "")}
+                        ></SubmitButton>
+                        <SubmitButton
+                        text="Logout" derivedClass="redBG"
+                        onClick={() => this.doLogout()}
+                        ></SubmitButton>
+                    </div>
+                    <EditFieldModal
+                        fieldType={this.state.editFieldType} 
+                        prevInput={this.state.fieldPrevValue} 
+                        whichField={this.state.whichField} 
+                        onSubmit={this.submitEditModal} 
+                        onClose={this.closeEditModal} 
+                        show={this.state.showEdit}>
+                        <h2>Enter new {this.state.whichField}.</h2>
+                    </EditFieldModal>
                 </div>
-                <EditFieldModal
-                    fieldType={this.state.editFieldType} 
-                    prevInput={this.state.fieldPrevValue} 
-                    whichField={this.state.whichField} 
-                    onSubmit={this.submitEditModal} 
-                    onClose={this.closeEditModal} 
-                    show={this.state.showEdit}>
-                    <h2>Enter new {this.state.whichField}.</h2>
-                </EditFieldModal>
-            </div>
-        );
+            );
+        }
     }
 }
 

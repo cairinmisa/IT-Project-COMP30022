@@ -31,9 +31,14 @@ async function setupApp() {
       }
       })
       .then(response => {
-        UserStore.user = response.data;
-        UserStore.isLoggedIn = true;
-        UserStore.token = token;
+        if(response.data.hasErrors === "False"){
+          UserStore.user = response.data;
+          UserStore.isLoggedIn = true;
+          UserStore.token = token;
+        } else if (response.data.hasErrors === "True") {
+          // User may have been deleted so clear storage
+          localStorage.clear();
+        }
       })
       .catch(response => {
         console.log("Unable to find server or an unknown error has occured. Wiping Local Storage.");
