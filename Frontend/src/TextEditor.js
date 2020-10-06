@@ -7,12 +7,13 @@ import {Link} from "react-router-dom";
 import UserStore from "./stores/UserStore";
 import {Redirect} from 'react-router-dom';
 import Axios from "axios";
+import {host} from "./stores/Settings"
 import LoginForm from "./pages/LoginForm.js";
 
 
 export default class TextEditor extends Component {
   state = {
-    userPortfolios : ["This is portfolio 1", "This is portfolio 2", "This is portfolio 3"], //dummy
+    userPortfolios : [[]],
     currentTemplate : ""
   }
   
@@ -33,18 +34,38 @@ export default class TextEditor extends Component {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+  getPorfolios(userId){
+    Axios({
+      method: 'post',
+      url:  host+'/eportfolio/userfetch', 
+      headers: {
+        Authorization : UserStore.token
+      },
+      data: {
+        userID : userId
+      }
+    })
+    .then(response => {
+      let portfolios = []
+      for(let i=0;i<response.data.length;i++){
+        portfolios[i] = [response.data[i].data,response.data[i].title]
+      }
+      this.setState({userPortfolios : portfolios})
+    })
+    .catch(response => {
+      console.log(response)
+    })
+  }
+
+  componentDidMount(){
+    this.getPorfolios(UserStore.user.userID)
+  }
+
   render() {
     if(UserStore.user == undefined){
       return <Redirect  to="/login" />
     }
     else{
-      await axios({
-        method: 'post',
-        url:  host+'/profile/login',
-        data: {
-          emailAddress: LoginForm.user.emailAddress,
-        }
-      })
       return (
         <div className="text-editor">
           <div className="editorNavBar">
@@ -62,7 +83,7 @@ export default class TextEditor extends Component {
               <p className="bold">Welcome {this.capitaliseName(UserStore.user.firstName)} </p>
               <p className="bold">Your folios:</p>
               <ul>
-                  {this.state.userPortfolios.map((portfolio) => <li onClick = {() => this.handleClick(portfolio)}>{portfolio}</li>)}
+                  {this.state.userPortfolios.map((portfolio) => <li onClick = {() => this.handleClick(portfolio[0])}>{portfolio[1]}</li>)}
               </ul>
               <p className="bold">Templates</p>
               <ul>
