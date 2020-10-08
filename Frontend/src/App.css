@@ -38,6 +38,16 @@
   color: var(--scheme-aqua);
 }
 
+.whiteBG {
+  background-color: var(--scheme-white);
+  color: var(--scheme-black);
+}
+
+.redBG {
+  background-color: var(--scheme-red);
+  color: var(--scheme-white);
+}
+
 body {
   font-size: 15px;
   background-color: var(--scheme-blue);
@@ -67,12 +77,25 @@ h3 {
   font-family: neue-montreal-regular, helvetica;
 }
 
+button {
+  cursor: pointer;
+}
+
 input:focus {
   outline-width: 0;
 }
 
 .clickable {
   cursor: pointer;
+}
+
+.greyOutBG {
+  position: absolute;
+  top:0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(200, 200, 200, 0.8);
+  z-index: 1;
 }
 
 .text-editor {
@@ -268,6 +291,95 @@ div {
   padding-left: 20px;
 }
 
+.modal {
+  width: 500px;
+  height: 250px;
+  position: absolute;
+  left:50%;
+  top:50%;
+  transform: translate(-50%,-50%);
+  border:solid;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.modal-content {
+  width: 75%;;
+  position:absolute;
+  top:50%;
+  left: 50%;
+  transform:translate(-50%,-50%);
+}
+
+.modal .closeBtn {
+  position:absolute;
+  top:5px;
+  right: 10px;
+  width: 40px;
+  height: 28px;
+  background-color: var(--scheme-white);
+  color: var(--scheme-black);
+  padding-right: 6px;
+}
+
+.modal button {
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 28px;
+  font-family: neue-montreal-bold, helvetica;
+  height: 38px;
+  width: 100%;
+  margin: 5px 0 0 0;
+  background-color: var(--scheme-red);
+  color: white;
+  font-size: 17px;
+}
+
+.modal h2 {
+  margin: 0 0 5px 0;
+}
+
+.modal input {
+  margin: 5px 0 5px 0;
+}
+
+.accountForm {
+  height: 71vh;
+  width: 100%;
+}
+
+.accountForm-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 470px;
+}
+
+.accountForm-content h1 {
+  margin: 0 0 10px 0;
+}
+
+.accountForm-content p {
+  font-size: 24px;
+  margin: 0 0 10px 0;
+}
+
+.accountForm-content button {
+  margin-left: 10px;
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 28px;
+  font-family: neue-montreal-medium, helvetica;
+  font-size: 17px;
+  width: 50px;
+  margin-bottom: 10px;
+}
+
+.accountForm-content .submitButton {
+  margin-bottom: 10px;
+}
+
 .loginForm {
   height: 70vh;
   width: 100%;
@@ -365,11 +477,10 @@ div {
 
 .submitButton button {
   height: 38px;
-  background-color: var(--scheme-red);
-  color: var(--scheme-white);
   width: 100%;
   font-family: neue-montreal-bold, helvetica;
   font-size: 17px;
+  margin: 0;
 }
 
 .templateList li {

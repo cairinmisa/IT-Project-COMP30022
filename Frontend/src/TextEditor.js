@@ -43,7 +43,7 @@ export default class TextEditor extends Component {
             </div>
             <div className="rightAlign">
               <Link to = "/template" >Templates</Link>{" "}|{" "}
-              <Link to = "/profile" >Profile</Link>{" "}|{" "}
+              <Link to = "/profile" >{this.capitaliseName(UserStore.user.firstName)}</Link>{" "}|{" "}
               <Link to = "" >Help</Link>
             </div>
           </div>

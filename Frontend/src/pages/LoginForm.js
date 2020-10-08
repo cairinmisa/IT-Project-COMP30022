@@ -44,27 +44,15 @@ class LoginForm extends Component {
   async handleResponse(response) {
     //handle success
     if(!response.data.hasErrors) {
+      // Store the received token (take the actual token and not the "Bearer" )
+      UserStore.token = response.data.token.split(" ")[1];
+
+      // Set the local storage of user
+      localStorage.setItem("token", UserStore.token);
+      localStorage.setItem("emailAddress", this.state.email);
+
+      // Update login status to force reload
       UserStore.isLoggedIn = true;
-      UserStore.token = response.data.token;
-
-      // Get username from token
-      await axios({
-        method: 'get',
-        url: host+'/profile/findUser',
-        params: {
-          emailAddress: this.state.email
-        }
-        })
-        .then(response => {
-          UserStore.user = response.data;
-
-          // Set local storage
-          localStorage.setItem("user", JSON.stringify(UserStore.user));
-          localStorage.setItem("token", UserStore.token);
-        })
-        .catch(response => {
-          console.log(response);
-        });
     }
     else if (response.data.hasErrors){
       if(response.data.emailnotFound === "True"){
@@ -140,7 +128,7 @@ class LoginForm extends Component {
             onChange={(val) => this.setLimitedInputValue("password", val)}
           ></InputField>
           <SubmitButton
-            text="Continue"
+            text="Continue" derivedClass="redBG"
             disabled={this.state.buttonDisabled}
             onClick={() => this.doLogin()}
           ></SubmitButton>
