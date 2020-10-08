@@ -7,8 +7,7 @@ import {Link} from "react-router-dom";
 import UserStore from "./stores/UserStore";
 import {Redirect} from 'react-router-dom';
 import Axios from "axios";
-import {host} from "./stores/Settings"
-import LoginForm from "./pages/LoginForm.js";
+import {host} from "./stores/Settings";
 
 
 export default class TextEditor extends Component {
@@ -22,16 +21,36 @@ export default class TextEditor extends Component {
   }
 
   handleClick(templateClicked) {
-    console.log(templateClicked);
     this.setState({currentTemplate : templateClicked})
   }
-
   resetData(){
     this.setState({currentTemplate : ""})
   }
 
   capitaliseName(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  savePortfolios(userId){
+    Axios({
+      method: 'post',
+      url:  host+'/eportfolio/create', 
+      headers: {
+        Authorization : UserStore.token
+      },
+      data: {
+        userID : userId,
+        title : "TestingSave",
+        dateCreated : Date().toLocaleString(),
+        data : this.state.currentTemplate
+      }
+    })
+    .then(response => {
+      console.log(response)
+    })
+    .catch(response => {
+      console.log(response)
+    }) 
   }
 
   getPorfolios(userId){
@@ -91,6 +110,7 @@ export default class TextEditor extends Component {
                   <li onClick = {() => this.handleClick(Diary)}>Diary</li>
               </ul>
               <p className="medium clickable" onClick = {() => this.resetData()}><span className="green">+</span> Create new</p>
+              <p className="medium clickable" onClick = {() => this.savePortfolios(UserStore.user.userID)}>Save Eportfolio</p>
             </div>
           </div>
           <div className="editorComponent">
@@ -101,6 +121,11 @@ export default class TextEditor extends Component {
                 // You can store the "editor" and use when it is needed.
                 console.log("Editor is ready to use!", editor);
               }}
+              onChange = { (event, editor) => {
+                const data = editor.getData();
+                this.setState({currentTemplate : data})
+              }
+            }
             />
             <div class="editorBorder"></div>
           </div>
