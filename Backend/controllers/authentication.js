@@ -72,6 +72,10 @@ exports.update = async (req,res,next) =>{
     
     // Checks new email is valid
     if(req.body.emailAddress != null){
+        if (!validator.isEmail(req.body.emailAddress)) {
+            return res.send({emailValid : "False", hasErrors : "True"});
+          }
+        
         if(await fetchController.emailExists(req.body.emailAddress)){
             return res.send({emailExists : "True", hasErrors : "True"})
         }
@@ -79,11 +83,16 @@ exports.update = async (req,res,next) =>{
     // Check new username is valid
     if(req.body.username != null){
         if(await fetchController.usernameExists(req.body.username)){
-            return res.send({usernameExists : "True", hasErrors : "True"})
+            return res.send({userExists : "True", hasErrors : "True"})
         }
     }
     // Hash the new password if provided
     if(req.body.password != null){
+        console.log(req.body.password);
+        console.log(validator.isLength(req.body.password, { min: 6, max: 20}))
+        if (!validator.isLength(req.body.password, { min: 6, max: 20})) {
+            return res.send({passwordLength : "False", hasErrors : "True"})
+          }
         const hashedPassword = await this.passgen(req.body.password);
         req.body.password = hashedPassword;
     }
