@@ -13,7 +13,7 @@ import LoginForm from "./pages/LoginForm.js";
 
 export default class TextEditor extends Component {
   state = {
-    userPortfolios : [[]],
+    userPortfolios : [],
     currentTemplate : ""
   }
   
@@ -39,7 +39,7 @@ export default class TextEditor extends Component {
       method: 'post',
       url:  host+'/eportfolio/userfetch', 
       headers: {
-        Authorization : UserStore.token
+        Authorization : "Bearer " + UserStore.token
       },
       data: {
         userID : userId
