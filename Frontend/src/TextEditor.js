@@ -8,11 +8,13 @@ import UserStore from "./stores/UserStore";
 import {Redirect} from 'react-router-dom';
 import Axios from "axios";
 import {host} from "./stores/Settings";
+import CreateNew from "./components/CreateNew";
 
 
 export default class TextEditor extends Component {
   state = {
     userPortfolios : [],
+    displayCreate : false,
     currentTemplate : ""
   }
   
@@ -23,8 +25,9 @@ export default class TextEditor extends Component {
   handleClick(templateClicked) {
     this.setState({currentTemplate : templateClicked})
   }
-  resetData(){
+  createNew(){
     this.setState({currentTemplate : ""})
+    this.setState({displayCreate : true})
   }
 
   capitaliseName(string) {
@@ -36,7 +39,7 @@ export default class TextEditor extends Component {
       method: 'post',
       url:  host+'/eportfolio/create', 
       headers: {
-        Authorization : UserStore.token
+        Authorization : "Bearer" + UserStore.token
       },
       data: {
         userID : userId,
@@ -53,7 +56,7 @@ export default class TextEditor extends Component {
     }) 
   }
 
-  getPorfolios(userId){
+  getPortfolios(userId){
     Axios({
       method: 'post',
       url:  host+'/eportfolio/userfetch', 
@@ -77,7 +80,9 @@ export default class TextEditor extends Component {
   }
 
   componentDidMount(){
-    this.getPorfolios(UserStore.user.userID)
+    if(UserStore.user != undefined){
+      this.getPortfolios(UserStore.user.userID)
+    }
   }
 
   render() {
@@ -109,7 +114,8 @@ export default class TextEditor extends Component {
                   <li onClick = {() => this.handleClick(Resume)}>Resume</li>
                   <li onClick = {() => this.handleClick(Diary)}>Diary</li>
               </ul>
-              <p className="medium clickable" onClick = {() => this.resetData()}><span className="green">+</span> Create new</p>
+              <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
+              {this.state.displayCreate ? <CreateNew/> : null}
               <p className="medium clickable" onClick = {() => this.savePortfolios(UserStore.user.userID)}>Save Eportfolio</p>
             </div>
           </div>
@@ -118,7 +124,6 @@ export default class TextEditor extends Component {
               editor={BalloonEditor}
               data= {this.state.currentTemplate}
               onInit={(editor) => {
-                // You can store the "editor" and use when it is needed.
                 console.log("Editor is ready to use!", editor);
               }}
               onChange = { (event, editor) => {
