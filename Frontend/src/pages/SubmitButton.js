@@ -6,7 +6,7 @@ class SubmitButton extends Component {
     return (
       <div className="submitButton">
         <button
-          className="btn"
+          className={"btn " + this.props.derivedClass}
           disable={this.props.disabled}
           onClick={() => this.props.onClick()}
         >

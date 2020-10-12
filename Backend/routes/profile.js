@@ -117,7 +117,7 @@ router.get('/findUser/', async function(req,res,next){
 // GET ALL USERS
 router.get('/',async function(req,res,next){
 
-    userlist = await fetchController.getAll(req,res,next);
+    userlist = await fetchController.getAllUsers(req,res,next);
     res.send(userlist);
 });
 

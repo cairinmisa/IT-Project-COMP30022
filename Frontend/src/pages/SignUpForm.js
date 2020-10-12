@@ -188,7 +188,7 @@ class SignUpForm extends Component {
               onChange={(val) => this.setInputValue("dob", val)}
             ></InputField>
           <SubmitButton
-            text="Sign Up"
+            text="Sign Up" derivedClass="redBG"
             disabled={this.state.buttonDisabled}
             onClick={() => this.doSignUp()}
           ></SubmitButton>
