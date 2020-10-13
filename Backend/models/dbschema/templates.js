@@ -6,11 +6,12 @@ var templateSchema = new Schema({
     dateCreated : {type : Date, required: true},
     dateUpdated : {type : Date, required: true},
     public : {type : Boolean, required : true},
-    categories : {type : String, required : true},
+    category : {type : String, required : true},
     version : Number,
     comments : String,
     title : String,
     rating : Number,
+    ratedusers : [Number],
 }, {collection : 'Templates'});
 
 const Template = mongoose.model('template', templateSchema);

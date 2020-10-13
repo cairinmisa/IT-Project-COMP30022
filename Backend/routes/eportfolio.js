@@ -1,15 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const keys = require('../config/keys');
 const passport = require('passport');
 
 // Load controllers
 const eportController = require('../controllers/eport');
 const fetchController = require('../controllers/fetch');
-const errorController = require('../controllers/error');
-const userController = require('../controllers/user');
 
 // Load input validation
 const validatenewEportInput = require('../controllers/validators/newEport');
