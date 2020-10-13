@@ -137,16 +137,21 @@ input:focus {
 }
 
 .editorComponent {
-  border: solid;
-  border-radius: 5px;
-  border-width: 2px;
-  border-color: #999;
   margin-top: 50px;
   width: 78%;
   float:right;
   margin-right: 2%;
-  overflow-y:scroll;
   height: 85%;
+}
+
+.editor-container {
+  border: solid;
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: #999;
+  width: 100%;
+  overflow-y:scroll;
+  height: 100%;
 }
 
 .editorBorder {
@@ -165,6 +170,11 @@ input:focus {
 .editorComponent h2 {
   border-bottom: solid;
   border-width: 2px;
+}
+
+.workspace-title {
+  float: left;
+  margin-bottom: 10px;
 }
 
 .userPanel {
