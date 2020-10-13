@@ -22,6 +22,7 @@ export default class TextEditor extends Component {
   
   constructor(props){
     super(props)
+    this.closeCreateNew = this.closeCreateNew.bind(this)
   }
 
   handleClick(templateClicked, eportID, title) {
@@ -31,6 +32,11 @@ export default class TextEditor extends Component {
       currentTitle: title
     })
   }
+
+  closeCreateNew(){
+    this.setState({displayCreate: false})
+  }
+
 
   createNew(){
     this.setState({currentTemplate : ""})
@@ -132,7 +138,7 @@ export default class TextEditor extends Component {
                   <li onClick = {() => this.handleClick(Diary)}>Diary</li>
               </ul>
               <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
-              {this.state.displayCreate ? <CreateNew/> : null}
+              {this.state.displayCreate ? <CreateNew closeCreateNew = {this.closeCreateNew} /> : null}
               <p className="medium clickable" onClick = {() => this.savePortfolios()}>Save Eportfolio</p>
             </div>
           </div>

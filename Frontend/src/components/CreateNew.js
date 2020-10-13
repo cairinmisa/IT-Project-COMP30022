@@ -8,7 +8,7 @@ class CreateNew extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    
+
     state = {
         isPublic : false,
         value : "",
@@ -39,6 +39,7 @@ class CreateNew extends Component {
                                 <option value = "isPublic">Private Portfolio</option>
                             </select>
                             <input type = "submit" value = "Submit"/>
+                            <button onClick = {this.props.closeCreateNew}>X</button>
                         </form>
                     </div>
                 </div>
