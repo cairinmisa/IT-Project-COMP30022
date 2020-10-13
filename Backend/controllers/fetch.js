@@ -1,5 +1,6 @@
 const User = require('../models/dbschema/user');
 const Eportfolio = require('../models/dbschema/eportfolio');
+const Template = require('../models/dbschema/templates');
 const errorController = require('./error');
 
 exports.getAllUsers = async (req, res, next) => {

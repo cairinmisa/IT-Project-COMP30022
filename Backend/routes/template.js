@@ -10,6 +10,16 @@ const templateController = require('../controllers/template');
 // Load input validation
 const validatenewTemplateInput = require('../controllers/validators/newTemplate');
 
+// Load Template module
+const Template = require("../models/dbschema/templates");
+
+
+// Get all templates
+router.get('/', async (req, res,next)=> {
+    await Template.find().then(function(templates){
+        res.send(templates);
+    })
+})
 
 // Create a new template
 router.post('/create',passport.authenticate('jwt', {session : false}), (req, res)=> {
@@ -24,8 +34,7 @@ router.post('/create',passport.authenticate('jwt', {session : false}), (req, res
         return res.send({unauthorizedAccess : "True", hasErrors : "True"})
       }
 
-      templateController.register(req.body);
-    res.send({"wow" : "itworked"});
+    templateController.register(req, res);
 })
 
 module.exports = router;

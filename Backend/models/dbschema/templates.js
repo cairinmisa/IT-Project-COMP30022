@@ -7,7 +7,7 @@ var templateSchema = new Schema({
     eportID : {type : Number, required : true},
     dateCreated : {type : Date, required: true},
     dateUpdated : {type : Date, required: true},
-    isPublic : {type : Boolean, required : true},
+    isPublic : {type : String, required : true},
     category : {type : String, required : true},
     comments : String,
     title : String,
