@@ -54,12 +54,10 @@ exports.register = async (req,res,next) =>{
     }
     // Create new eportfolio by copying the data from the old one
     neweportID = await eportController.copy(req.body.eportID);
-    console.log(neweportID);
     await Eportfolio.updateOne({eportID : neweportID}, {templateID : req.body.templateID});
     req.body.eportID = neweportID;
     
     // Create the new template, and respond with its details
-    console.log(req.body);
     Template.create(req.body).then(function(template){
 
         response.hasErrors = "False";
