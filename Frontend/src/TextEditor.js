@@ -108,6 +108,13 @@ export default class TextEditor extends Component {
     console.log(UserStore.token)
   }
 
+  shortenString(str, len) {
+    if(str.length > len - 3) {
+      return str.substring(0,len-3) + "...";
+    }
+    return str;
+  }
+
   render() {
     if(UserStore.user == undefined){
       return <Redirect  to="/login" />
@@ -115,6 +122,7 @@ export default class TextEditor extends Component {
     else{
       return (
         <div className="text-editor">
+          {this.state.displayCreate ? <CreateNew closeCreateNew = {this.closeCreateNew} /> : null}
           <div className="editorNavBar">
             <div className="leftAlign">
               <Link to = "/" >Home</Link>
@@ -128,37 +136,40 @@ export default class TextEditor extends Component {
           <div className="userPanel">
             <div className="panelContent">
               <p className="bold">Welcome {this.capitaliseName(UserStore.user.firstName)} </p>
+              <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
               <p className="bold">Your folios:</p>
               <ul>
-                  {this.state.userPortfolios.map((portfolio) => <li onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1])}>{portfolio[1]}</li>)}
+                  {this.state.userPortfolios.map((portfolio) => <li onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1])}>{this.shortenString(portfolio[1],23)}</li>)}
               </ul>
-              <p className="bold">Templates</p>
+              <p className="bold">Your templates:</p>
               <ul>
                   <li onClick = {() => this.handleClick(Resume)}>Resume</li>
                   <li onClick = {() => this.handleClick(Diary)}>Diary</li>
               </ul>
-              <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
-              {this.state.displayCreate ? <CreateNew closeCreateNew = {this.closeCreateNew} /> : null}
-              <p className="medium clickable" onClick = {() => this.savePortfolios()}>Save Eportfolio</p>
             </div>
           </div>
-          <div className = "bold">
-            {this.state.currentTitle ? this.state.currentTitle : null}
-          </div>
           <div className="editorComponent">
-            <CKEditor
-              editor={BalloonEditor}
-              data= {this.state.currentTemplate}
-              onInit={(editor) => {
-                console.log("Editor is ready to use!", editor);
-              }}
-              onChange = { (event, editor) => {
-                const data = editor.getData();
-                this.setState({currentTemplate : data})
+            <div className = "bold workspace-title">
+              <span>
+                {this.state.currentTitle ? this.state.currentTitle : null}
+                {" "}| <button onClick = {() => this.savePortfolios()}>Save</button>
+              </span>
+            </div>
+            <div className="editor-container">
+              <CKEditor
+                editor={BalloonEditor}
+                data= {this.state.currentTemplate}
+                onInit={(editor) => {
+                  console.log("Editor is ready to use!", editor);
+                }}
+                onChange = { (event, editor) => {
+                  const data = editor.getData();
+                  this.setState({currentTemplate : data})
+                }
               }
-            }
-            />
-            <div class="editorBorder"></div>
+              />
+              <div class="editorBorder"></div>
+            </div>
           </div>
         </div>
       );
