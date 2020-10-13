@@ -15,6 +15,8 @@ export default class TextEditor extends Component {
   state = {
     userPortfolios : [],
     displayCreate : false,
+    currentID : "",
+    currentTitle: "",
     currentTemplate : ""
   }
   
@@ -22,9 +24,14 @@ export default class TextEditor extends Component {
     super(props)
   }
 
-  handleClick(templateClicked) {
-    this.setState({currentTemplate : templateClicked})
+  handleClick(templateClicked, eportID, title) {
+    this.setState({
+      currentTemplate : templateClicked,
+      currentID : eportID,
+      currentTitle: title
+    })
   }
+
   createNew(){
     this.setState({currentTemplate : ""})
     this.setState({displayCreate : true})
@@ -34,17 +41,20 @@ export default class TextEditor extends Component {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  savePortfolios(userId){
+  savePortfolios(){
+    if(this.state.currentID == "" || this.state.currentTitle == ""){
+      alert("You must give your portfolio a title before it can be created")
+      return;
+    }
     Axios({
-      method: 'post',
-      url:  host+'/eportfolio/create', 
+      method: 'put',
+      url:  host+'/eportfolio/save', 
       headers: {
-        Authorization : "Bearer" + UserStore.token
+        Authorization : "Bearer " + UserStore.token
       },
       data: {
-        userID : userId,
-        title : "TestingSave",
-        dateCreated : Date().toLocaleString(),
+        dateUpdated : Date().toLocaleString(),
+        eportID : this.state.currentID.toString(),
         data : this.state.currentTemplate
       }
     })
@@ -57,6 +67,7 @@ export default class TextEditor extends Component {
   }
 
   getPortfolios(userId){
+    let templateCount = 0
     Axios({
       method: 'post',
       url:  host+'/eportfolio/userfetch', 
@@ -70,9 +81,14 @@ export default class TextEditor extends Component {
     .then(response => {
       let portfolios = []
       for(let i=0;i<response.data.length;i++){
-        portfolios[i] = [response.data[i].data,response.data[i].title]
+        if(response.data[i].templateID != null){
+          templateCount++;
+          continue;
+        }
+        portfolios[i-templateCount] = [response.data[i].data,response.data[i].title,response.data[i].eportID]
       }
       this.setState({userPortfolios : portfolios})
+      console.log(response)
     })
     .catch(response => {
       console.log(response)
@@ -83,6 +99,7 @@ export default class TextEditor extends Component {
     if(UserStore.user != undefined){
       this.getPortfolios(UserStore.user.userID)
     }
+    console.log(UserStore.token)
   }
 
   render() {
@@ -107,7 +124,7 @@ export default class TextEditor extends Component {
               <p className="bold">Welcome {this.capitaliseName(UserStore.user.firstName)} </p>
               <p className="bold">Your folios:</p>
               <ul>
-                  {this.state.userPortfolios.map((portfolio) => <li onClick = {() => this.handleClick(portfolio[0])}>{portfolio[1]}</li>)}
+                  {this.state.userPortfolios.map((portfolio) => <li onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1])}>{portfolio[1]}</li>)}
               </ul>
               <p className="bold">Templates</p>
               <ul>
@@ -116,8 +133,11 @@ export default class TextEditor extends Component {
               </ul>
               <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
               {this.state.displayCreate ? <CreateNew/> : null}
-              <p className="medium clickable" onClick = {() => this.savePortfolios(UserStore.user.userID)}>Save Eportfolio</p>
+              <p className="medium clickable" onClick = {() => this.savePortfolios()}>Save Eportfolio</p>
             </div>
+          </div>
+          <div className = "bold">
+            {this.state.currentTitle ? this.state.currentTitle : null}
           </div>
           <div className="editorComponent">
             <CKEditor
