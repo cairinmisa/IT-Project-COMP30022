@@ -335,6 +335,20 @@ div {
   font-size: 17px;
 }
 
+.modal select {
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 28px;
+  font-family: neue-montreal-bold, helvetica;
+  height: 38px;
+  width: 100%;
+  padding-left: 15px;
+  background-color: var(--scheme-white);
+  font-size: 17px;
+  cursor: pointer;
+  margin: 0 0 5px 0;
+}
+
 .modal h2 {
   margin: 0 0 5px 0;
 }
