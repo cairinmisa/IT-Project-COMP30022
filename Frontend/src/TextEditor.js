@@ -129,6 +129,7 @@ export default class TextEditor extends Component {
           <div className="userPanel">
             <div className="panelContent">
               <p className="bold">Welcome {this.capitaliseName(UserStore.user.firstName)} </p>
+              <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
               <p className="bold">Your folios:</p>
               <ul>
                   {this.state.userPortfolios.map((portfolio) => <li onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1])}>{portfolio[1]}</li>)}
@@ -138,7 +139,6 @@ export default class TextEditor extends Component {
                   <li onClick = {() => this.handleClick(Resume)}>Resume</li>
                   <li onClick = {() => this.handleClick(Diary)}>Diary</li>
               </ul>
-              <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
               <p className="medium clickable" onClick = {() => this.savePortfolios()}>Save Eportfolio</p>
             </div>
           </div>
