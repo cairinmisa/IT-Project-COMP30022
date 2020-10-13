@@ -115,6 +115,7 @@ export default class TextEditor extends Component {
     else{
       return (
         <div className="text-editor">
+          {this.state.displayCreate ? <CreateNew closeCreateNew = {this.closeCreateNew} /> : null}
           <div className="editorNavBar">
             <div className="leftAlign">
               <Link to = "/" >Home</Link>
@@ -138,7 +139,6 @@ export default class TextEditor extends Component {
                   <li onClick = {() => this.handleClick(Diary)}>Diary</li>
               </ul>
               <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
-              {this.state.displayCreate ? <CreateNew closeCreateNew = {this.closeCreateNew} /> : null}
               <p className="medium clickable" onClick = {() => this.savePortfolios()}>Save Eportfolio</p>
             </div>
           </div>
