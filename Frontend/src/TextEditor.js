@@ -15,6 +15,7 @@ import WorkspaceToolbar from "./components/WorkspaceToolbar";
 export default class TextEditor extends Component {
   state = {
     userPortfolios : [],
+    userTemplates : [],
     displayCreate : false,
     currentID : "",
     currentTitle: "",
@@ -117,15 +118,20 @@ export default class TextEditor extends Component {
       }
     })
     .then(response => {
-      let portfolios = []
+      let portfolios = [];
+      let templates = [];
       for(let i=0;i<response.data.length;i++){
         if(response.data[i].templateID != null){
+          templates[templateCount] = [response.data[i].data,response.data[i].title,response.data[i].eportID]
           templateCount++;
           continue;
         }
         portfolios[i-templateCount] = [response.data[i].data,response.data[i].title,response.data[i].eportID]
       }
-      this.setState({userPortfolios : portfolios})
+      this.setState({
+        userPortfolios : portfolios,
+        userTemplates : templates
+      });
       console.log(response)
     })
     .catch(response => {
@@ -212,8 +218,7 @@ export default class TextEditor extends Component {
               </ul>
               <p className="bold">Your templates:</p>
               <ul>
-                  <li onClick = {() => this.handleClick(Resume)}>Resume</li>
-                  <li onClick = {() => this.handleClick(Diary)}>Diary</li>
+                  {this.state.userTemplates.map((template) => <li onClick = {() => this.handleClick(template[0],template[2], template[1])}>{this.shortenString(template[1],23)}</li>)}
               </ul>
             </div>
           </div>
