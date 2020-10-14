@@ -58,7 +58,8 @@ export default class TextEditor extends Component {
   }
 
   componentDidMount(){
-    this.getPorfolios(UserStore.user.userID)
+    if(UserStore.user != undefined)
+      this.getPorfolios(UserStore.user.userID)
   }
 
   render() {
