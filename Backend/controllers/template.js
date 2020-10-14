@@ -9,19 +9,10 @@ const { updateOne } = require('../models/dbschema/eportfolio');
 
 
 
-exports.register = async (req,res,next) =>{
+exports.create = async (req,res,next) =>{
     //Password exists
     let response = {}
     let result = {}
-    /* TITLE CHECK
-    await Eportfolio.find({userID : req.body.userID, title : req.body.title}).then(async function(list){
-        result = list
-    });
-
-    if(result.length != 0){
-        return res.send({titleExists : "True", hasErrors : "True"})
-    }
-    */
 
     // Eportfolio Check, Checks if eportfolio already exists in db (with that userID)
     await Eportfolio.find({eportID : req.body.eportID, userID : req.body.userID}).then(async function(list){
@@ -73,4 +64,52 @@ exports.register = async (req,res,next) =>{
         }).catch(next);
 }
 
+exports.createfromTemplate = async (req,res,next) =>{
+     let response = {}
+     let result = {}
+
+     // Checks if the title already exists for the user
+     await Eportfolio.find({userID : req.body.userID, title : req.body.title}).then(async function(list){
+         result = list
+     });
+ 
+     if(result.length != 0){
+         return res.send({titleExists : "True", hasErrors : "True"})
+     }
+
+
+     if(!(req.body.isPublic == "True")){
+         req.body.isPublic = "False"
+     }
+     if(req.body.data == null){
+         req.body.data = ""
+     }
+     req.body.dateUpdated = req.body.dateCreated
+     req.body.version = 1;
+     req.body.isLatest = "True";
+     //Generate User ID based on number of documents, if already exists,
+      // keep incrementing until it does exist
+     testID = await Eportfolio.countDocuments() + 1;
+     while(1){
+           if(!await fetchController.eportExists(testID)){
+             req.body.eportID = testID;
+             break;
+           }
+           testID ++;
+     }
+         Eportfolio.create(req.body).then(function(eport){
+ 
+             response.hasErrors = "False";
+             response.eportID = eport.eportID;
+             response.isPublic = eport.isPublic;
+             response.data = eport.data;
+             response.title = eport.title;
+             response.version = eport.version;
+             response.userID = eport.userID;
+             response.dateCreated = eport.dateCreated
+             response.isLatest = eport.isLatest;
+             res.send(response);
+         }).catch(next);
+    
+}
 
