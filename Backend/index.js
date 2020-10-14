@@ -19,11 +19,9 @@ app.use(logger('dev'));
 app.use(cors());
 
 // Declaring all the routers
-const loginRouter = require('./routes/login');
 const eportfolioRouter = require('./routes/eportfolio');
 const profileRouter = require('./routes/profile');
-const templatesRouter = require('./routes/templates');
-const registerRouter = require('./routes/register');
+const templateRouter = require('./routes/template');
 
 // Middleware
 app.use(passport.initialize());
@@ -34,9 +32,7 @@ require("./config/passport")(passport);
 // Initialize routes
 app.use('/eportfolio', eportfolioRouter);
 app.use('/profile', profileRouter);
-app.use('/templates', templatesRouter);
-app.use('/register', registerRouter);
-app.use('/login', loginRouter);
+app.use('/template', templateRouter);
 
 
 
