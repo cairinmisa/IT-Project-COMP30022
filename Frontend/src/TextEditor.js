@@ -9,6 +9,7 @@ import {Redirect} from 'react-router-dom';
 import Axios from "axios";
 import {host} from "./stores/Settings";
 import CreateNew from "./components/CreateNew";
+import CreateTemplateModal from "./components/CreateTemplateModal";
 import WorkspaceToolbar from "./components/WorkspaceToolbar";
 
 
@@ -17,6 +18,7 @@ export default class TextEditor extends Component {
     userPortfolios : [],
     userTemplates : [],
     displayCreate : false,
+    displayCreateTemplate : false,
     currentID : "",
     currentTitle: "",
     currentTemplate : ""
@@ -37,12 +39,16 @@ export default class TextEditor extends Component {
   }
 
   closeCreateNew(){
-    this.setState({displayCreate: false})
+    this.setState({displayCreate: false, displayCreateTemplate: false})
   }
 
   createNew(){
     this.setState({currentTemplate : ""})
     this.setState({displayCreate : true})
+  }
+
+  showTemplateModal(){
+    this.setState({displayCreateTemplate : true})
   }
 
   // Capitalises the first element of a string
@@ -177,7 +183,7 @@ export default class TextEditor extends Component {
   }
 
   // Function for creating a template from a portfolio
-  convertPortfolio(){
+  convertPortfolio(title, publicity, category){
     Axios({
         method: 'post',
         url:  host+'/template/create', 
@@ -185,15 +191,15 @@ export default class TextEditor extends Component {
           Authorization : "Bearer " + UserStore.token
         },
         data: {
-          category: "Something",
+          category: category,
           dateCreated : Date().toLocaleString(),
-          title: "TEMPLATE FROM FOLIO",
+          title: title,
           userID : UserStore.user.userID,
-          eportID: this.state.currentID
+          eportID: this.state.currentID,
+          isPublic: publicity
         }
       })
       .then(response => {
-        console.log(response.data);
         if(response.data.hasErrors === "True") {
           if(response.data.titleGiven === "False") {
             alert("Please enter a folio name.");
@@ -209,6 +215,7 @@ export default class TextEditor extends Component {
           }
         }
         else if(response.data.hasErrors === "False"){
+          this.setState({displayCreateTemplate: false})
           this.getPortfolios(UserStore.user.userID);
         }
         console.log(response)
@@ -240,6 +247,7 @@ export default class TextEditor extends Component {
       return (
         <div className="text-editor">
           {this.state.displayCreate ? <CreateNew closeCreateNew = {this.closeCreateNew} createPortfolio = {this.createPortfolio}/> : null}
+          {this.state.displayCreateTemplate ? <CreateTemplateModal closeCreateNew = {this.closeCreateNew} createTemplate = {(title, publicity, category) => this.convertPortfolio(title, publicity, category)}/> : null}
           <div className="editorNavBar">
             <div className="leftAlign">
               <Link to = "/" >Home</Link>
@@ -269,7 +277,7 @@ export default class TextEditor extends Component {
               folioTitle = {this.state.currentTitle}
               save = {() => this.savePortfolio()}
               delete = {() => this.deletePortfolio()}
-              convert = {() => this.convertPortfolio()} 
+              convert = {() => this.showTemplateModal()} 
             />
             <div className="editor-container">
               <CKEditor
