@@ -139,17 +139,25 @@ export default class TextEditor extends Component {
         }
       })
       .then(response => {
-        this.setState({
-          currentID : response.data.eportID,
-          currentTitle : title,
-          currentTemplate : ""
-        })
+        if(response.data.hasErrors === "True") {
+          if(response.data.titleGiven === "False") {
+            alert("Please enter a folio name.");
+          }
+          else if(response.data.titleExists === "True") {
+            alert("You attempted to create a folio with a name that already exists in your account. Please enter a different name.");
+          }
+          else {
+            alert("Something crazy has occured. Please contact team DewIT");
+          }
+        }
+        else if(response.data.hasErrors === "False"){
+          window.location.reload(false);
+        }
         console.log(response)
       })
       .catch(response => {
         console.log(response)
       }) 
-      window.location.reload(false);
 }
 
   componentDidMount(){
