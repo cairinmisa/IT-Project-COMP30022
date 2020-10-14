@@ -9,6 +9,7 @@ const templateController = require('../controllers/template');
 
 // Load input validation
 const validatenewTemplateInput = require('../controllers/validators/newTemplate');
+const validatenewEportInput = require('../controllers/validators/newEport');
 
 // Load Template module
 const Template = require("../models/dbschema/templates");
@@ -38,7 +39,7 @@ router.post('/create',passport.authenticate('jwt', {session : false}), (req, res
 })
 
 // Create a new eportfolio from a template
-router.post('/create',passport.authenticate('jwt', {session : false}), (req, res)=> {
+router.post('/createFolio',passport.authenticate('jwt', {session : false}), (req, res)=> {
     // Validates necessary eport information exists
     const { errors, isValid } = validatenewEportInput(req.body);
     if (!isValid) {

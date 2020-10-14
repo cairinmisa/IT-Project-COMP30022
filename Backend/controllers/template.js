@@ -67,7 +67,14 @@ exports.create = async (req,res,next) =>{
 exports.createfromTemplate = async (req,res,next) =>{
      let response = {}
      let result = {}
-
+     // Check if the template Exists, and if it does, copy the data across
+     await Template.findOne({templateID : req.body.templateID}).then(function(template){
+         if(template==null){
+             return res.send({templateExists : "False", hasErrors : "True"});
+         } else{
+             req.body.date = template.data
+         }
+     })
      // Checks if the title already exists for the user
      await Eportfolio.find({userID : req.body.userID, title : req.body.title}).then(async function(list){
          result = list
@@ -84,6 +91,7 @@ exports.createfromTemplate = async (req,res,next) =>{
      if(req.body.data == null){
          req.body.data = ""
      }
+
      req.body.dateUpdated = req.body.dateCreated
      req.body.version = 1;
      req.body.isLatest = "True";
