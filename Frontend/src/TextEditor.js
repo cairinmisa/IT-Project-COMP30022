@@ -9,6 +9,7 @@ import {Redirect} from 'react-router-dom';
 import Axios from "axios";
 import {host} from "./stores/Settings";
 import CreateNew from "./components/CreateNew";
+import WorkspaceToolbar from "./components/WorkspaceToolbar";
 
 
 export default class TextEditor extends Component {
@@ -217,20 +218,15 @@ export default class TextEditor extends Component {
             </div>
           </div>
           <div className="editorComponent">
-            <div className = "bold workspace-title">
-              <span>
-                {this.state.currentTitle ? this.state.currentTitle : null}
-                {" "}| <button onClick = {() => this.savePortfolio()}>Save</button>
-                {" "}| <button onClick = {() => this.deletePortfolio()}>Delete</button>
-              </span>
-            </div>
+            <WorkspaceToolbar 
+              folioTitle = {this.state.currentTitle}
+              save = {() => this.savePortfolio()}
+              delete = {() => this.deletePortfolio()} 
+            />
             <div className="editor-container">
               <CKEditor
                 editor={BalloonEditor}
                 data= {this.state.currentTemplate}
-                onInit={(editor) => {
-                  console.log("Editor is ready to use!", editor);
-                }}
                 onChange = { (event, editor) => {
                   const data = editor.getData();
                   this.setState({currentTemplate : data})
