@@ -66,32 +66,38 @@ exports.create = async (req,res,next) =>{
 
 exports.createfromTemplate = async (req,res,next) =>{
      let response = {}
-     let result = {}
+    
+     // Checks if the user exists
+    if(!(await fetchController.userIDExists(req.query.userID))){
+        return res.send({hasErrors : "True", userExists : "False"})
+    }
      // Check if the template Exists, and if it does, copy the data across
-     await Template.findOne({templateID : req.body.templateID}).then(function(template){
+     await Template.findOne({templateID : req.body.templateID}).then(async function(template){
          if(template==null){
              return res.send({templateExists : "False", hasErrors : "True"});
          } else{
-             req.body.date = template.data
+             //Template does exist, find the data within the folio
+             await Eportfolio.findOne({eportID : template.eportID}).then(function(eport){
+                 console.log(eport.data);
+                req.body.data = eport.data
+             })
+             
          }
      })
+
      // Checks if the title already exists for the user
+     let result = {}
      await Eportfolio.find({userID : req.body.userID, title : req.body.title}).then(async function(list){
          result = list
      });
- 
      if(result.length != 0){
          return res.send({titleExists : "True", hasErrors : "True"})
      }
 
-
+     // Set the other default fields for the new folio
      if(!(req.body.isPublic == "True")){
          req.body.isPublic = "False"
      }
-     if(req.body.data == null){
-         req.body.data = ""
-     }
-
      req.body.dateUpdated = req.body.dateCreated
      req.body.version = 1;
      req.body.isLatest = "True";
@@ -105,8 +111,8 @@ exports.createfromTemplate = async (req,res,next) =>{
            }
            testID ++;
      }
+        // Finally create the folio and send the relevant information back
          Eportfolio.create(req.body).then(function(eport){
- 
              response.hasErrors = "False";
              response.eportID = eport.eportID;
              response.isPublic = eport.isPublic;
