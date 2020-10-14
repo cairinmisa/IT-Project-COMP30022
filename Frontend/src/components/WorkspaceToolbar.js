@@ -18,6 +18,7 @@ class WorkspaceToolbar extends Component {
                 {this.props.folioTitle ? this.props.folioTitle : null}
                 {" "}| <button onClick = {() => this.props.save()}>Save</button>
                 {" "}| <button onClick = {() => this.props.delete()}>Delete</button>
+                {" "}| <button onClick = {() => this.props.convert()}>Share as Template</button>
               </span>
             </div>
         );

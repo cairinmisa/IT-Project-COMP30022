@@ -176,6 +176,48 @@ export default class TextEditor extends Component {
       }) 
   }
 
+  // Function for creating a template from a portfolio
+  convertPortfolio(){
+    Axios({
+        method: 'post',
+        url:  host+'/template/create', 
+        headers: {
+          Authorization : "Bearer " + UserStore.token
+        },
+        data: {
+          category: "Something",
+          dateCreated : Date().toLocaleString(),
+          title: "TEMPLATE FROM FOLIO",
+          userID : UserStore.user.userID,
+          eportID: this.state.currentID
+        }
+      })
+      .then(response => {
+        console.log(response.data);
+        if(response.data.hasErrors === "True") {
+          if(response.data.titleGiven === "False") {
+            alert("Please enter a folio name.");
+          }
+          else if(response.data.titleExists === "True") {
+            alert("You attempted to create a template with a name that already exists in your account. Please enter a different name.");
+          }
+          else if(response.data.categoryGiven === "False") {
+            alert("Please enter a category.");
+          }
+          else {
+            alert("Something crazy has occured. Please contact team DewIT");
+          }
+        }
+        else if(response.data.hasErrors === "False"){
+          this.getPortfolios(UserStore.user.userID);
+        }
+        console.log(response)
+      })
+      .catch(response => {
+        console.log(response)
+      }) 
+  }
+
   componentDidMount(){
     if(UserStore.user != undefined){
       this.getPortfolios(UserStore.user.userID)
@@ -226,7 +268,8 @@ export default class TextEditor extends Component {
             <WorkspaceToolbar 
               folioTitle = {this.state.currentTitle}
               save = {() => this.savePortfolio()}
-              delete = {() => this.deletePortfolio()} 
+              delete = {() => this.deletePortfolio()}
+              convert = {() => this.convertPortfolio()} 
             />
             <div className="editor-container">
               <CKEditor
