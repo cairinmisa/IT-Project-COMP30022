@@ -85,10 +85,18 @@ router.put('/save',passport.authenticate('jwt', {session : false}), (req, res)=>
     eportController.saveEport(req,res)
 })
 
-router.get('/fetchPublic/',passport.authenticate('jwt', {session : false}), (req, res)=> {
+// Fetches all public eportfolios from a user
+router.get('/fetchPublic/',passport.authenticate('jwt', {session : false}),async (req, res)=> {
+    
+    // Checks the userID isn't null
     if(req.query.userID == null){
         return ({hasErrors : "True", userIDGiven : "False"})
     }
+    // Checks if the user exists
+    if(!(await fetchController.userIDExists(req.query.userID))){
+        return res.send({hasErrors : "True", userExists : "False"})
+    }
+    // Returns the list of the correct folios
     Eportfolio.find({userID : req.query.userID, isPublic : "True"}).then(function (folios){
         res.send(folios);
     })
