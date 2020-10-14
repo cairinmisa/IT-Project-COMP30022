@@ -38,22 +38,25 @@ export default class TextEditor extends Component {
     this.setState({displayCreate: false})
   }
 
-
   createNew(){
     this.setState({currentTemplate : ""})
     this.setState({displayCreate : true})
   }
 
+  // Capitalises the first element of a string
   capitaliseName(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  savePortfolios(){
+  // Saves folio that a user has been working on
+  async savePortfolio(){
     if(this.state.currentID == "" || this.state.currentTitle == ""){
       alert("You must give your portfolio a title before it can be created")
       return;
     }
-    Axios({
+
+    // Wait for the request to resolve before getting updated folios
+    await Axios({
       method: 'put',
       url:  host+'/eportfolio/save', 
       headers: {
@@ -71,9 +74,13 @@ export default class TextEditor extends Component {
     .catch(response => {
       console.log(response)
     }) 
-    window.location.reload(false)
+
+    // Instead of reload, get portfolios again such that user can keep editing their work
+    // Also solves issue of reloading the page on autosave (which would be annoying to have)
+    this.getPortfolios(UserStore.user.userID);
   }
 
+  // Deletes the currently selected folio
   deletePortfolio(){
     alert("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")
     Axios({
@@ -95,6 +102,7 @@ export default class TextEditor extends Component {
     window.location.reload(false)
   }
 
+  // Gets portfolios of the user
   getPortfolios(userId){
     let templateCount = 0
     Axios({
@@ -124,6 +132,7 @@ export default class TextEditor extends Component {
     })
   }
 
+  // Function for creating a folio from scratch. Sends request to server and handles errors
   createPortfolio(title, publicity){
     Axios({
         method: 'post',
@@ -158,7 +167,7 @@ export default class TextEditor extends Component {
       .catch(response => {
         console.log(response)
       }) 
-}
+  }
 
   componentDidMount(){
     if(UserStore.user != undefined){
@@ -166,6 +175,7 @@ export default class TextEditor extends Component {
     }
   }
 
+  // Appends "..." to end of string if it exceeds a specified length
   shortenString(str, len) {
     if(str.length > len - 3) {
       return str.substring(0,len-3) + "...";
@@ -210,7 +220,7 @@ export default class TextEditor extends Component {
             <div className = "bold workspace-title">
               <span>
                 {this.state.currentTitle ? this.state.currentTitle : null}
-                {" "}| <button onClick = {() => this.savePortfolios()}>Save</button>
+                {" "}| <button onClick = {() => this.savePortfolio()}>Save</button>
                 {" "}| <button onClick = {() => this.deletePortfolio()}>Delete</button>
               </span>
             </div>
