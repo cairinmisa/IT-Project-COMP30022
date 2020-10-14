@@ -132,7 +132,6 @@ exports.saveEport = async (req,res) =>{
     });
 }
 
-
 exports.delete = async (req,res) =>{
 
     let response = {}
@@ -162,4 +161,34 @@ exports.delete = async (req,res) =>{
      }
     
 }
+}
+// Returns an eportfolio with empty fields, except for data and userID
+exports.copy = async (oldeportID)=>{
+    eportInfo = {}
+    oldeport = null
+
+    // Find the old eport (Assuming it exists)
+    await Eportfolio.findOne({eportID : oldeportID}).then(async function (eport){
+        oldeport = eport;
+        console.log(oldeport)
+    });
+
+    eportInfo.data = oldeport.data;
+    eportInfo.userID = oldeport.userID;
+    eportInfo.title = "";
+
+    testID = await Eportfolio.countDocuments() + 1;
+    while(1){
+          if(!await fetchController.eportExists(testID)){
+            eportInfo.eportID = testID;
+            break;
+          }
+          testID ++;
+    }
+    console.log(eportInfo)
+    await Eportfolio.create(eportInfo).then(function(template){
+        console.log(template)
+        console.log(template.eportID)
+    })
+    return eportInfo.eportID
 }
