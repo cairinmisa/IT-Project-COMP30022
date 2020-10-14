@@ -23,6 +23,7 @@ export default class TextEditor extends Component {
   constructor(props){
     super(props)
     this.closeCreateNew = this.closeCreateNew.bind(this)
+    this.createPortfolio = this.createPortfolio.bind(this)
   }
 
   handleClick(templateClicked, eportID, title) {
@@ -70,6 +71,28 @@ export default class TextEditor extends Component {
     .catch(response => {
       console.log(response)
     }) 
+    window.location.reload(false)
+  }
+
+  deletePortfolio(){
+    alert("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")
+    Axios({
+      method: 'delete',
+      url:  host+'/eportfolio', 
+      headers: {
+        Authorization : "Bearer " + UserStore.token
+      },
+      data: {
+        eportID : this.state.currentID
+      }
+    })
+    .then(response => {
+      console.log(response)
+    })
+    .catch(response => {
+      console.log(response)
+    }) 
+    window.location.reload(false)
   }
 
   getPortfolios(userId){
@@ -101,11 +124,38 @@ export default class TextEditor extends Component {
     })
   }
 
+  createPortfolio(title, publicity){
+    Axios({
+        method: 'post',
+        url:  host+'/eportfolio/create', 
+        headers: {
+          Authorization : "Bearer " + UserStore.token
+        },
+        data: {
+          dateCreated : Date().toLocaleString(),
+          title: title,
+          userID : UserStore.user.userID,
+          isPublic : publicity
+        }
+      })
+      .then(response => {
+        this.setState({
+          currentID : response.data.eportID,
+          currentTitle : title,
+          currentTemplate : ""
+        })
+        console.log(response)
+      })
+      .catch(response => {
+        console.log(response)
+      }) 
+      window.location.reload(false);
+}
+
   componentDidMount(){
     if(UserStore.user != undefined){
       this.getPortfolios(UserStore.user.userID)
     }
-    console.log(UserStore.token)
   }
 
   shortenString(str, len) {
@@ -122,7 +172,7 @@ export default class TextEditor extends Component {
     else{
       return (
         <div className="text-editor">
-          {this.state.displayCreate ? <CreateNew closeCreateNew = {this.closeCreateNew} /> : null}
+          {this.state.displayCreate ? <CreateNew closeCreateNew = {this.closeCreateNew} createPortfolio = {this.createPortfolio}/> : null}
           <div className="editorNavBar">
             <div className="leftAlign">
               <Link to = "/" >Home</Link>
@@ -153,6 +203,7 @@ export default class TextEditor extends Component {
               <span>
                 {this.state.currentTitle ? this.state.currentTitle : null}
                 {" "}| <button onClick = {() => this.savePortfolios()}>Save</button>
+                {" "}| <button onClick = {() => this.deletePortfolio()}>Delete</button>
               </span>
             </div>
             <div className="editor-container">

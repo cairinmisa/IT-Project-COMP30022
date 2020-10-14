@@ -4,13 +4,14 @@ import InputField from "../pages/InputField";
 class CreateNew extends Component {
 
     state = {
-        isPublic : false,
+        publicity : false,
         input : "",
         useTemplate : false
     }
 
     handleSubmit(){
-        alert('A name was submitted: '+ this.state.input)
+        this.props.createPortfolio(this.state.input, this.state.publicity)
+        alert('A new portfolio was created with name ' + this.state.input + ' and is ' + this.state.publicity)
     }
 
     render() { 
@@ -26,9 +27,11 @@ class CreateNew extends Component {
                             value={this.state.input ? this.state.input : ""}
                             onChange={(val) => this.setState({input:val})}
                         ></InputField>
-                        <select>
+                        <select
+                        onChange = {(e) => this.setState({publicity : e.target.value})}
+                        >
                             <option value = "isPublic">Public Portfolio</option>
-                            <option value = "isPublic">Private Portfolio</option>
+                            <option value = "isPrivate">Private Portfolio</option>
                         </select>
                         <button onClick={() => this.handleSubmit()}>Submit</button>
                     </div>
