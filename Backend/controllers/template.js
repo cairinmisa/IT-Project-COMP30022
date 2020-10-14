@@ -127,3 +127,32 @@ exports.createfromTemplate = async (req,res,next) =>{
     
 }
 
+exports.deleteTemplate = async (req,res,next) =>{
+    
+    let response = {}
+
+    // Check template exists
+    await Template.findOne({templateID : req.body.templateID}).then(async function(template){
+        if(template==null){
+            return res.send({templateExists : "False", hasErrors : "True"});
+        } else if(!(req.user.userID == template.userID)){
+            return res.send({unauthorizedAccess : "True", hasErrors : "True"})
+        } else {
+            Template.findByIdAndDelete({_id : template._id}).then(function(temp){
+                response.templateID = temp.templateID
+                response.hasErrors = "False";
+                response.eportID = temp.eportID;
+                response.isPublic = temp.isPublic;
+                response.data = temp.category;
+                response.title = temp.title;
+                response.userID = temp.userID;
+                response.dateCreated = temp.dateCreated
+                response.rating = temp.rating
+                res.send(response);
+            })
+        }
+            // Check the correct user is trying to delete the template
+            
+    })
+}
+

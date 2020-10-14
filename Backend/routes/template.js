@@ -59,4 +59,15 @@ router.post('/createFolio',passport.authenticate('jwt', {session : false}), (req
 })
 
 
+// Delete an existing template
+router.delete('/delete',passport.authenticate('jwt', {session : false}), (req, res)=> {
+    // Validates the Template ID is provided
+    if (req.body.templateID == null){
+        return ({hasErrors : "True", templateIDGiven : "False"});
+    }
+    
+    templateController.deleteTemplate(req,res)
+})
+
+
 module.exports = router;
