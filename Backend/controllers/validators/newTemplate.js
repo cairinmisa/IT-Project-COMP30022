@@ -25,7 +25,7 @@ module.exports = function validatenewEportInput(data) {
     errors.dateGiven = "False";
   } else if (validator.isEmpty(data.category)){
     errors.categoryGiven = "False";
-  } else if (validator.isEmpty(data.eportID)){
+  } else if (validator.isEmpty(String(data.eportID))){
     errors.eportIDGiven = "False";
   }
 

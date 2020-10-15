@@ -137,16 +137,21 @@ input:focus {
 }
 
 .editorComponent {
-  border: solid;
-  border-radius: 5px;
-  border-width: 2px;
-  border-color: #999;
   margin-top: 50px;
   width: 78%;
   float:right;
   margin-right: 2%;
-  overflow-y:scroll;
   height: 85%;
+}
+
+.editor-container {
+  border: solid;
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: #999;
+  width: 100%;
+  overflow-y:scroll;
+  height: 100%;
 }
 
 .editorBorder {
@@ -165,6 +170,11 @@ input:focus {
 .editorComponent h2 {
   border-bottom: solid;
   border-width: 2px;
+}
+
+.workspace-title {
+  float: left;
+  margin-bottom: 10px;
 }
 
 .userPanel {
@@ -333,6 +343,20 @@ div {
   background-color: var(--scheme-red);
   color: white;
   font-size: 17px;
+}
+
+.modal select {
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 28px;
+  font-family: neue-montreal-bold, helvetica;
+  height: 38px;
+  width: 100%;
+  padding-left: 15px;
+  background-color: var(--scheme-white);
+  font-size: 17px;
+  cursor: pointer;
+  margin: 0 0 5px 0;
 }
 
 .modal h2 {
