@@ -114,7 +114,7 @@ class LoginForm extends Component {
     return (
       <div className="loginForm">
         <div className="loginForm-content">
-          <h1>✨ Log in ✨</h1>
+          <h1><span>✨</span> Log in <span>✨</span></h1>
           <InputField
             type="text"
             placeholder="Email"
