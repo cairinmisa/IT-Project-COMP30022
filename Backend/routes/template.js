@@ -68,6 +68,31 @@ router.delete('/delete',passport.authenticate('jwt', {session : false}), (req, r
     
     templateController.deleteTemplate(req,res)
 })
+// Fetch all public templates
+router.get('/getPublic',async (req, res)=> {
 
+    await Template.find({isPublic : "True"}).then(function(tempList){
+        return res.send(tempList);
+    })
+
+})
+
+// Fetch all templates from a user
+router.get('/fetchFromUser/',passport.authenticate('jwt', {session : false}),async (req, res)=> {
+
+    if(!(req.user.userID == req.query.userID)){
+        return res.send({unauthorizedAccess : "True", hasErrors : "True"})
+    }
+
+    if(req.query.userID==null){
+        return ({hasErrors : "True", userIDGiven : "False"});
+    }
+
+    await Template.find({userID : req.query.userID}).then(function(tempList){
+        return res.send(tempList);
+    })
+
+
+})
 
 module.exports = router;
