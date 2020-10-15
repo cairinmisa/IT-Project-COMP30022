@@ -111,9 +111,8 @@ export default class TextEditor extends Component {
   }
 
   // Gets portfolios of the user
-  getPortfolios(userId){
-    let templateCount = 0
-    Axios({
+  async getPortfolios(userId){
+    await Axios({
       method: 'post',
       url:  host+'/eportfolio/userfetch', 
       headers: {
@@ -125,17 +124,34 @@ export default class TextEditor extends Component {
     })
     .then(response => {
       let portfolios = [];
-      let templates = [];
       for(let i=0;i<response.data.length;i++){
-        if(response.data[i].templateID != null){
-          templates[templateCount] = [response.data[i].data,response.data[i].title,response.data[i].eportID]
-          templateCount++;
-          continue;
-        }
-        portfolios[i-templateCount] = [response.data[i].data,response.data[i].title,response.data[i].eportID]
+        portfolios[i] = [response.data[i].data,response.data[i].title,response.data[i].eportID]
       }
       this.setState({
-        userPortfolios : portfolios,
+        userPortfolios : portfolios
+      });
+      console.log(response)
+    })
+    .catch(response => {
+      console.log(response)
+    })
+
+    await Axios({
+      method: 'get',
+      url:  host+'/template/fetchFromUser', 
+      headers: {
+        Authorization : "Bearer " + UserStore.token
+      },
+      params: {
+        userID : userId
+      }
+    })
+    .then(response => {
+      let templates = [];
+      for(let i=0;i<response.data.length;i++){
+        templates[i] = [response.data[i].data,response.data[i].title,response.data[i].eportID]
+      }
+      this.setState({
         userTemplates : templates
       });
       console.log(response)
@@ -143,6 +159,7 @@ export default class TextEditor extends Component {
     .catch(response => {
       console.log(response)
     })
+    //templates[templateCount] = [response.data[i].data,response.data[i].title,response.data[i].eportID]
   }
 
   // Function for creating a folio from scratch. Sends request to server and handles errors
@@ -268,7 +285,7 @@ export default class TextEditor extends Component {
               </ul>
               <p className="bold">Your templates:</p>
               <ul>
-                  {this.state.userTemplates.map((template) => <li onClick = {() => this.handleClick(template[0],template[2], template[1])}>{this.shortenString(template[1],23)}</li>)}
+                  {this.state.userTemplates.map((template) => <li onClick = {() => this.handleClick(template[0],template[2], template[1])}>{template[1]}</li>)}
               </ul>
             </div>
           </div>
