@@ -76,20 +76,16 @@ exports.createfromTemplate = async (req,res,next) =>{
      let response = {}
     
      // Checks if the user exists
-    if(!(await fetchController.userIDExists(req.query.userID))){
+    if(!(await fetchController.userIDExists(req.body.userID))){
         return res.send({hasErrors : "True", userExists : "False"})
     }
+
      // Check if the template Exists, and if it does, copy the data across
      await Template.findOne({templateID : req.body.templateID}).then(async function(template){
          if(template==null){
              return res.send({templateExists : "False", hasErrors : "True"});
          } else{
-             //Template does exist, find the data within the folio
-             await Eportfolio.findOne({eportID : template.eportID}).then(function(eport){
-                 console.log(eport.data);
-                req.body.data = eport.data
-             })
-             
+            req.body.data = template.data 
          }
      })
 
