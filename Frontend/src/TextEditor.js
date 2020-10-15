@@ -21,7 +21,8 @@ export default class TextEditor extends Component {
     displayCreateTemplate : false,
     currentID : "",
     currentTitle: "",
-    currentTemplate : ""
+    currentTemplate : "",
+    isTemplateSelected : false
   }
   
   constructor(props){
@@ -30,11 +31,12 @@ export default class TextEditor extends Component {
     this.createPortfolio = this.createPortfolio.bind(this)
   }
 
-  handleClick(templateClicked, eportID, title) {
+  handleClick(templateClicked, eportID, title, isTemplate) {
     this.setState({
       currentTemplate : templateClicked,
       currentID : eportID,
-      currentTitle: title
+      currentTitle: title,
+      isTemplateSelected : isTemplate
     })
   }
 
@@ -89,9 +91,9 @@ export default class TextEditor extends Component {
   }
 
   // Deletes the currently selected folio
-  deletePortfolio(){
+  async deletePortfolio(){
     alert("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")
-    Axios({
+    await Axios({
       method: 'delete',
       url:  host+'/eportfolio', 
       headers: {
@@ -99,6 +101,29 @@ export default class TextEditor extends Component {
       },
       data: {
         eportID : this.state.currentID
+      }
+    })
+    .then(response => {
+      console.log(response)
+    })
+    .catch(response => {
+      console.log(response)
+    }) 
+    window.location.reload(false)
+  }
+
+  // Deletes the currently selected folio
+  async deleteTemplate(){
+    console.log(this.state.currentID)
+    alert("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")
+    await Axios({
+      method: 'delete',
+      url:  host+'/template', 
+      headers: {
+        Authorization : "Bearer " + UserStore.token
+      },
+      data: {
+        templateID : this.state.currentID
       }
     })
     .then(response => {
@@ -149,7 +174,7 @@ export default class TextEditor extends Component {
     .then(response => {
       let templates = [];
       for(let i=0;i<response.data.length;i++){
-        templates[i] = [response.data[i].data,response.data[i].title,response.data[i].eportID]
+        templates[i] = [response.data[i].data,response.data[i].title,response.data[i].templateID]
       }
       this.setState({
         userTemplates : templates
@@ -159,7 +184,6 @@ export default class TextEditor extends Component {
     .catch(response => {
       console.log(response)
     })
-    //templates[templateCount] = [response.data[i].data,response.data[i].title,response.data[i].eportID]
   }
 
   // Function for creating a folio from scratch. Sends request to server and handles errors
@@ -281,20 +305,22 @@ export default class TextEditor extends Component {
               <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
               <p className="bold">Your folios:</p>
               <ul>
-                  {this.state.userPortfolios.map((portfolio) => <li onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1])}>{this.shortenString(portfolio[1],23)}</li>)}
+                  {this.state.userPortfolios.map((portfolio) => <li onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1], false)}>{this.shortenString(portfolio[1],23)}</li>)}
               </ul>
               <p className="bold">Your templates:</p>
               <ul>
-                  {this.state.userTemplates.map((template) => <li onClick = {() => this.handleClick(template[0],template[2], template[1])}>{template[1]}</li>)}
+                  {this.state.userTemplates.map((template) => <li onClick = {() => this.handleClick(template[0],template[2], template[1], true)}>{this.shortenString(template[1],23)}</li>)}
               </ul>
             </div>
           </div>
           <div className="editorComponent">
             <WorkspaceToolbar 
               folioTitle = {this.state.currentTitle}
-              save = {() => this.savePortfolio()}
-              delete = {() => this.deletePortfolio()}
-              convert = {() => this.showTemplateModal()} 
+              saveFolio = {() => this.savePortfolio()}
+              deleteFolio = {() => this.deletePortfolio()}
+              deleteTemplate = {() => this.deleteTemplate()}
+              convert = {() => this.showTemplateModal()}
+              templateSelected = {this.state.isTemplateSelected} 
             />
             <div className="editor-container">
               <CKEditor

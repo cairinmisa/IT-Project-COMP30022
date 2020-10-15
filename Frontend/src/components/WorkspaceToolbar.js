@@ -11,13 +11,26 @@ class WorkspaceToolbar extends Component {
             );
         }
 
+        // If a template is selected show a different toolbar with different functions
+        if(this.props.templateSelected == true) {
+            return (
+                <div className = "bold workspace-title">
+                  <span>
+                    {this.props.folioTitle ? this.props.folioTitle : null}
+                    {" "}| <button onClick = {() => this.props.saveTemplate()}>Save</button>
+                    {" "}| <button onClick = {() => this.props.deleteTemplate()}>Delete</button>
+                  </span>
+                </div>
+            );
+        }
+
         // Otherwise, render a toolbar for users to interact with
         return (
             <div className = "bold workspace-title">
               <span>
                 {this.props.folioTitle ? this.props.folioTitle : null}
-                {" "}| <button onClick = {() => this.props.save()}>Save</button>
-                {" "}| <button onClick = {() => this.props.delete()}>Delete</button>
+                {" "}| <button onClick = {() => this.props.saveFolio()}>Save</button>
+                {" "}| <button onClick = {() => this.props.deleteFolio()}>Delete</button>
                 {" "}| <button onClick = {() => this.props.convert()}>Share as Template</button>
               </span>
             </div>

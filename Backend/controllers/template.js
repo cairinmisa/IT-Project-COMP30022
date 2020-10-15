@@ -134,9 +134,10 @@ exports.createfromTemplate = async (req,res,next) =>{
 exports.deleteTemplate = async (req,res,next) =>{
     
     let response = {}
-
+    console.log(req.user.userID);
     // Check template exists
     await Template.findOne({templateID : req.body.templateID}).then(async function(template){
+        console.log(template);
         if(template==null){
             return res.send({templateExists : "False", hasErrors : "True"});
         } // Check the right user is accessing 
