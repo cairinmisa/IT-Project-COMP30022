@@ -9,6 +9,7 @@ const templateController = require('../controllers/template');
 
 // Load input validation
 const validatenewTemplateInput = require('../controllers/validators/newTemplate');
+const validatenewEportInput = require('../controllers/validators/newEport');
 
 // Load Template module
 const Template = require("../models/dbschema/templates");
@@ -34,7 +35,39 @@ router.post('/create',passport.authenticate('jwt', {session : false}), (req, res
         return res.send({unauthorizedAccess : "True", hasErrors : "True"})
       }
 
-    templateController.register(req, res);
+    templateController.create(req, res);
 })
+
+// Create a new eportfolio from a template
+router.post('/createFolio',passport.authenticate('jwt', {session : false}), (req, res)=> {
+    // Validates necessary eport information exists
+    const { errors, isValid } = validatenewEportInput(req.body);
+    if (!isValid) {
+     return res.status(200).json(errors);
+    }
+    // Validates the Template ID is provided
+    if (req.body.templateID == null){
+        return ({hasErrors : "True", templateIDGiven : "False"});
+    }
+    
+    // Check user is creating their own folio
+    if(!(req.user.userID == req.body.userID)){
+        return res.send({unauthorizedAccess : "True", hasErrors : "True"})
+    }
+
+    templateController.createfromTemplate(req,res)
+})
+
+
+// Delete an existing template
+router.delete('/delete',passport.authenticate('jwt', {session : false}), (req, res)=> {
+    // Validates the Template ID is provided
+    if (req.body.templateID == null){
+        return ({hasErrors : "True", templateIDGiven : "False"});
+    }
+    
+    templateController.deleteTemplate(req,res)
+})
+
 
 module.exports = router;

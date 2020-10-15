@@ -18,7 +18,7 @@ exports.register = async (req,res,next) =>{
     if(result.length != 0){
         return res.send({titleExists : "True", hasErrors : "True"})
     }
-    if(req.body.isPublic == null){
+    if(!(req.body.isPublic == "True")){
         req.body.isPublic = "False"
     }
     if(req.body.data == null){
