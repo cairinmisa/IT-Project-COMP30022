@@ -10,20 +10,33 @@ import Footer from "./Footer";
 import SignUpForm from "./pages/SignUpForm";
 import LoginPage from "./pages/LoginPage";
 import {Helmet} from "react-helmet";
+import SearchPage from "./pages/SearchPage";
 
 class App extends React.Component {
+
+  constructor(props){
+    super(props)
+    this.submitSearch = this.submitSearch.bind(this)
+  }
+
+  submitSearch(search){
+    
+  }
+  
+
   render() {
     // Specifies all the pages that the Nav Bar will be rendered on
     const NavRoutes = () => {
       return (
         <div>
-          <Nav />
+          <Nav submitSearch = {this.submitSearch}/>
           <Switch>
             <Route path="/login" exact component={LoginPage}></Route>
             <Route path="/" exact component={Home}></Route>
             <Route path="/signup" exact component={SignUpForm}></Route>
             <Route path="/template" exact component={Template}></Route>
             <Route path="/profile" exact component={ProfilePage}></Route>
+            <Route path="/search" exact component = {SearchPage}></Route>
           </Switch>
           <Footer />
           </div>
@@ -44,5 +57,7 @@ class App extends React.Component {
     );
   }
 }
+
+
 
 export default App;
