@@ -4,7 +4,10 @@ class SearchPage extends Component {
     state = {  }
     render() { 
         return (  
-            <h1>SearchPage</h1>
+            <div>  
+                <h1>SearchPage</h1>
+                <h2>{this.props.search}</h2>
+            </div>
         );
     }
 }

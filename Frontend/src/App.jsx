@@ -11,8 +11,13 @@ import SignUpForm from "./pages/SignUpForm";
 import LoginPage from "./pages/LoginPage";
 import {Helmet} from "react-helmet";
 import SearchPage from "./pages/SearchPage";
+import { PropTypes } from "mobx-react";
 
 class App extends React.Component {
+
+  state = {
+    search : ""
+  }
 
   constructor(props){
     super(props)
@@ -20,7 +25,7 @@ class App extends React.Component {
   }
 
   submitSearch(search){
-    
+    this.setState({search : search})
   }
   
 
@@ -36,7 +41,7 @@ class App extends React.Component {
             <Route path="/signup" exact component={SignUpForm}></Route>
             <Route path="/template" exact component={Template}></Route>
             <Route path="/profile" exact component={ProfilePage}></Route>
-            <Route path="/search" exact component = {SearchPage}></Route>
+            <Route path="/search" exact component = {() => <SearchPage search = {this.state.search}/>}></Route>
           </Switch>
           <Footer />
           </div>

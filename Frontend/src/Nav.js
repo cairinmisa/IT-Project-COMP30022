@@ -34,7 +34,7 @@ class Nav extends Component {
         <div className="navBar">
           <form>
             <input type = 'text' value = {this.state.value} onChange={this.handleChange}></input>
-            <button type = "button" onClick = {this.handleSubmit}>Submit</button>
+            <Link to = "/search"><button type = "button" onClick = {this.handleSubmit}>Submit</button></Link>
           </form>
           <ul>
             <Link to="/">
