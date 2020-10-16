@@ -6,7 +6,7 @@ import SubmitButton from "../pages/SubmitButton";
 class CreateNew extends Component {
 
     state = {
-        publicity : true,
+        publicity : "True",
         input : "",
         useTemplate : false,
         templatePageRedirect : false
