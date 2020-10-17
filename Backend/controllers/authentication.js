@@ -96,17 +96,14 @@ exports.update = async (req,res,next) =>{
         const hashedPassword = await this.passgen(req.body.password);
         req.body.password = hashedPassword;
     }
-    console.log(req.body)
     delete req.body.oldpassword;
     delete req.body.oldpassword2;
-    console.log(req.body)
     
 
     
     // Update the user with data in the request body
-    await User.findByIdAndUpdate({_id : user._id}, req.body).then(async function(user){
+    await User.findByIdAndUpdate({_id : user._id}, req.body).then(async function(){
         await fetchController.userfromUserID(req.body.userID).then(async function(newuser){
-            console.log("got here")
             newuser.hasErrors = "False"
             res.send(newuser);
         });
