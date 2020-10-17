@@ -4,10 +4,9 @@ var Schema = mongoose.Schema;
 var eportfolioSchema = new Schema({
     eportID : {type : Number, required : true},
     userID : { type : Number, required : true},
-    templateID : {type : Number},
     isPublic : {type : String},
     data : {type : String},
-    title : {type : String, required : true},
+    title : {type : String},
     isLatest : {type : String},
     version : {type :Number},
     dateCreated : {type : Date},

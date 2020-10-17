@@ -115,6 +115,7 @@ class LoginForm extends Component {
     return (
       <div className="loginForm">
         <div className="loginForm-content">
+
           <h1>✨ Log in ✨</h1>
           <GoogleLoginButton/>
           <InputField

@@ -1,5 +1,6 @@
 const User = require('../models/dbschema/user');
 const Eportfolio = require('../models/dbschema/eportfolio');
+const Template = require('../models/dbschema/templates');
 const errorController = require('./error');
 
 exports.getAllUsers = async (req, res, next) => {
@@ -63,6 +64,13 @@ exports.eportfromEportID = async(test_eportID) =>{
     return target_eport;
 }
 
+exports.tempfromTempID = async(test_tempID) =>{
+    var target_temp;
+    await Template.findOne({templateID : test_tempID}).then(function(temp){
+        target_temp = temp;
+    });
+    return target_temp;
+}
 
 exports.userIDExists = async (userID) =>{
     user_check = await this.userfromUserID(userID);
@@ -96,6 +104,15 @@ exports.emailExists = async (email) =>{
 exports.eportExists = async (eportID) =>{
     eport_check = await this.eportfromEportID(eportID);
     if(eport_check != null){
+        return true;
+    } else{
+        return false;
+    }
+}
+
+exports.templateExists = async (templateID) =>{
+    temp_check = await this.tempfromTempID(templateID);
+    if(temp_check != null){
         return true;
     } else{
         return false;
