@@ -161,7 +161,11 @@ router.put('/update',passport.authenticate('jwt', {session : false}),async funct
 // @Route DELETE api/
 // @desc DELETE User
 // @access PUBLIC
-router.delete('/', function(req,res, next){
+router.delete('/',passport.authenticate('jwt', {session : false}), function(req,res, next){
+  // Check user is accessing their own account
+  if(!(req.user.emailAddress == req.body.emailAddress)){
+    return res.send({unauthorizedAccess : "True", hasErrors : "True"})
+  }
 
   if(req.body.emailAddress == null){
     return res.send({hasErrors : "True", emailGiven : "False"})
