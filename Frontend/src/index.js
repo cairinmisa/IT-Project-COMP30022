@@ -8,20 +8,19 @@ import {host} from "./stores/Settings"
 import jwt_decode from "jwt-decode";
 import UserStore from "./stores/UserStore";
 
+// Function called on startup to initiate the app
 async function setupApp() {
-  const token = localStorage.getItem("token");
-  const emailAddress = localStorage.getItem("emailAddress");
-
   // Check if jwt has expired
+  const token = localStorage.getItem("token");
   if(token != null) {
     var decoded = jwt_decode(token);
     if(Date.now()/1000 > decoded.exp) {
       localStorage.clear();
-      return;
     } 
   }
   
   // If email address of user isn't null then grab user data
+  const emailAddress = localStorage.getItem("emailAddress");
   if(emailAddress != null){
     await axios({
       method: 'get',
@@ -46,7 +45,7 @@ async function setupApp() {
       });
   }
 
-  ///
+  // Render app when user data has been processed
   ReactDOM.render(
       <App />,
     document.getElementById("root")
