@@ -21,14 +21,59 @@ exports.verifyGoogleToken = async (token, res) => {
     const payload = ticket.getPayload();
     console.log(payload);
 
-    // This is where we register a user if user does not 
-    // already exist. 
-    
-    // Here just send a default response with the token
-    res.send({
-        token: "Bearer " + token
-    });
+    // If the users email already exists
+    await User.findOne({emailAddress : payload.email}).then(function(target_user){
+        // Need to create the user
+        if(target_user == null){
+            //TODO New User
+            this.registerGoogleUser(payload,res);
+            console.log("making a new user");
+            return res.send({hasErrors : "False", token : "Valid Token (New user)"})
+        } else if (target_user.googleUser == "True") {
+            console.log("user exists success");
+            return res.send({hasErrors : "False", token : "Valid token (user exists)"})
+
+        } else {
+            console.log("user exists failure");
+            return res.send({hasErrors : "True", emailExists : "True"})
+        }
+    })
+
 };
+
+registerGoogleUser = async (payload,res) =>{
+    // Data Is an object to store the values used to create the user
+    let data = {}
+    // Set given information
+    data.firstName = payload.given_name
+    data.lastName = payload.family_name
+    data.fullName = payload.name
+    data.emailAddress = payload.email
+
+    // Set Password (Irrelevant since google users cannot login with this password)
+    data.password = "password"
+
+    // Set UserID
+
+    testID = await User.countDocuments() + 1;
+    while(1){
+       if(!await fetchController.userIDExists(testID)){
+            data.userID = testID;
+            break;
+        }
+        testID ++;
+    }
+    
+    // Set Username
+    data.username = data.fullName + "#" + data.userID.toString()
+    
+    // Set GoogleUser
+    data.googleUser = "True"
+    
+    console.log(data)
+    await User.create(data)
+
+}
 
 exports.register = async (req,res,next) =>{
 
