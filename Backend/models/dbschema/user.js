@@ -7,6 +7,7 @@ var userSchema = new Schema({
     password : {type : String, required : true},
     firstName : String,
     lastName : String,
+    fullName : String,
     emailAddress : String,
     dOB : {type : String},
     }, {collection : 'Users'});
