@@ -175,7 +175,7 @@ router.get('/usernameFromUserID',async function(req,res, next){
     if(user==null){
       return res.send({hasErrors: "True", userExists : "False"});
     } else{
-      return res.send({username : user.username});
+      return res.send({username : user.username, hasErrors : "False"});
     }
   })
 
