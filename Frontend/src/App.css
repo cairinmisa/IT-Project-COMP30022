@@ -350,6 +350,20 @@ div {
   font-size: 17px;
 }
 
+.modal .btn {
+  display: block;
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 28px;
+  font-family: neue-montreal-bold, helvetica;
+  height: 28px;
+  padding-top: 6px;
+  width: 100%;
+  margin: 5px 0 0 0;
+  font-size: 17px;
+  text-decoration: none;
+}
+
 .modal select {
   border-color: var(--scheme-black);
   border-style: solid;
