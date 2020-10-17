@@ -31,8 +31,8 @@ exports.verifyGoogleToken = async (token, res) => {
         // Need to create the user then generate the token if user doesn't exist
         // with that email
         if(target_user == null){
-            this.registerGoogleUser(payload,res);
-            this.generateToken(target_user.emailAddress,res);
+            await this.registerGoogleUser(payload,res);
+            this.generateToken(payload.email,res);
         } else if (target_user.googleUser == "True") {
             // Otherwise if the user exists and is a google user, then return a token
             this.generateToken(target_user.emailAddress,res);
@@ -63,6 +63,7 @@ generateToken = async (emailAddress,res) =>{
             res.json({
               hasErrors: false,
               token: "Bearer " + token,
+              emailAddress: emailAddress
             });
           }
       );
@@ -116,7 +117,7 @@ exports.register = async (req,res,next) =>{
     }
     
     else{
-        //Generate User ID based on number of documents, if already exists,
+        // Generate User ID based on number of documents, if already exists,
         // keep incrementing until it does exist
         testID = await User.countDocuments() + 1;
         while(1){
