@@ -167,5 +167,16 @@ router.delete('/', function(req,res, next){
 });
 
 
+router.get('/searchByName', async function(req,res, next){
+  if( req.body.fullName == null){
+    return res.send({hasErrors : "True", fullNameGiven : "False"});
+  }
+
+  await User.find({fullName : req.body.fullName}).then(function(nameList){
+    return res.send(nameList);
+  })
+
+})
+
 
 module.exports = router;
