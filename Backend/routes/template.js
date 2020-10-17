@@ -92,7 +92,16 @@ router.get('/fetchFromUser/',passport.authenticate('jwt', {session : false}),asy
         return res.send(tempList);
     })
 
+})
 
+router.put('/saveTemplate/',passport.authenticate('jwt', {session : false}),async (req, res)=> {
+  if(req.body.dateUpdated == null){
+      return res.send({hasErrors : "True", dateGiven : "False"});
+  }
+  if(req.body.templateID == null){
+    return res.send({hasErrors : "True", templateIDGiven : "False"});
+  }
+  templateController.saveTemplate(req,res);
 })
 
 module.exports = router;
