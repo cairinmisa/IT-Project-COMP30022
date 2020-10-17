@@ -10,7 +10,6 @@ var templateSchema = new Schema({
     category : {type : String, required : true},
     data : String,
     comments : String,
-    date : String,
     title : String,
     rating : Number,
     ratingTotal : Number,

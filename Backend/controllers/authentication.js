@@ -25,6 +25,9 @@ exports.login = async (req, res, next) => {
 };
 
 exports.register = async (req,res,next) =>{
+
+    // Set Full Name value
+    req.body.fullName = req.body.firstName + " " + req.body.lastName;
     //Password exists
     let response = {}
     const hashedPassword = await this.passgen(req.body.password);
@@ -34,6 +37,7 @@ exports.register = async (req,res,next) =>{
     } else if(await fetchController.emailExists(req.body.emailAddress)){
         res.send({"emailExists" : "True", "hasErrors" : "True"});
     }
+    
     else{
         //Generate User ID based on number of documents, if already exists,
         // keep incrementing until it does exist
@@ -51,6 +55,7 @@ exports.register = async (req,res,next) =>{
             response.username = user.username;
             response.firstName = user.firstName;
             response.lastName = user.lastName;
+            response.fullName = user.fullName;
             response.userID = user.userID;
             response.emailAddress = user.emailAddress
             console.log(response);
@@ -99,7 +104,18 @@ exports.update = async (req,res,next) =>{
     delete req.body.oldpassword;
     delete req.body.oldpassword2;
     
-
+    
+    // Fix fullName if new name is entered
+    await User.find({userID : req.body.userID}).then(function(olduser){
+        if((req.body.firstName != null) && (req.body.lastName != null)){
+            req.body.fullName = req.body.firstName + " " + req.body.lastName
+        } else if (req.body.firstName != null && (req.body.lastName == null)){
+            req.body.fullName = req.body.firstName + " " + olduser.lastName
+        } else if (req.body.firstName == null && (req.body.lastName != null)){
+            req.body.fullName = olduser.firstName + " " + req.body.lastName
+        }
+    })
+    
     
     // Update the user with data in the request body
     await User.findByIdAndUpdate({_id : user._id}, req.body).then(async function(){

@@ -104,4 +104,15 @@ router.put('/saveTemplate/',passport.authenticate('jwt', {session : false}),asyn
   templateController.saveTemplate(req,res);
 })
 
+router.get('/searchByTitle', async function(req,res, next){
+    if( req.body.title == null){
+      return res.send({hasErrors : "True", titleGiven : "False"});
+    }
+  
+    await Template.find({title : req.body.title}).then(function(templateList){
+      return res.send(templateList);
+    })
+  
+  })
+
 module.exports = router;
