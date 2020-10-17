@@ -118,9 +118,8 @@ exports.update = async (req,res,next) =>{
     
     
     // Update the user with data in the request body
-    await User.findByIdAndUpdate({_id : user._id}, req.body).then(async function(user){
+    await User.findByIdAndUpdate({_id : user._id}, req.body).then(async function(){
         await fetchController.userfromUserID(req.body.userID).then(async function(newuser){
-            console.log("got here")
             newuser.hasErrors = "False"
             res.send(newuser);
         });
