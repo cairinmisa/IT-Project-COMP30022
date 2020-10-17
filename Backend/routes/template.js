@@ -71,9 +71,17 @@ router.delete('/',passport.authenticate('jwt', {session : false}), (req, res)=> 
 // Fetch all public templates
 router.get('/getPublic',async (req, res)=> {
 
-    await Template.find({isPublic : "True"}).then(function(tempList){
-        return res.send(tempList);
-    })
+    if(req.query.category!=null){
+        await Template.find({isPublic : "True", category : req.query.category}).then(function(categoryList){
+            return res.send(categoryList)
+        })
+    } else{
+        await Template.find({isPublic : "True"}).then(function(tempList){
+            return res.send(tempList);
+        })
+    }
+
+    
 
 })
 
