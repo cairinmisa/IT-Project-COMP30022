@@ -8,6 +8,9 @@ class TemplateCategory extends Component {
         templates : []
     }
 
+    // Loads public templates
+    // TODO: Change such that it loads templates of a specific category
+    //       and sorts them according to this.props.sort
     async loadTemplates() {
         await Axios({
             method: 'get',
@@ -33,15 +36,18 @@ class TemplateCategory extends Component {
           }) 
     }
 
+    // Grab templates when component is mounted
     componentDidMount() {
         this.loadTemplates();
     }
 
     render () {
         return (
-            <div className = "template-category-container">
-                <h1>{this.props.displayTitle}</h1>
-                {this.state.templates.map((template) => <TemplateCard template={template}/>)}
+            <div className = "templateCategory">
+                <h2>{this.props.displayTitle}</h2>
+                <div className="templateCategory-content">
+                    {this.state.templates.map((template) => <TemplateCard template={template}/>)}
+                </div>
             </div>
         );
     }

@@ -4,8 +4,9 @@ import React, { Component } from 'react';
 class TemplateCard extends Component {
     render () {
         return (
-            <div className = "template-card">
-                <h2>{this.props.template.title}</h2>
+            <div className = "templateCard">
+                <p>{this.props.template.title}</p>
+                <p>Rating: {this.props.template.rating}/5</p>
             </div>
         );
     }
