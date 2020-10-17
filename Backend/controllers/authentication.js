@@ -4,6 +4,11 @@ const isEmpty = require('is-empty');
 const User = require('../models/dbschema/user');
 const fetchController = require('./fetch');
 const errorController = require('./error');
+const jwt = require('jsonwebtoken');
+const keys = require('../config/keys');
+const passport = require('passport');
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
 
 // Google Authentication Library
 const {OAuth2Client} = require('google-auth-library');
@@ -22,24 +27,50 @@ exports.verifyGoogleToken = async (token, res) => {
     console.log(payload);
 
     // If the users email already exists
-    await User.findOne({emailAddress : payload.email}).then(function(target_user){
-        // Need to create the user
+    await User.findOne({emailAddress : payload.email}).then(async function(target_user){
+        // Need to create the user then generate the token if user doesn't exist
+        // with that email
         if(target_user == null){
-            //TODO New User
             this.registerGoogleUser(payload,res);
-            console.log("making a new user");
-            return res.send({hasErrors : "False", token : "Valid Token (New user)"})
+            this.generateToken(target_user.emailAddress,res);
         } else if (target_user.googleUser == "True") {
-            console.log("user exists success");
-            return res.send({hasErrors : "False", token : "Valid token (user exists)"})
+            // Otherwise if the user exists and is a google user, then return a token
+            this.generateToken(target_user.emailAddress,res);
 
         } else {
-            console.log("user exists failure");
+            // Otherwise the user exists, but is not a google user, so don't authenticate
             return res.send({hasErrors : "True", emailExists : "True"})
         }
     })
 
 };
+// Generates a valid JWT token for the user defined by the given email address
+generateToken = async (emailAddress,res) =>{
+    token = {}
+    const user = await User.findOne({emailAddress : emailAddress});
+    console.log(user)
+    console.log(emailAddress)
+    console.log(keys.secretOrKey)
+    // User matched, create JWT payload
+    const payload = {
+        id: user._id,
+        name: user.username
+      };
+    console.log(payload);
+      // Sign token
+      jwt.sign(
+        payload,
+        keys.secretOrKey,
+        {expiresIn: 3600},
+        (err, token) => {
+            console.log(token);
+            res.json({
+              hasErrors: false,
+              token: "Bearer " + token,
+            });
+          }
+      );
+}
 
 registerGoogleUser = async (payload,res) =>{
     // Data Is an object to store the values used to create the user
