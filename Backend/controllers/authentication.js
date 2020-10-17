@@ -19,6 +19,7 @@ exports.verifyGoogleToken = async (token, res) => {
         audience: CLIENT_ID
     });
     const payload = ticket.getPayload();
+    console.log(payload);
 
     // This is where we register a user if user does not 
     // already exist. 
