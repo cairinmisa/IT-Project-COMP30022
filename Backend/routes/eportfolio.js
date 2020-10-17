@@ -98,7 +98,15 @@ router.get('/fetchPublic/',passport.authenticate('jwt', {session : false}),async
 
 })
 
-
-
+router.get('/searchByTitle', async function(req,res, next){
+    if( req.body.title == null){
+      return res.send({hasErrors : "True", titleGiven : "False"});
+    }
+  
+    await Eportfolio.find({title : req.body.title}).then(function(eportList){
+      return res.send(eportList);
+    })
+  
+  })
 
 module.exports = router;
