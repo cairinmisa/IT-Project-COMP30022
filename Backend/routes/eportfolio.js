@@ -27,6 +27,10 @@ router.get('/', async (req, res,next)=> {
 // Create a new Eportfolio
 router.post('/create',passport.authenticate('jwt', {session : false}), (req, res)=> {
 
+    if(req.body.userID==null){
+        return res.send({userIDGiven : "False", hasErrors : "True"})
+    }
+
     const { errors, isValid } = validatenewEportInput(req.body);
     // Check Validation
     if (!isValid) {

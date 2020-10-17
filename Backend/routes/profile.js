@@ -144,11 +144,8 @@ router.post("/", async (req,res) => {
 // @desc MODIFY User
 // @access PUBLIC
 router.put('/update',passport.authenticate('jwt', {session : false}),async function(req,res,next){
-
-  // Validate input
-  const {errors, isValid} = validateupdateInput(req.body);
-  if (!isValid){
-    return res.status(200).json(errors);
+  if(req.body.userID==null){
+    return res.send({userIDGiven : "False", hasErrors : "True"})
   }
 
   // Confirm that the user is modifying their own account
@@ -166,15 +163,11 @@ router.put('/update',passport.authenticate('jwt', {session : false}),async funct
 // @access PUBLIC
 router.delete('/', function(req,res, next){
 
-  // Validate Input
-  const { errors, isValid } = validateDeleteInput(req.body);
-  if (!isValid){
-    return res.status(200).json(errors);
+  if(req.body.emailAddress == null){
+    return res.send({hasErrors : "True", emailGiven : "False"})
   }
-  else {
-        userController.delete(req,res,next);
-    }
-});
+    userController.delete(req,res,next);
+})
 
 router.get('/searchByName', async function(req,res, next){
   if( req.body.fullName == null){

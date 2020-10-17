@@ -48,15 +48,11 @@ exports.verifyGoogleToken = async (token, res) => {
 generateToken = async (emailAddress,res) =>{
     token = {}
     const user = await User.findOne({emailAddress : emailAddress});
-    console.log(user)
-    console.log(emailAddress)
-    console.log(keys.secretOrKey)
     // User matched, create JWT payload
     const payload = {
         id: user._id,
         name: user.username
       };
-    console.log(payload);
       // Sign token
       jwt.sign(
         payload,
@@ -101,7 +97,6 @@ registerGoogleUser = async (payload,res) =>{
     // Set GoogleUser
     data.googleUser = "True"
     
-    console.log(data)
     await User.create(data)
 
 }
@@ -152,19 +147,22 @@ exports.update = async (req,res,next) =>{
         return res.send({userExists : "False", hasErrors : "True"})
     }
     
-    
+    // Fetch user
     const user = await fetchController.userfromUserID(req.body.userID);
+    
+    // Ensure googleUser isn't trying to modify fields that are unallowed
     if(user.googleUser){
         if(req.body.emailAddress != null || req.body.password != null){
             res.send({unauthorizedLogin : "True", hasErrors : "True"});
         }
     }
 
-    // Checks given password is correct
-    if(!(await bcrypt.compare(req.body.oldpassword,user.password))){
-        return res.send({incorrectPassword : "True", hasErrors : "True"})
+    // Checks given password is correct if they are not a google user
+    if(user.googleUser == null){
+        if(!(await bcrypt.compare(req.body.oldpassword,user.password))){
+            return res.send({incorrectPassword : "True", hasErrors : "True"})
+        }
     }
-    
     // Checks new email is valid
     if(req.body.emailAddress != null){
         if (!validator.isEmail(req.body.emailAddress)) {
