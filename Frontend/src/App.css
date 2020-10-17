@@ -392,9 +392,6 @@ div {
 
 .accountForm-content button {
   margin-left: 10px;
-  border-color: var(--scheme-black);
-  border-style: solid;
-  border-radius: 28px;
   font-family: neue-montreal-medium, helvetica;
   font-size: 17px;
   width: 50px;
@@ -403,6 +400,11 @@ div {
 
 .accountForm-content .submitButton {
   margin-bottom: 10px;
+}
+
+.noBorder {
+  border: none;
+  background-color: var(--scheme-white);
 }
 
 .loginForm {

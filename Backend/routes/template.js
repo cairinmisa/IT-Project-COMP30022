@@ -92,7 +92,27 @@ router.get('/fetchFromUser/',passport.authenticate('jwt', {session : false}),asy
         return res.send(tempList);
     })
 
-
 })
+
+router.put('/saveTemplate/',passport.authenticate('jwt', {session : false}),async (req, res)=> {
+  if(req.body.dateUpdated == null){
+      return res.send({hasErrors : "True", dateGiven : "False"});
+  }
+  if(req.body.templateID == null){
+    return res.send({hasErrors : "True", templateIDGiven : "False"});
+  }
+  templateController.saveTemplate(req,res);
+})
+
+router.get('/searchByTitle', async function(req,res, next){
+    if( req.body.title == null){
+      return res.send({hasErrors : "True", titleGiven : "False"});
+    }
+  
+    await Template.find({title : req.body.title}).then(function(templateList){
+      return res.send(templateList);
+    })
+  
+  })
 
 module.exports = router;
