@@ -14,7 +14,10 @@ class TemplateCategory extends Component {
     async loadTemplates() {
         await Axios({
             method: 'get',
-            url:  host+'/template/getPublic'
+            url:  host+'/template/getPublic',
+            params: {
+                category : this.props.category
+            }
           })
           .then(response => {
             // Seperate the data and put templates into a list
@@ -46,7 +49,7 @@ class TemplateCategory extends Component {
             <div className = "templateCategory">
                 <h2>{this.props.displayTitle}</h2>
                 <div className="templateCategory-content">
-                    {this.state.templates.map((template) => <TemplateCard template={template}/>)}
+                    {this.state.templates.map((template) => <TemplateCard template={template} createNew={(templateID) => this.props.createNew(templateID)}/>)}
                 </div>
             </div>
         );
