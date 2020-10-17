@@ -30,25 +30,6 @@ exports.verifyGoogleToken = async (token, res) => {
     });
 };
 
-exports.login = async (req, res, next) => {
-    var response = null;
-    user = await fetchController.userfromEmail(req.body.emailAddress);
-    if(user==null){
-        errorController.error(res,"email not found", 400);
-    } else  {
-        try{
-            if(await bcrypt.compare(req.body.password,user.password)){
-                res.send({result : "Success", user : user});
-            } else {
-                res.send({result : "Incorrect Password"});
-            }
-        } catch{
-            errorController.error(res, "Hashing Error", 500);
-        }
-    }
-
-};
-
 exports.register = async (req,res,next) =>{
 
     // Set Full Name value
@@ -90,12 +71,20 @@ exports.register = async (req,res,next) =>{
 }
 
 exports.update = async (req,res,next) =>{
+    // Check user exists
     if(!(await fetchController.userIDExists(req.body.userID))){
         return res.send({userExists : "False", hasErrors : "True"})
     }
     
-    // Checks given password is correct
+    
     const user = await fetchController.userfromUserID(req.body.userID);
+    if(user.googleUser){
+        if(req.body.emailAddress != null || req.body.password != null){
+            res.send({unauthorizedLogin : "True", hasErrors : "True"});
+        }
+    }
+
+    // Checks given password is correct
     if(!(await bcrypt.compare(req.body.oldpassword,user.password))){
         return res.send({incorrectPassword : "True", hasErrors : "True"})
     }

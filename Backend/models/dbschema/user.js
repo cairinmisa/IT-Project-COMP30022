@@ -8,6 +8,7 @@ var userSchema = new Schema({
     firstName : String,
     lastName : String,
     fullName : String,
+    googleUser : String,
     emailAddress : String,
     dOB : {type : String},
     }, {collection : 'Users'});

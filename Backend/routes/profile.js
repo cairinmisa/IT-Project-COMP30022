@@ -37,6 +37,7 @@ router.post('/login', async (req,res) => {
     authController.verifyGoogleToken(req.body.googleToken, res);
     return;
   }
+  
 
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
@@ -53,8 +54,10 @@ router.post('/login', async (req,res) => {
   User.findOne({emailAddress}).then(user => {
     // Check if user exists
     if (!user) {
-      return res.status(200).json({ emailnotFound: "True", hasErrors: "True"
-    });
+      return res.send({ emailnotFound: "True", hasErrors: "True" });
+    }
+    if (user.googleUser == "True"){
+      return res.send({ unauthorizedLogin: "True", hasErrors: "True"});
     }
 
   // Check password
