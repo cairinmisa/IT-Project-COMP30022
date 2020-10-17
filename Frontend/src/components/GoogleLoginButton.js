@@ -9,28 +9,20 @@ const CLIENT_ID = "678370899290-c6n53p7t4351dtqgmdjl6a80qjq5h26i.apps.googleuser
 class GoogleLoginButton extends Component {
     async handleResponse(response) {
         //handle success from database
+        console.log(response);
         if(!response.data.hasErrors) {
+            // Split Bearer from token
+            UserStore.token = response.data.token.split(" ")[1];
+
+            // Set the local storage of user
+            localStorage.setItem("token", UserStore.token);
+            localStorage.setItem("emailAddress", response.data.emailAddress);
+
+            // Update status to force reload
             UserStore.isLoggedIn = true;
-            UserStore.token = response.data.token;
 
-            // Get username from token
-            // await axios({
-            //     method: 'get',
-            //     url: host+'/profile/findUser',
-            //     params: {
-            //         emailAddress: this.state.email
-            //     }
-            //     })
-            //     .then(response => {
-            //         UserStore.user = response.data;
+            window.location.reload(false);
 
-            //         // Set local storage
-            //         localStorage.setItem("user", JSON.stringify(UserStore.user));
-            //         localStorage.setItem("token", UserStore.token);
-            //     })
-            //     .catch(response => {
-            //         console.log(response);
-            //     });
         }
         else if (response.data.hasErrors){
             alert("Unable to create user from Google ID");

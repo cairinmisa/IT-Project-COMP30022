@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import {host} from "../stores/Settings"
 import GoogleLoginButton from "../components/GoogleLoginButton";
+import UserStore from "../stores/UserStore";
 
 class SignUpForm extends Component {
   constructor(props) {
@@ -139,6 +140,10 @@ class SignUpForm extends Component {
 
   state = {};
   render() {
+    if (UserStore.isLoggedIn) {
+      this.props.history.push('/');
+      window.location.reload(false);
+    }
     return (
       <div className="signupForm">
         <div className="signupForm-content">
