@@ -105,11 +105,11 @@ router.put('/saveTemplate/',passport.authenticate('jwt', {session : false}),asyn
 })
 
 router.get('/searchByTitle', async function(req,res, next){
-    if( req.body.title == null){
+    if( req.query.title == null){
       return res.send({hasErrors : "True", titleGiven : "False"});
     }
   
-    await Template.find({title : req.body.title}).then(function(templateList){
+    await Template.find({title : req.query.title, isPublic : "True"}).then(function(templateList){
       return res.send(templateList);
     })
   
