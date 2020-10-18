@@ -71,8 +71,12 @@ class Template extends Component {
             <h2 className="grey">Made by the community.</h2>
           </div>
           <TemplateCategory displayTitle="Highest Rated" sort="rating" createNew={(templateID) => this.createNew(templateID)}/>
-          <TemplateCategory displayTitle="Technology" category="Technology" sort="rating" createNew={(templateID) => this.createNew(templateID)}/>
           <TemplateCategory displayTitle="Professional" category="Professional" sort="rating" createNew={(templateID) => this.createNew(templateID)}/>
+          <TemplateCategory displayTitle="Working" category="Working" sort="rating" createNew={(templateID) => this.createNew(templateID)}/>
+          <TemplateCategory displayTitle="Display" category="Display" sort="rating" createNew={(templateID) => this.createNew(templateID)}/>
+          <TemplateCategory displayTitle="Art" category="Art" sort="rating" createNew={(templateID) => this.createNew(templateID)}/>
+          <TemplateCategory displayTitle="Technology" category="Technology" sort="rating" createNew={(templateID) => this.createNew(templateID)}/>
+          <TemplateCategory displayTitle="Science" category="Science" sort="rating" createNew={(templateID) => this.createNew(templateID)}/>
         </div>
       </div>
     );

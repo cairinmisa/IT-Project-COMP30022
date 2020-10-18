@@ -45,6 +45,9 @@ class TemplateCategory extends Component {
     }
 
     render () {
+        if(this.state.templates.length == 0) {
+            return null;
+        }
         return (
             <div className = "templateCategory">
                 <h2>{this.props.displayTitle}</h2>
