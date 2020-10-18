@@ -332,7 +332,7 @@ export default class TextEditor extends Component {
                 }
               }
               />
-              <div class="editorBorder"></div>
+              <div className="editorBorder"></div>
             </div>
           </div>
         </div>

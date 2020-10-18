@@ -166,6 +166,29 @@ router.delete('/', function(req,res, next){
     }
 });
 
+router.get('/searchByName', async function(req,res, next){
+  if( req.body.fullName == null){
+    return res.send({hasErrors : "True", fullNameGiven : "False"});
+  }
 
+  await User.find({fullName : req.body.fullName}).then(function(nameList){
+    return res.send(nameList);
+  })
+
+})
+
+router.get('/usernameFromUserID',async function(req,res, next){
+  if(req.query.userID == null){
+    return res.send({hasErrors: "True", userIDGiven : "False"});
+  }
+  await User.findOne({userID : req.query.userID}).then(function(user){
+    if(user==null){
+      return res.send({hasErrors: "True", userExists : "False"});
+    } else{
+      return res.send({username : user.username, hasErrors : "False"});
+    }
+  })
+
+})
 
 module.exports = router;

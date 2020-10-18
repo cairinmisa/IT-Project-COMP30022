@@ -5,10 +5,10 @@ const Eportfolio = require('../models/dbschema/eportfolio');
 const Template = require('../models/dbschema/templates');
 const fetchController = require('./fetch');
 const eportController = require('./eport');
-const { updateOne } = require('../models/dbschema/eportfolio');
+const { updateOne, findByIdAndUpdate } = require('../models/dbschema/eportfolio');
 
 
-
+// Creates a template given an eportfolio
 exports.create = async (req,res,next) =>{
     //Password exists
     let response = {}
@@ -72,6 +72,8 @@ exports.create = async (req,res,next) =>{
         }).catch(next);
 }
 
+
+// Creates a new eportfolio given a template
 exports.createfromTemplate = async (req,res,next) =>{
      let response = {}
     
@@ -160,5 +162,58 @@ exports.deleteTemplate = async (req,res,next) =>{
         }
             
     })
+}
+
+exports.saveTemplate = async (req,res,next) =>{
+    let updateData = {}
+    let response = {}
+    updateData.dateUpdated = req.body.dateUpdated
+    // If nothing given, then return an error
+    if(req.body.data == null && req.body.title == null 
+        && req.body.isPublic == null && req.body.category==null){
+            console.log("got here");
+            return res.send({hasErrors : "True", giveInput : "Please"});
+        }
+    // If Public is invalid, delete the field
+    if((req.body.isPublic == "True") || (req.body.isPublic == "False")){
+        updateData.isPublic = req.body.isPublic
+    }
+    
+    // If category exists, add it to update list
+    if(req.body.category != null){
+        updateData.category = req.body.category
+    }
+
+    // If date exists, add it to update list
+    if(req.body.data != null){
+        updateData.data = req.body.data
+    }
+
+    // Checks if the title already exists for the user, iif not then add to the updateData
+    await Template.find({userID : req.body.userID, title : req.body.title}).then(async function(list){
+        result = list
+    });
+    if(result.length != 0){
+        return res.send({titleExists : "True", hasErrors : "True"})
+    } else if((req.body.title != null) && (req.body.title.length > 0)){
+        updateData.title = req.body.title
+    }
+
+
+    const template = await fetchController.tempfromTempID(req.body.templateID);
+    if(template ==null){
+        return res.send({templateExists : "False", hasErrors : "True"});
+    } else if(!(req.user.userID == template.userID)){
+        return res.send({unauthorizedAccess : "True", hasErrors : "True"})
+    } else {
+        // Finally, update the template
+        console.log(updateData)
+        Template.findByIdAndUpdate({_id : template._id},updateData).then(async function(){
+            await fetchController.tempfromTempID(req.body.templateID).then(async function(newtemp){
+                res.send(newtemp);
+            });
+        })
+    }
+
 }
 

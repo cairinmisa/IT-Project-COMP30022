@@ -54,11 +54,11 @@ class ProfilePage extends Component {
             return (
                 <div className="accountForm">
                     <div className="accountForm-content"><h1>👨‍💼 Manage your account 👩‍💼</h1>
-                        <p className="medium"><span className="bold">First name:</span> {this.capitaliseName(UserStore.user.firstName)}<button onClick={() => this.showEditModal("First Name", UserStore.user.firstName, "text")}>Edit</button></p> 
-                        <p className="medium"><span className="bold">Last name:</span> {this.capitaliseName(UserStore.user.lastName)}<button onClick={() => this.showEditModal("Last Name", UserStore.user.lastName, "text")}>Edit</button></p> 
-                        <p className="medium"><span className="bold">Username:</span> {UserStore.user.username}<button onClick={() => this.showEditModal("Username", UserStore.user.username, "text")}>Edit</button></p>
-                        <p className="medium"><span className="bold">Email</span> {UserStore.user.emailAddress}<button onClick={() => this.showEditModal("Email", UserStore.user.emailAddress, "text")}>Edit</button></p>
-                        <p className="medium"><span className="bold">Date of birth:</span> {UserStore.user.dOB ? UserStore.user.dOB : "Not Specified"}<button onClick={() => this.showEditModal("Date of Birth", UserStore.user.dOB, "date")}>Edit</button></p>
+                        <p className="medium"><span className="bold">First name:</span> {this.capitaliseName(UserStore.user.firstName)}<button className="noBorder" onClick={() => this.showEditModal("First Name", UserStore.user.firstName, "text")}>✏️</button></p> 
+                        <p className="medium"><span className="bold">Last name:</span> {this.capitaliseName(UserStore.user.lastName)}<button className="noBorder" onClick={() => this.showEditModal("Last Name", UserStore.user.lastName, "text")}>✏️</button></p> 
+                        <p className="medium"><span className="bold">Username:</span> {UserStore.user.username}<button className="noBorder" onClick={() => this.showEditModal("Username", UserStore.user.username, "text")}>✏️</button></p>
+                        <p className="medium"><span className="bold">Email:</span> {UserStore.user.emailAddress}<button className="noBorder" onClick={() => this.showEditModal("Email", UserStore.user.emailAddress, "text")}>✏️</button></p>
+                        <p className="medium"><span className="bold">Date of birth:</span> {UserStore.user.dOB ? UserStore.user.dOB : "Not Specified"}<button className="noBorder" onClick={() => this.showEditModal("Date of Birth", UserStore.user.dOB, "date")}>✏️</button></p>
                         <SubmitButton
                         text="Change Password" derivedClass="whiteBG"
                         onClick={() => this.showEditModal("Password", "", "password")}
