@@ -1,38 +1,40 @@
+// This modal will pop up when a user wants to create a folio from a template
 import React, { Component } from 'react';
 import InputField from "../pages/InputField";
-import {Redirect} from 'react-router-dom';
-import SubmitButton from "../pages/SubmitButton";
+import UserStore from "../stores/UserStore";
+import { Link } from "react-router-dom";
 
-class CreateNew extends Component {
-
+class TemplateToFolioModal extends Component {
     state = {
         publicity : "True",
-        input : "",
-        useTemplate : false,
-        templatePageRedirect : false
+        input : ""
     }
 
     handleSubmit(){
         this.props.createPortfolio(this.state.input, this.state.publicity)
     }
 
-    templateRedirect(){
-        this.setState({
-            templatePageRedirect : true
-        })
-    }
-
-    render() { 
-        if(this.state.templatePageRedirect == true){
-            return <Redirect  to="/template" />
-        }
+    render() {
+        if(UserStore.isLoggedIn == false) {
+            return (  
+                <div className="greyOutBG">
+                     <div className="modal">
+                     <button className="closeBtn" onClick={()=> this.props.closeCreateNew()}>X</button>
+                        <div className="modal-content">
+                            <h2><span className="blue">Join</span> our platform</h2>
+                            <Link to="login" className="btn whiteBG">Log in</Link>
+                            <Link to="signup" className="btn redBG">Sign up</Link>
+                        </div>
+                    </div>
+                </div>
+            );
+        } 
         return (  
             <div className="greyOutBG">
                  <div className="modal">
                  <button className="closeBtn" onClick={()=> this.props.closeCreateNew()}>X</button>
                     <div className="modal-content">
-                        <h2>Create New Portfolio</h2>
-                        <button onClick={() => this.templateRedirect()}>Create From Template</button>
+                        <h2>Use Template as New Folio</h2>
                         <InputField
                             type="text"
                             placeholder="Enter Folio Name"
@@ -52,6 +54,5 @@ class CreateNew extends Component {
         );
     }
 }
- 
-export default CreateNew;
 
+export default TemplateToFolioModal;

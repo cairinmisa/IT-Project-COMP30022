@@ -24,6 +24,7 @@
   --scheme-black: #21273b;
   --scheme-red: #ff6b6b;
   --scheme-aqua: #00bfb2;
+  --scheme-grey: #5d5f68;
 }
 
 .red {
@@ -36,6 +37,10 @@
 
 .green {
   color: var(--scheme-aqua);
+}
+
+.grey {
+  color: var(--scheme-grey);
 }
 
 .whiteBG {
@@ -90,10 +95,10 @@ input:focus {
 }
 
 .greyOutBG {
-  position: absolute;
+  position: fixed;
   top:0;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   background-color: rgba(200, 200, 200, 0.8);
   z-index: 1;
 }
@@ -346,6 +351,20 @@ div {
   font-size: 17px;
 }
 
+.modal .btn {
+  display: block;
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 28px;
+  font-family: neue-montreal-bold, helvetica;
+  height: 28px;
+  padding-top: 6px;
+  width: 100%;
+  margin: 5px 0 0 0;
+  font-size: 17px;
+  text-decoration: none;
+}
+
 .modal select {
   border-color: var(--scheme-black);
   border-style: solid;
@@ -507,11 +526,6 @@ div {
   list-style: none;
 }
 
-.submitButton button {
-  background-color: var(--scheme-red);
-  color: var(--scheme-white);
-}
-
 .googleButton button {
   background-color: var(--scheme-white);
   color: var(--scheme-black);
@@ -522,6 +536,62 @@ div {
   float: left;
   padding-left: 11px;
   padding-top: 1px;
+}
+
+.templatePage {
+  text-align: left;
+  width: 70%;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0);
+  padding-top: 50px;
+  min-height: 65vh;
+  padding-bottom: 70px;
+}
+
+.templatePage-header {
+  text-align: left;
+}
+
+.templatePage-header h1 {
+  padding: 0;
+  margin: 0 0 3px 0;
+}
+
+.templatePage-header h2 {
+  padding: 0;
+  margin: 0;
+}
+
+.templateCategory {
+  text-align: left;
+}
+
+.templateCategory h2 {
+  text-align: left;
+}
+
+.templateCategory-content {
+  width: 100%;
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 15px;
+  padding: 10px 5px 16px 15px;
+  text-align: left;
+  height: 250px;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.templateCard {
+  display: inline-block;
+  margin-right: 20px;
+  width: 300px;
+  height: 100%;
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 15px;
 }
 
 @media screen and (min-width: 1200px) {

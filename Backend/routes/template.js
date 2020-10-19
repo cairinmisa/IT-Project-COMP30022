@@ -71,9 +71,17 @@ router.delete('/',passport.authenticate('jwt', {session : false}), (req, res)=> 
 // Fetch all public templates
 router.get('/getPublic',async (req, res)=> {
 
-    await Template.find({isPublic : "True"}).then(function(tempList){
-        return res.send(tempList);
-    })
+    if(req.query.category!=null){
+        await Template.find({isPublic : "True", category : req.query.category}).then(function(categoryList){
+            return res.send(categoryList)
+        })
+    } else{
+        await Template.find({isPublic : "True"}).then(function(tempList){
+            return res.send(tempList);
+        })
+    }
+
+    
 
 })
 
@@ -105,11 +113,11 @@ router.put('/saveTemplate/',passport.authenticate('jwt', {session : false}),asyn
 })
 
 router.get('/searchByTitle', async function(req,res, next){
-    if( req.body.title == null){
+    if( req.query.title == null){
       return res.send({hasErrors : "True", titleGiven : "False"});
     }
   
-    await Template.find({title : req.body.title}).then(function(templateList){
+    await Template.find({title : req.query.title, isPublic : "True"}).then(function(templateList){
       return res.send(templateList);
     })
   
