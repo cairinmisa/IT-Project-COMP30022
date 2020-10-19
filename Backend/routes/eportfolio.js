@@ -106,7 +106,7 @@ router.get('/searchByTitle', async function(req,res, next){
       return res.send({hasErrors : "True", titleGiven : "False"});
     }
   
-    await Eportfolio.find({title : query, isPublic : "True"}).then(function(eportList){
+    await Eportfolio.find({title : regex, isPublic : "True"}).then(function(eportList){
       return res.send(eportList);
     })
   
