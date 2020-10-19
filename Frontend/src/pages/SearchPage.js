@@ -1,12 +1,125 @@
 import React, { Component } from 'react';
+import UserStore from "../stores/UserStore";
+import Axios from "axios";
+import {host} from "../stores/Settings";
 
 class SearchPage extends Component {
-    state = {  }
+    state = { 
+        users : [],
+        templates : [],
+        eportfolios : []
+    }
+
+    async getTemplates(search){
+        await Axios({
+          method: 'get',
+          url:  host+'/template/searchByTitle', 
+          headers: {
+            Authorization : "Bearer " + UserStore.token
+          },
+          params: {
+            title : search
+          }
+        })
+        .then(response => {
+          let reqtemplates = [];
+          for(let i=0;i<response.data.length;i++){
+            reqtemplates[i] = [response.data[i].data,response.data[i].title,response.data[i].templateID]
+          }
+          this.setState({
+            templates : reqtemplates
+          });
+          console.log(response)
+        })
+        .catch(response => {
+          console.log(response)
+        }) 
+        
+    }
+
+    async getUsers(search){
+      await Axios({
+        method: 'get',
+        url:  host+'/profile/searchByName', 
+        headers: {
+          Authorization : "Bearer " + UserStore.token
+        },
+        params: {
+          fullName : search
+        }
+      })
+      .then(response => {
+        let reqUsers = [];
+        for(let i=0;i<response.data.length;i++){
+          reqUsers[i] = [response.data[i].fullName, response.data[i].userID, response.data[i].username]
+        }
+        this.setState({
+          users : reqUsers
+        });
+        console.log(response)
+      })
+      .catch(response => {
+        console.log(response)
+      }) 
+    }
+
+
+    async getPortfolios(search){
+        await Axios({
+          method: 'get',
+          url:  host+'/eportfolio/searchByTitle', 
+          headers: {
+            Authorization : "Bearer " + UserStore.token
+          },
+          params: {
+            title : search
+          }
+        })
+        .then(response => {
+          let reqPortfolios = [];
+          for(let i=0;i<response.data.length;i++){
+            reqPortfolios[i] = [response.data[i].title]
+          }
+          this.setState({
+            eportfolios : reqPortfolios
+          });
+          console.log(response)
+        })
+        .catch(response => {
+          console.log(response)
+        }) 
+      
+  }
+
+    componentDidMount(){
+        console.log(this.props.search)
+        this.getTemplates(this.props.search)
+        this.getUsers(this.props.search)
+        this.getPortfolios(this.props.search)
+    }
+
+
     render() { 
         return (  
             <div>  
-                <h1>SearchPage</h1>
-                <h2>{this.props.search}</h2>
+                <div>
+                <h1>Users</h1>
+                <ul>
+                  {this.state.users.map((user) => <li>{user[2]}</li>)}
+                </ul>
+                </div>
+                <div>
+                <h1>Eportfolios</h1>
+                <ul>
+                  {this.state.eportfolios.map((eportfolio) => <li>{eportfolio[0]}</li>)}
+                </ul>
+                </div>
+                <div>
+                <h1>Templates</h1>
+                <ul>
+                  {this.state.templates.map((template) => <li>{template[1], template[2]}</li>)}
+                </ul>
+                </div>
             </div>
         );
     }
