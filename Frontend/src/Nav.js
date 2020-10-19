@@ -60,6 +60,10 @@ class Nav extends Component {
     else{
       return(
         <div className="navBar">
+          <form>
+            <input type = 'text' value = {this.state.value} onChange={this.handleChange}></input>
+            <Link to = "/search"><button type = "button" onClick = {this.handleSubmit}>Submit</button></Link>
+          </form>
         <ul>
           <Link to="/">
             <li>Home</li>
