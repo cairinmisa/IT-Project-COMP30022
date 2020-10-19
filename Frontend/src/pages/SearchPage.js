@@ -100,28 +100,35 @@ class SearchPage extends Component {
 
 
     render() { 
-        return (  
-            <div>  
-                <div>
-                <h1>Users</h1>
-                <ul>
-                  {this.state.users.map((user) => <li>{user[2]}</li>)}
-                </ul>
-                </div>
-                <div>
-                <h1>Eportfolios</h1>
-                <ul>
-                  {this.state.eportfolios.map((eportfolio) => <li>{eportfolio[0]}</li>)}
-                </ul>
-                </div>
-                <div>
-                <h1>Templates</h1>
-                <ul>
-                  {this.state.templates.map((template) => <li>{template[1], template[2]}</li>)}
-                </ul>
-                </div>
-            </div>
-        );
+        if(this.state.users.length>0 || this.state.eportfolios.length>0 || this.state.templates.length>0){
+          return (  
+              <div>  
+                  <div>
+                  {this.state.users.length>0 ? <h1>Users</h1> : null}
+                  <ul>
+                    {this.state.users.map((user) => <li>{user[2]}</li>)}
+                  </ul>
+                  </div>
+                  <div>
+                  {this.state.eportfolios.length>0 ? <h1>Eportfolios</h1> : null}
+                  <ul>
+                    {this.state.eportfolios.map((eportfolio) => <li>{eportfolio[0]}</li>)}
+                  </ul>
+                  </div>
+                  <div>
+                  {this.state.templates.length>0 ? <h1>Templates</h1> : null}
+                  <ul>
+                    {this.state.templates.map((template) => <li>{template[1]}</li>)}
+                  </ul>
+                  </div>
+              </div>
+          );
+        }
+      else{
+        return(
+          <h1>Is this your Tinder? Cause you've got no matches!</h1>
+        )
+      }
     }
 }
  
