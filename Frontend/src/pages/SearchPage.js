@@ -106,7 +106,7 @@ class SearchPage extends Component {
                   <div>
                   {this.state.users.length>0 ? <h1>Users</h1> : null}
                   <ul>
-                    {this.state.users.map((user) => <li>{user[2]}</li>)}
+                    {this.state.users.map((user) => <li>{user[0]}, {user[2]}</li>)}
                   </ul>
                   </div>
                   <div>
