@@ -4,7 +4,7 @@ import InputField from "../pages/InputField";
 class CreateTemplateModal extends Component {
 
     state = {
-        publicity : true,
+        publicity : "True",
         title : "",
         category: "Professional"
     }
