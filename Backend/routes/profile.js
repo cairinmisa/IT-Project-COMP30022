@@ -31,6 +31,14 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 // @desc Login user and return JWT token
 // @access PUBLIC
 router.post('/login', async (req,res) => {
+  // Check if logging in with Google 
+  if(req.body.googleToken != null) {
+    console.log("A User Logged in With Google");
+    authController.verifyGoogleToken(req.body.googleToken, res);
+    return;
+  }
+  
+
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
 
@@ -46,8 +54,10 @@ router.post('/login', async (req,res) => {
   User.findOne({emailAddress}).then(user => {
     // Check if user exists
     if (!user) {
-      return res.status(200).json({ emailnotFound: "True", hasErrors: "True"
-    });
+      return res.send({ emailnotFound: "True", hasErrors: "True" });
+    }
+    if (user.googleUser == "True"){
+      return res.send({ unauthorizedLogin: "True", hasErrors: "True"});
     }
 
   // Check password
@@ -99,6 +109,7 @@ router.get('/findUser/', async function(req,res,next){
         response.firstName = user.firstName;
         response.lastName = user.lastName;
         response.userID = user.userID;
+        response.googleUser = user.googleUser;
         if(user.dOB){
           response.dOB = user.dOB;
         }
@@ -134,11 +145,8 @@ router.post("/", async (req,res) => {
 // @desc MODIFY User
 // @access PUBLIC
 router.put('/update',passport.authenticate('jwt', {session : false}),async function(req,res,next){
-
-  // Validate input
-  const {errors, isValid} = validateupdateInput(req.body);
-  if (!isValid){
-    return res.status(200).json(errors);
+  if(req.body.userID==null){
+    return res.send({userIDGiven : "False", hasErrors : "True"})
   }
 
   // Confirm that the user is modifying their own account
@@ -154,17 +162,17 @@ router.put('/update',passport.authenticate('jwt', {session : false}),async funct
 // @Route DELETE api/
 // @desc DELETE User
 // @access PUBLIC
-router.delete('/', function(req,res, next){
-
-  // Validate Input
-  const { errors, isValid } = validateDeleteInput(req.body);
-  if (!isValid){
-    return res.status(200).json(errors);
+router.delete('/',passport.authenticate('jwt', {session : false}), function(req,res, next){
+  // Check user is accessing their own account
+  if(!(req.user.emailAddress == req.body.emailAddress)){
+    return res.send({unauthorizedAccess : "True", hasErrors : "True"})
   }
-  else {
-        userController.delete(req,res,next);
-    }
-});
+
+  if(req.body.emailAddress == null){
+    return res.send({hasErrors : "True", emailGiven : "False"})
+  }
+    userController.delete(req,res,next);
+})
 
 router.get('/searchByName', async function(req,res, next){
   if( req.query.fullName == null){

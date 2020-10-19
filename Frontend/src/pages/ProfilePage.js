@@ -19,7 +19,8 @@ class ProfilePage extends Component {
         showEdit: false,
         whichField: null,
         fieldPrevValue: null,
-        editFieldType: null
+        editFieldType: null,
+        isGoogleUser: false
     };
 
     // Shows pop up window prompting user for new information
@@ -46,6 +47,13 @@ class ProfilePage extends Component {
         });
     };
 
+    componentDidMount() {
+        console.log(UserStore.user);
+        if(UserStore.user.googleUser == "True"){
+            this.setState({isGoogleUser : true});
+        }
+    }
+
     render() {
         if(UserStore.user == null){
             this.props.history.push('/login');
@@ -54,15 +62,15 @@ class ProfilePage extends Component {
             return (
                 <div className="accountForm">
                     <div className="accountForm-content"><h1>👨‍💼 Manage your account 👩‍💼</h1>
+                        <p className="medium"><span className="bold">Email:</span> {UserStore.user.emailAddress}{this.state.isGoogleUser ? null : <button className="noBorder" onClick={() => this.showEditModal("Email", UserStore.user.emailAddress, "text")}>✏️</button>}</p>
                         <p className="medium"><span className="bold">First name:</span> {this.capitaliseName(UserStore.user.firstName)}<button className="noBorder" onClick={() => this.showEditModal("First Name", UserStore.user.firstName, "text")}>✏️</button></p> 
                         <p className="medium"><span className="bold">Last name:</span> {this.capitaliseName(UserStore.user.lastName)}<button className="noBorder" onClick={() => this.showEditModal("Last Name", UserStore.user.lastName, "text")}>✏️</button></p> 
                         <p className="medium"><span className="bold">Username:</span> {UserStore.user.username}<button className="noBorder" onClick={() => this.showEditModal("Username", UserStore.user.username, "text")}>✏️</button></p>
-                        <p className="medium"><span className="bold">Email:</span> {UserStore.user.emailAddress}<button className="noBorder" onClick={() => this.showEditModal("Email", UserStore.user.emailAddress, "text")}>✏️</button></p>
                         <p className="medium"><span className="bold">Date of birth:</span> {UserStore.user.dOB ? UserStore.user.dOB : "Not Specified"}<button className="noBorder" onClick={() => this.showEditModal("Date of Birth", UserStore.user.dOB, "date")}>✏️</button></p>
-                        <SubmitButton
+                        {this.state.isGoogleUser ? null : <SubmitButton
                         text="Change Password" derivedClass="whiteBG"
                         onClick={() => this.showEditModal("Password", "", "password")}
-                        ></SubmitButton>
+                        ></SubmitButton> }
                         <SubmitButton
                         text="Delete Account" derivedClass="whiteBG"
                         onClick={() => this.showEditModal("Delete Account", "", "")}
@@ -78,7 +86,8 @@ class ProfilePage extends Component {
                         whichField={this.state.whichField} 
                         onSubmit={this.submitEditModal} 
                         onClose={this.closeEditModal} 
-                        show={this.state.showEdit}>
+                        show={this.state.showEdit}
+                        isGoogleUser={this.state.isGoogleUser}>
                         <h2>Enter new {this.state.whichField}.</h2>
                     </EditFieldModal>
                 </div>

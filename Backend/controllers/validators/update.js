@@ -14,12 +14,10 @@ const User = require('../../models/dbschema/user');
 // Registration Validation and Authentication
 module.exports = function validateupdateInput(data){
   let errors = {};
-  console.log(data)
   // Convert empty fields to an empty string so we can use validator functions
   data.userID = !isEmpty(data.userID) ? data.userID : "";
   data.oldpassword = !isEmpty(data.oldpassword) ? data.oldpassword : "";
   data.oldpassword2 = !isEmpty(data.oldpassword2) ?data.oldpassword2 : "";
-  console.log(data)
   // Implement the checks for
   // UserID Check
   if (validator.isEmpty(data.userID)) {

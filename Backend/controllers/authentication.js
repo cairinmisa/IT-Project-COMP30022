@@ -4,25 +4,103 @@ const isEmpty = require('is-empty');
 const User = require('../models/dbschema/user');
 const fetchController = require('./fetch');
 const errorController = require('./error');
+const jwt = require('jsonwebtoken');
+const keys = require('../config/keys');
+const passport = require('passport');
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
 
-exports.login = async (req, res, next) => {
-    var response = null;
-    user = await fetchController.userfromEmail(req.body.emailAddress);
-    if(user==null){
-        errorController.error(res,"email not found", 400);
-    } else  {
-        try{
-            if(await bcrypt.compare(req.body.password,user.password)){
-                res.send({result : "Success", user : user});
-            } else {
-                res.send({result : "Incorrect Password"});
-            }
-        } catch{
-            errorController.error(res, "Hashing Error", 500);
+// Google Authentication Library
+const {OAuth2Client} = require('google-auth-library');
+
+// Constants used for Google Authentication
+const CLIENT_ID = "678370899290-c6n53p7t4351dtqgmdjl6a80qjq5h26i.apps.googleusercontent.com"
+const client = new OAuth2Client(CLIENT_ID);
+
+// Verifies a specified Google Token and then sends response
+exports.verifyGoogleToken = async (token, res) => {
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: CLIENT_ID
+    });
+    const payload = ticket.getPayload();
+    console.log(payload);
+
+    // If the users email already exists
+    await User.findOne({emailAddress : payload.email}).then(async function(target_user){
+        // Need to create the user then generate the token if user doesn't exist
+        // with that email
+        if(target_user == null){
+            await this.registerGoogleUser(payload,res);
+            this.generateToken(payload.email,res);
+        } else if (target_user.googleUser == "True") {
+            // Otherwise if the user exists and is a google user, then return a token
+            this.generateToken(target_user.emailAddress,res);
+
+        } else {
+            // Otherwise the user exists, but is not a google user, so don't authenticate
+            return res.send({hasErrors : "True", emailExists : "True"})
         }
-    }
+    })
 
 };
+// Generates a valid JWT token for the user defined by the given email address
+generateToken = async (emailAddress,res) =>{
+    token = {}
+    const user = await User.findOne({emailAddress : emailAddress});
+    // User matched, create JWT payload
+    const payload = {
+        id: user._id,
+        name: user.username
+      };
+      // Sign token
+      jwt.sign(
+        payload,
+        keys.secretOrKey,
+        {expiresIn: 3600},
+        (err, token) => {
+            console.log(token);
+            res.json({
+              hasErrors: false,
+              token: "Bearer " + token,
+              emailAddress: emailAddress
+            });
+          }
+      );
+}
+
+registerGoogleUser = async (payload,res) =>{
+    // Data Is an object to store the values used to create the user
+    let data = {}
+    // Set given information
+    data.firstName = payload.given_name
+    data.lastName = payload.family_name
+    data.fullName = payload.name
+    data.emailAddress = payload.email
+
+    // Set Password (Irrelevant since google users cannot login with this password)
+    data.password = "password"
+
+    // Set UserID
+
+    testID = await User.countDocuments() + 1;
+    while(1){
+       if(!await fetchController.userIDExists(testID)){
+            data.userID = testID;
+            break;
+        }
+        testID ++;
+    }
+    
+    // Set Username
+    data.username = data.fullName + "#" + data.userID.toString()
+    
+    // Set GoogleUser
+    data.googleUser = "True"
+    
+    await User.create(data)
+
+}
 
 exports.register = async (req,res,next) =>{
 
@@ -39,7 +117,7 @@ exports.register = async (req,res,next) =>{
     }
     
     else{
-        //Generate User ID based on number of documents, if already exists,
+        // Generate User ID based on number of documents, if already exists,
         // keep incrementing until it does exist
         testID = await User.countDocuments() + 1;
         while(1){
@@ -65,16 +143,27 @@ exports.register = async (req,res,next) =>{
 }
 
 exports.update = async (req,res,next) =>{
+    // Check user exists
     if(!(await fetchController.userIDExists(req.body.userID))){
         return res.send({userExists : "False", hasErrors : "True"})
     }
     
-    // Checks given password is correct
+    // Fetch user
     const user = await fetchController.userfromUserID(req.body.userID);
-    if(!(await bcrypt.compare(req.body.oldpassword,user.password))){
-        return res.send({incorrectPassword : "True", hasErrors : "True"})
-    }
     
+    // Ensure googleUser isn't trying to modify fields that are unallowed
+    if(user.googleUser){
+        if(req.body.emailAddress != null || req.body.password != null){
+            res.send({unauthorizedLogin : "True", hasErrors : "True"});
+        }
+    }
+
+    // Checks given password is correct if they are not a google user
+    if(user.googleUser == null){
+        if(!(await bcrypt.compare(req.body.oldpassword,user.password))){
+            return res.send({incorrectPassword : "True", hasErrors : "True"})
+        }
+    }
     // Checks new email is valid
     if(req.body.emailAddress != null){
         if (!validator.isEmail(req.body.emailAddress)) {

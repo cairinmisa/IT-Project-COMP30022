@@ -6,9 +6,9 @@ const fetchController = require('./fetch');
 const errorController = require('./error');
 
 
-
+// Adds an eportfolio to the database
 exports.register = async (req,res,next) =>{
-    //Password exists
+
     let response = {}
     let result = {}
     await Eportfolio.find({userID : req.body.userID, title : req.body.title}).then(async function(list){
