@@ -99,11 +99,14 @@ router.get('/fetchPublic/',passport.authenticate('jwt', {session : false}),async
 })
 
 router.get('/searchByTitle', async function(req,res, next){
+
+     // Create regex to form case insensitive search
+     var regex = new RegExp(["^", req.query.title, "$"].join(""),"i");
     if( req.query.title == null){
       return res.send({hasErrors : "True", titleGiven : "False"});
     }
   
-    await Eportfolio.find({title : req.query.title, isPublic : "True"}).then(function(eportList){
+    await Eportfolio.find({title : query, isPublic : "True"}).then(function(eportList){
       return res.send(eportList);
     })
   

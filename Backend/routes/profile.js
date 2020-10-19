@@ -167,11 +167,13 @@ router.delete('/', function(req,res, next){
 });
 
 router.get('/searchByName', async function(req,res, next){
+
+  var regex = new RegExp(["^", req.query.fullName, "$"].join(""),"i");
   if( req.query.fullName == null){
     return res.send({hasErrors : "True", fullNameGiven : "False"});
   }
 
-  await User.find({fullName : req.query.fullName}).then(function(nameList){
+  await User.find({fullName : regex}).then(function(nameList){
     return res.send(nameList);
   })
 
