@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage";
 import {Helmet} from "react-helmet";
 import SearchPage from "./pages/SearchPage";
 import { PropTypes } from "mobx-react";
+import UserPage from "./pages/UserPage";
 
 class App extends React.Component {
 
@@ -42,6 +43,7 @@ class App extends React.Component {
             <Route path="/template" exact component={Template}></Route>
             <Route path="/profile" exact component={ProfilePage}></Route>
             <Route path="/search" exact component = {() => <SearchPage search = {this.state.search}/>}></Route>
+            <Route path="/userPage" exact component = {UserPage}></Route>
           </Switch>
           <Footer />
           </div>
