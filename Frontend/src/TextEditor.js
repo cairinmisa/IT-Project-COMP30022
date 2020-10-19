@@ -11,6 +11,7 @@ import {host} from "./stores/Settings";
 import CreateNew from "./components/CreateNew";
 import CreateTemplateModal from "./components/CreateTemplateModal";
 import WorkspaceToolbar from "./components/WorkspaceToolbar";
+import TemplateToFolioModal from "./components/TemplateToFolioModal";
 
 
 export default class TextEditor extends Component {
@@ -19,6 +20,7 @@ export default class TextEditor extends Component {
     userTemplates : [],
     displayCreate : false,
     displayCreateTemplate : false,
+    displayConvertToFolio : false,
     currentID : "",
     currentTitle: "",
     currentTemplate : "",
@@ -41,7 +43,7 @@ export default class TextEditor extends Component {
   }
 
   closeCreateNew(){
-    this.setState({displayCreate: false, displayCreateTemplate: false})
+    this.setState({displayCreate: false, displayCreateTemplate: false, displayConvertToFolio : false})
   }
 
   createNew(){
@@ -51,6 +53,10 @@ export default class TextEditor extends Component {
 
   showTemplateModal(){
     this.setState({displayCreateTemplate : true})
+  }
+
+  showConvertToFolio() {
+    this.setState({displayConvertToFolio : true})
   }
 
   // Capitalises the first element of a string
@@ -266,6 +272,44 @@ export default class TextEditor extends Component {
       }) 
   }
 
+  convertToFolio(title, publicity) {
+    Axios({
+      method: 'post',
+      url:  host+'/template/createFolio', 
+      headers: {
+        Authorization : "Bearer " + UserStore.token
+      },
+      data: {
+        dateCreated : Date().toLocaleString(),
+        title: title,
+        userID : UserStore.user.userID,
+        templateID: this.state.currentID,
+        isPublic: publicity
+      }
+    })
+    .then(response => {
+      if(response.data.hasErrors === "True") {
+        if(response.data.titleGiven === "False") {
+          alert("Please enter a folio name.");
+        }
+        else if(response.data.titleExists === "True") {
+          alert("You attempted to create a folio with a name that already exists in your account. Please enter a different name.");
+        }
+        else {
+          alert("Something crazy has occured. Please contact team DewIT");
+        }
+      }
+      else if(response.data.hasErrors === "False"){
+        this.setState({displayConvertToFolio: false})
+        this.getPortfolios(UserStore.user.userID);
+      }
+      console.log(response)
+    })
+    .catch(response => {
+      console.log(response)
+    }) 
+  }
+
   componentDidMount(){
     if(UserStore.user != undefined){
       this.getPortfolios(UserStore.user.userID)
@@ -289,6 +333,7 @@ export default class TextEditor extends Component {
         <div className="text-editor">
           {this.state.displayCreate ? <CreateNew closeCreateNew = {this.closeCreateNew} createPortfolio = {this.createPortfolio}/> : null}
           {this.state.displayCreateTemplate ? <CreateTemplateModal closeCreateNew = {this.closeCreateNew} createTemplate = {(title, publicity, category) => this.convertPortfolio(title, publicity, category)}/> : null}
+          {this.state.displayConvertToFolio ? <TemplateToFolioModal closeCreateNew = {() => this.closeCreateNew()} createPortfolio = {(title, publicity) => this.convertToFolio(title, publicity)}/> : null}
           <div className="editorNavBar">
             <div className="leftAlign">
               <Link to = "/" >Home</Link>
@@ -320,6 +365,7 @@ export default class TextEditor extends Component {
               deleteFolio = {() => this.deletePortfolio()}
               deleteTemplate = {() => this.deleteTemplate()}
               convert = {() => this.showTemplateModal()}
+              convertToFolio = {() => this.showConvertToFolio()}
               templateSelected = {this.state.isTemplateSelected} 
             />
             <div className="editor-container">
