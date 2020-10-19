@@ -109,6 +109,7 @@ router.get('/findUser/', async function(req,res,next){
         response.firstName = user.firstName;
         response.lastName = user.lastName;
         response.userID = user.userID;
+        response.googleUser = user.googleUser;
         if(user.dOB){
           response.dOB = user.dOB;
         }
