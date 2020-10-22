@@ -381,6 +381,7 @@ export default class TextEditor extends Component {
                     'heading',
                     'bold',
                     'italic',
+                    'underline',
                     'link',
                     '|',
                     'imageUpload',
@@ -396,10 +397,16 @@ export default class TextEditor extends Component {
                     'redo'
                   ],
                   image: {
+                    styles: [
+                      // A completely custom full size style with no class, used as a default.
+                      'full', 'side', {name:'leftAlign', title: 'Align Left', icon: 'left', className: 'image-style-left'}
+                    ],
                     toolbar: [
-                      'imageTextAlternative',
+                      'imageStyle:leftAlign',
                       'imageStyle:full',
-                      'imageStyle:side'
+                      'imageStyle:side',
+                      '|',
+                      'imageTextAlternative'
                     ]
                   },
                   table: {
