@@ -3,14 +3,39 @@ import { Link } from "react-router-dom";
 import UserStore from "./stores/UserStore";
 
 class Nav extends Component {
+  
+  constructor(props){
+    super(props);
+    this.state = {value : ""};
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  state = {
+    value: ""
+  }
+  
   capitaliseName(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
+
+  handleChange(event){
+    this.setState({value : event.target.value})
+  }
+  
+  handleSubmit(){ 
+    this.props.submitSearch(this.state.value)
+  }
+
 
   render() {
     if(UserStore.isLoggedIn === false){
       return (
         <div className="navBar">
+          <form>
+            <input type = 'text' value = {this.state.value} onChange={this.handleChange}></input>
+            <Link to = "/search"><button type = "button" onClick = {this.handleSubmit}>Submit</button></Link>
+          </form>
           <ul>
             <Link to="/">
               <li>Home</li>
@@ -35,6 +60,10 @@ class Nav extends Component {
     else{
       return(
         <div className="navBar">
+          <form>
+            <input type = 'text' value = {this.state.value} onChange={this.handleChange}></input>
+            <Link to = "/search"><button type = "button" onClick = {this.handleSubmit}>Submit</button></Link>
+          </form>
         <ul>
           <Link to="/">
             <li>Home</li>

@@ -113,11 +113,12 @@ router.put('/saveTemplate/',passport.authenticate('jwt', {session : false}),asyn
 })
 
 router.get('/searchByTitle', async function(req,res, next){
+    // Create regex to form case insensitive search
+    var regex = new RegExp(["^", req.query.title, "$"].join(""),"i");
     if( req.query.title == null){
       return res.send({hasErrors : "True", titleGiven : "False"});
     }
-  
-    await Template.find({title : req.query.title, isPublic : "True"}).then(function(templateList){
+    await Template.find({title : regex, isPublic : "True"}).then(function(templateList){
       return res.send(templateList);
     })
   
