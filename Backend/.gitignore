@@ -13,6 +13,7 @@
 
 # don't store images and uploaded content on the hub
 /public/uploads/*
+!/public/uploads/ex.jpg
 
 # misc
 .env
