@@ -594,6 +594,11 @@ div {
   border-radius: 15px;
 }
 
+.ck-content .image-style-left {
+  float: left;
+  max-width: 50%;
+}
+
 @media screen and (min-width: 1200px) {
   h1 {
     font-size: 35px;

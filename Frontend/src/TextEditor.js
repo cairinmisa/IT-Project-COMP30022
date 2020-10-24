@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
-import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
-import Resume from "./templates/template2.js";
-import Diary from "./templates/template.js";
+//import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
+import BalloonBlockEditor from "ckeditor5-custom-build/build/ckeditor";
 import {Link} from "react-router-dom";
 import UserStore from "./stores/UserStore";
 import {Redirect} from 'react-router-dom';
@@ -70,7 +69,7 @@ export default class TextEditor extends Component {
       alert("You must give your portfolio a title before it can be created")
       return;
     }
-
+    console.log(this.state.currentTemplate)
     // Wait for the request to resolve before getting updated folios
     await Axios({
       method: 'put',
@@ -370,11 +369,61 @@ export default class TextEditor extends Component {
             />
             <div className="editor-container">
               <CKEditor
-                editor={BalloonEditor}
+                editor={BalloonBlockEditor}
                 data= {this.state.currentTemplate}
+                config={{
+                  toolbar: {
+                    items: [
+                    ]
+                  },
+                  language: 'en',
+                  blockToolbar: [
+                    'heading',
+                    'bold',
+                    'italic',
+                    'underline',
+                    'link',
+                    '|',
+                    'imageUpload',
+                    'blockQuote',
+                    'insertTable',
+                    '|',
+                    'bulletedList',
+                    'numberedList',
+                    'indent',
+                    'outdent',
+                    '|',
+                    'undo',
+                    'redo'
+                  ],
+                  image: {
+                    styles: [
+                      // A completely custom full size style with no class, used as a default.
+                      'full', 'side', {name:'leftAlign', title: 'Align Left', icon: 'left', className: 'image-style-left'}
+                    ],
+                    toolbar: [
+                      'imageStyle:leftAlign',
+                      'imageStyle:full',
+                      'imageStyle:side',
+                      '|',
+                      'imageTextAlternative'
+                    ]
+                  },
+                  table: {
+                    contentToolbar: [
+                      'tableColumn',
+                      'tableRow',
+                      'mergeTableCells'
+                    ]
+                  },
+                  simpleUpload: {
+                    // The URL that the images are uploaded to.
+                    uploadUrl: host+'/uploader',
+                  }
+                }}
                 onChange = { (event, editor) => {
                   const data = editor.getData();
-                  this.setState({currentTemplate : data})
+                  this.setState({currentTemplate : data});
                 }
               }
               />

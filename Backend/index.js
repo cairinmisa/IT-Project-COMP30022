@@ -17,11 +17,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use(cors());
+app.use(express.static('public'))
 
 // Declaring all the routers
 const eportfolioRouter = require('./routes/eportfolio');
 const profileRouter = require('./routes/profile');
 const templateRouter = require('./routes/template');
+const uploadRouter = require('./routes/upload');
 
 // Middleware
 app.use(passport.initialize());
@@ -33,6 +35,7 @@ require("./config/passport")(passport);
 app.use('/eportfolio', eportfolioRouter);
 app.use('/profile', profileRouter);
 app.use('/template', templateRouter);
+app.use('/uploader', uploadRouter);
 
 
 
