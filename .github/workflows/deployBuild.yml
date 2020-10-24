@@ -1,3 +1,5 @@
+# Custom built Github Actions Workflow by Caitlin
+
 # Workflow should: 
 # 1. Move to the repo directory
 # 2. Stop NGINX and Backend Server
