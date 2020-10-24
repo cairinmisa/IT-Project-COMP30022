@@ -358,11 +358,11 @@ export default class TextEditor extends Component {
               <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
               <p className="bold">Your folios:</p>
               <ul className="folioTemplateList">
-                  {this.state.userPortfolios.map((portfolio) => <li onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1], false)}>{this.shortenString(portfolio[1],23)}</li>)}
+                  {this.state.userPortfolios.map((portfolio, i) => <li key={i} onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1], false)}>{this.shortenString(portfolio[1],23)}</li>)}
               </ul>
               <p className="bold">Your templates:</p>
               <ul className="folioTemplateList">
-                  {this.state.userTemplates.map((template) => <li onClick = {() => this.handleClick(template[0],template[2], template[1], true)}>{this.shortenString(template[1],23)}</li>)}
+                  {this.state.userTemplates.map((template, i) => <li key={i} onClick = {() => this.handleClick(template[0],template[2], template[1], true)}>{this.shortenString(template[1],23)}</li>)}
               </ul>
             </div>
           </div>
