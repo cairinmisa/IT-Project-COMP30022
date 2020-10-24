@@ -97,7 +97,12 @@ export default class TextEditor extends Component {
 
   // Deletes the currently selected folio
   async deletePortfolio(){
-    alert("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")
+    // Check if user wants to delete folio
+    if(!window.confirm("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")) {
+      return;
+    }
+
+    // Else delete
     await Axios({
       method: 'delete',
       url:  host+'/eportfolio', 
@@ -119,8 +124,12 @@ export default class TextEditor extends Component {
 
   // Deletes the currently selected folio
   async deleteTemplate(){
-    console.log(this.state.currentID)
-    alert("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")
+    // Check if user wants to delete template
+    if(!window.confirm("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")) {
+      return;
+    }
+
+    // Else delete template
     await Axios({
       method: 'delete',
       url:  host+'/template', 
