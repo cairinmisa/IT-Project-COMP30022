@@ -28,6 +28,7 @@
     "express": "^4.17.1",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
+    "google-auth-library": "^6.0.6",
     "mongoose": "^5.10.3",
     "morgan": "^1.10.0",
     "passport": "^0.4.1",

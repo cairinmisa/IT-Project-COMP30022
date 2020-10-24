@@ -27,6 +27,10 @@ router.get('/', async (req, res,next)=> {
 // Create a new Eportfolio
 router.post('/create',passport.authenticate('jwt', {session : false}), (req, res)=> {
 
+    if(req.body.userID==null){
+        return res.send({userIDGiven : "False", hasErrors : "True"})
+    }
+
     const { errors, isValid } = validatenewEportInput(req.body);
     // Check Validation
     if (!isValid) {
@@ -106,7 +110,7 @@ router.get('/searchByTitle', async function(req,res, next){
       return res.send({hasErrors : "True", titleGiven : "False"});
     }
   
-    await Eportfolio.find({title : query, isPublic : "True"}).then(function(eportList){
+    await Eportfolio.find({title : regex, isPublic : "True"}).then(function(eportList){
       return res.send(eportList);
     })
   

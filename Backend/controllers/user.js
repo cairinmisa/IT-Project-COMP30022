@@ -6,23 +6,35 @@ const bcrypt = require('bcryptjs');
 
 exports.delete = async (req, res, next) => {
     let response = {};
-    User.findOne({emailAddress : req.body.emailAddress}).then( async function(user_id){
-        if(user_id == null){
+    User.findOne({emailAddress : req.body.emailAddress}).then( async function(user){
+        // User doesn't exist
+        if(user == null){
             res.send({"emailnotFound" : "True", "hasErrors" : "True"});
-        } else if(!( await bcrypt.compare(req.body.password, user_id.password))){
-            res.send({"passwordIncorrect" : "True","hasErrors" : "True"});
+            return;
         }
-         else {
-            User.findByIdAndDelete({_id : user_id._id}).then(function(user){
-                response.hasErrors = "False";
-                response.username = user.username;
-                response.emailAddress = user.emailAddress;
-                response.firstName = user.firstName;
-                response.lastName = user.lastName;
-                response.userID = user.userID;
-                res.send(response);
-            }).catch(next);
-        }            
-    }).catch(next);
-
+        // If not googleUser, then compare the password given to the user password
+        if(user.googleUser == null){
+            if(req.body.password == null){
+                res.send({"passwordGiven" : "False",hasErrors : "True"});
+            }
+            if(req.body.password2 == null){
+                res.send({"password2Given" : "False",hasErrors : "True"});
+            }
+            if(req.body.password != req.body.password2){
+                res.send({"passwordMatch" : "False",hasErrors : "True"});
+            }
+            if(!( await bcrypt.compare(req.body.password,user.password))){
+               res.send({"passwordIncorrect" : "True",hasErrors : "True"});
+            }
+        }
+        User.findByIdAndDelete({_id : user._id}).then(function(user2){
+             response.hasErrors = "False";
+            response.username = user2.username;
+            response.emailAddress = user2.emailAddress;
+            response.firstName = user2.firstName;
+            response.lastName = user2.lastName;
+            response.userID = user2.userID;
+            res.send(response);
+        }).catch(next);
+    })            
 }

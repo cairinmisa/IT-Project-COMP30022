@@ -1,0 +1,49 @@
+# Working on this.
+# Workflow should: 
+# 1. Connect to the EC2 instance
+# 2. Move to the repo directory /var/www/IT-PROJECT-****
+# 3. Git pull git@github.com:cairinmisa/IT-Project-COMP30022.git
+# 3.1 go to directory /var/www/IT-PROJECT-****/Backend
+# 3.2 npm install
+# 3.3 change /models/db.js to dbName: "db"
+# 3.3.1 change /config/keys.js to new SecretORKey: "nrl" (expand that)
+# 3.4 pm2 restart 0
+# 4. go to directory /var/www/IT-PROJECT-****/Frontend
+# 4.1 - run npm install for package.json just in case.
+# 4.2 - Replace settings.js and .env with the correct host
+# 5. Run npm run-script build
+# 7. Then restart NGINX.
+# 8. DONE.
+
+#    Store an IAM user access key in GitHub Actions secrets named `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
+#    See the documentation for each action used below for the recommended IAM policies for this IAM user,
+#    and best practices on handling the access key credentials.
+
+#name: Build / Deploy PROD Master Branch
+
+#on:
+#  pull_request:
+#    branches:
+#      - master
+#  push: 
+#    branches: 
+#      - master
+
+#jobs:
+#  deploy:
+#    name: Deploy
+#    runs-on: ubuntu-latest
+
+#    steps:
+#    - name: Configure AWS credentials
+#      uses: aws-actions/configure-aws-credentials@v1
+#      with:
+#        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+#        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS }}
+#        aws-region: us-east-2
+  
+#    - name: Login to AWS EC2 Instance
+#      
+#    - name: Pull
+#      run: actions/checkout@v2
+
