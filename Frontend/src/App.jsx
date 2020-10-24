@@ -52,7 +52,7 @@ class App extends React.Component {
     return (
         <Router>
           <Helmet>
-            <title>ePortfolio Editor</title>
+            <title>eProfolio</title>
           </Helmet>
           <Switch>
             <Route path="/editor" exact component={TextEditor} ></Route>
