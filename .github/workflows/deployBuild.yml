@@ -1,23 +1,15 @@
-# Working on this.
 # Workflow should: 
-# 1. Connect to the EC2 instance
-# 2. Move to the repo directory /var/www/IT-PROJECT-****
-# 3. Git pull git@github.com:cairinmisa/IT-Project-COMP30022.git
-# 3.1 go to directory /var/www/IT-PROJECT-****/Backend
-# 3.2 npm install
-# 3.3 change /models/db.js to dbName: "db"
-# 3.3.1 change /config/keys.js to new SecretORKey: "nrl" (expand that)
-# 3.4 pm2 restart 0
-# 4. go to directory /var/www/IT-PROJECT-****/Frontend
-# 4.1 - run npm install for package.json just in case.
-# 4.2 - Replace settings.js and .env with the correct host
-# 5. Run npm run-script build
-# 7. Then restart NGINX.
-# 8. DONE.
+# 1. Move to the repo directory
+# 2. Stop NGINX and Backend Server
+# 3. Pull repo
+# 4. NPM Install in Backend
+# 5. Copy PROD environment settings into Backend 
+# 6. NPM Install in Frontend
+# 7. Copy PROD environment settings into Frontend
+# 8. NPM Build Frontend 
+# 9. Start NGINX and Backend Server
+# Done!
 
-#    Store an IAM user access key in GitHub Actions secrets named `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
-#    See the documentation for each action used below for the recommended IAM policies for this IAM user,
-#    and best practices on handling the access key credentials.
 
 name: Build / Deploy PROD Master Branch
 
@@ -32,22 +24,42 @@ on:
 jobs:
   deploy:
     name: Deploy
-# Use this yaml in your workflow file for each job
     runs-on: self-hosted
 
     steps:
     - name: Create Logs
       run:  |
             cd /var/log/cicd
-            sudo echo "Hello World!" > log.log
-#      uses: aws-actions/configure-aws-credentials@v1
-#      with:
-#        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-#        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS }}
-#        aws-region: us-east-2
-  
-#    - name: Login to AWS EC2 Instance
-#      
-#    - name: Pull
-#      run: actions/checkout@v2
-
+            sudo echo "Permissions are all good!" > log.log
+            
+    - name: Stop NGINX & PM2 
+      run:  |
+            sudo service nginx stop
+            sudo pm2 stop 0
+            
+    - name: Pull repo - Backend
+      run:  |
+            cd /var/www/IT-Project-COMP30022
+            sudo git pull git@github.com:cairinmisa/IT-Project-COMP30022.git
+            cd /Backend
+            sudo npm install 
+            cd /models/
+            sudo cp /tmp/prod-files/db.js .
+            cd ../config
+            sudo cp /tmp/prod-files/keys.js .
+            sudo pm2 restart 0
+            
+    - name: Pull repo - Frontend
+            |
+            cd /var/www/IT-Project-COMP30022/Frontend
+            sudo npm install
+            cd src
+            sudo cp /tmp/prod-files/.env .
+            cd stores
+            sudo cp /tmp/prod-files/Settings.js .
+            cd /var/www/IT-Project-COMP30022/Frontend
+            sudo npm run-script build
+            sudo service nginx start
+            
+            
+            
