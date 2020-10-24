@@ -37,7 +37,7 @@ jobs:
 
     steps:
     - name: Configure AWS credentials
-      run: sudo cd /var/log/cicd && sudo echo "Hello World!" > log.log
+      run: cd /var/log/cicd && sudo echo "Hello World!" > log.log
 #      uses: aws-actions/configure-aws-credentials@v1
 #      with:
 #        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
