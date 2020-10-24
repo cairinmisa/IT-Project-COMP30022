@@ -124,4 +124,25 @@ router.get('/searchByTitle', async function(req,res, next){
   
   })
 
+
+  router.post('/rateTemplate', async function(req,res, next){
+    // Check the TemplateID, Rating and UserID is given
+    if( req.body.templateID == null){
+      return res.send({hasErrors : "True", titleGiven : "False"});
+    }
+    if( req.body.rating == null){
+        return res.send({hasErrors : "True", ratingGiven : "False"});
+    }
+    if( req.body.userID == null){
+        return res.send({hasErrors : "True", userIDGiven : "False"});
+    }
+    if(! (await fetchController.userIDExists(req.body.userID))){
+        return res.send({hasErrors : "True", userExists : "False"});
+    }
+    rat
+    
+    })
+  
+  })
+
 module.exports = router;
