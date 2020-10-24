@@ -19,9 +19,11 @@ on:
 
 jobs:
   deploy:
-    name: Delete
+    name: Status
     runs-on: self-hosted
 
     steps:
-    - name: Delete backend
-      run:  pm2 delete Backend
+    - name: Status backend
+      run:  |
+            cd /var/log/cicd
+            pm2 status > initiatepm2.log
