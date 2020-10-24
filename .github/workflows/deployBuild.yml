@@ -37,7 +37,7 @@ jobs:
     - name: Stop NGINX & PM2 
       run:  |
             sudo service nginx stop
-            sudo pm2 stop 0
+            pm2 stop 0
             
     - name: Pull repo - Backend
       run:  |
@@ -49,7 +49,7 @@ jobs:
             sudo cp /tmp/prod-files/db.js .
             cd ../config
             sudo cp /tmp/prod-files/keys.js .
-            sudo pm2 restart 0
+            pm2 start 0
             
     - name: Pull repo - Frontend
       run:  |
