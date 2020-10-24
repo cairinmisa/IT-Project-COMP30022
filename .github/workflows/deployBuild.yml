@@ -19,25 +19,25 @@
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
 
-#name: Build / Deploy PROD Master Branch
+name: Build / Deploy PROD Master Branch
 
-#on:
-#  pull_request:
-#    branches:
-#      - master
-#  push: 
-#    branches: 
-#      - master
+on:
+  pull_request:
+    branches:
+      - master
+  push: 
+    branches: 
+      - master
 
-#jobs:
-#  deploy:
-#    name: Deploy
-#    runs-on: ubuntu-latest
+jobs:
+  deploy:
+    name: Deploy
 # Use this yaml in your workflow file for each job
-#    runs-on: self-hosted
+    runs-on: self-hosted
 
-#    steps:
-#    - name: Configure AWS credentials
+    steps:
+    - name: Configure AWS credentials
+      run: echo "Hello World!"
 #      uses: aws-actions/configure-aws-credentials@v1
 #      with:
 #        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
