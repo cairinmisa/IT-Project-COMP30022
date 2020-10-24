@@ -12,17 +12,23 @@ import LoginPage from "./pages/LoginPage";
 import {Helmet} from "react-helmet";
 import SearchPage from "./pages/SearchPage";
 import { PropTypes } from "mobx-react";
-import UserPage from "./pages/UserPage";
+import UserPage from "./pages/UserPage"
 
 class App extends React.Component {
 
   state = {
-    search : ""
+    search : "",
+    email : ""
   }
 
   constructor(props){
     super(props)
     this.submitSearch = this.submitSearch.bind(this)
+    this.findUser = this.findUser.bind(this)
+  }
+
+  findUser(email){
+    this.setState({email : email})
   }
 
   submitSearch(search){
@@ -38,12 +44,12 @@ class App extends React.Component {
           <Nav submitSearch = {this.submitSearch}/>
           <Switch>
             <Route path="/login" exact component={LoginPage}></Route>
+            <Route path="/user" exact component = {() => <UserPage email = {this.state.email}/>}></Route>
             <Route path="/" exact component={Home}></Route>
             <Route path="/signup" exact component={SignUpForm}></Route>
             <Route path="/template" exact component={Template}></Route>
             <Route path="/profile" exact component={ProfilePage}></Route>
-            <Route path="/search" exact component = {() => <SearchPage search = {this.state.search}/>}></Route>
-            <Route path="/userPage" exact component = {UserPage}></Route>
+            <Route path="/search" exact component = {() => <SearchPage search = {this.state.search} findUser = {this.findUser}/>}></Route>
           </Switch>
           <Footer />
           </div>
