@@ -125,11 +125,7 @@ exports.saveEport = async (req,res) =>{
         const response = await fetchController.eportfromEportID(req.body.eportID);
         res.send(response);
 
-}).catch(next);
-    // Find all folios matching userID
-    await Eportfolio.find({userID : req.body.userID}).then(function(allFolios){
-        return res.send(allFolios);
-    });
+    })
 }
 
 exports.delete = async (req,res) =>{
