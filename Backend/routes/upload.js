@@ -4,7 +4,7 @@ var router = express.Router();
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 
-
+// Generates random string of specified length
 function generateID(length) {
     var result           = '';
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -16,27 +16,22 @@ function generateID(length) {
  }
  
 
-
+// Route for uploading images
 router.post('/', multipartMiddleware, function(req, res) {
     var fs = require('fs');
-    console.log(req.files.upload.path)
     fs.readFile(req.files.upload.path, function (err, data) {
+        // Generate unique file name
         var newID = generateID(20)
         var newPath = __dirname + '/../public/uploads/' + newID + req.files.upload.name;
+
+        // Write the file to the system
         fs.writeFile(newPath, data, function (err) {
             if (err)  {
                 console.log({err: err})
                 res.send({error:"Error"});
             }
             else {
-                // html = "";
-                // html += "<script type='text/javascript'>";
-                // html += "    var funcNum = " + req.query.CKEditorFuncNum + ";";
-                // html += "    var url     = \"/uploads/" + req.files.upload.name + "\";";
-                // html += "    var message = \"Uploaded file successfully\";";
-                // html += "";
-                // html += "    window.parent.CKEDITOR.tools.callFunction(funcNum, url, message);";
-                // html += "</script>";
+                // Send back url to the stored image
                 res.send({"url": "http://localhost:8000/uploads/"+ newID + req.files.upload.name});
             }
         });
