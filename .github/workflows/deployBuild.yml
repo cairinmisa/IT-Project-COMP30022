@@ -42,9 +42,9 @@ jobs:
       run:  |
             cd /var/www/IT-Project-COMP30022
             sudo git pull git@github.com:cairinmisa/IT-Project-COMP30022.git
-            cd /Backend
+            cd Backend
             sudo npm install
-            cd /models/
+            cd models
             sudo cp /tmp/prod-files/db.js .
             cd ../config
             sudo cp /tmp/prod-files/keys.js .
