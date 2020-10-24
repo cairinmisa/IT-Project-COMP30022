@@ -1,14 +1,14 @@
 # Custom built Github Actions Workflow by Caitlin
 
-# Workflow should: 
+# Workflow should:
 # 1. Move to the repo directory
 # 2. Stop NGINX and Backend Server
 # 3. Pull repo
 # 4. NPM Install in Backend
-# 5. Copy PROD environment settings into Backend 
+# 5. Copy PROD environment settings into Backend
 # 6. NPM Install in Frontend
 # 7. Copy PROD environment settings into Frontend
-# 8. NPM Build Frontend 
+# 8. NPM Build Frontend
 # 9. Start NGINX and Backend Server
 # Done!
 
@@ -18,10 +18,10 @@ name: Build / Deploy PROD Master Branch
 on:
   pull_request:
     branches:
-      - 86-DOB-Validation-CiCD-Pipeline
-  push: 
-    branches: 
-      - 86-DOB-Validation-CiCD-Pipeline
+      - Master
+  push:
+    branches:
+      - Master
 
 jobs:
   deploy:
@@ -33,24 +33,24 @@ jobs:
       run:  |
             cd /var/log/cicd
             sudo echo "Permissions are all good!" > log.log
-            
-    - name: Stop NGINX & PM2 
+
+    - name: Stop NGINX & PM2
       run:  |
             sudo service nginx stop
             pm2 stop Backend
-            
+
     - name: Pull repo - Backend
       run:  |
             cd /var/www/IT-Project-COMP30022
             sudo git pull git@github.com:cairinmisa/IT-Project-COMP30022.git
             cd /Backend
-            sudo npm install 
+            sudo npm install
             cd /models/
             sudo cp /tmp/prod-files/db.js .
             cd ../config
             sudo cp /tmp/prod-files/keys.js .
             pm2 start Backend
-            
+
     - name: Pull repo - Frontend
       run:  |
             cd /var/www/IT-Project-COMP30022/Frontend
@@ -62,8 +62,3 @@ jobs:
             cd /var/www/IT-Project-COMP30022/Frontend
             sudo npm run-script build
             sudo service nginx start
-            
-            
-            
-            
-            

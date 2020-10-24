@@ -1,6 +1,6 @@
 # Custom built Github Actions Workflow by Caitlin
 
-# Workflow should: 
+# Workflow should:
 # 1. Create PM2 Instance on Self-hosted runner
 # 2. Test out main deployment CI/CD Pipeline
 # Done!
@@ -13,19 +13,15 @@ on:
     branches:
       - 86-DOB-Validation-CiCD-Pipeline
 
-  push: 
-    branches: 
+  push:
+    branches:
       - 86-DOB-Validation-CiCD-Pipeline
 
 jobs:
   deploy:
-    name: Initiate
+    name: Delete
     runs-on: self-hosted
 
-    steps:  
-    - name: Pull repo - Backend
-      run:  |
-            cd /var/www/IT-Project-COMP30022/Backend
-            pm2 start 'npm start' --name Backend
-            cd /var/log/cicd
-            pm2 status > initiatepm2.log
+    steps:
+    - name: Delete backend
+      run:  pm2 delete Backend
