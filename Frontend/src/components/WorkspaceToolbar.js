@@ -6,7 +6,7 @@ class WorkspaceToolbar extends Component {
         if(this.props.folioTitle == "") {
             return (
                 <div className = "bold workspace-title">
-                    Select a folio or create a new one to start editing.
+                    Create a folio from the panel on the left, or select a folio to start editing.
                 </div>
             );
         }

@@ -368,7 +368,7 @@ export default class TextEditor extends Component {
               templateSelected = {this.state.isTemplateSelected} 
             />
             <div className="editor-container">
-              <CKEditor
+              {this.state.currentTitle ? <CKEditor
                 editor={BalloonBlockEditor}
                 data= {this.state.currentTemplate}
                 config={{
@@ -426,7 +426,7 @@ export default class TextEditor extends Component {
                   this.setState({currentTemplate : data});
                 }
               }
-              />
+              /> : null}
               <div className="editorBorder"></div>
             </div>
           </div>
