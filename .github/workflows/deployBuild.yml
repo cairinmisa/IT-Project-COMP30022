@@ -29,11 +29,6 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Create Logs
-      run:  |
-            cd /var/log/cicd
-            sudo echo "Permissions are all good!" > log.log
-
     - name: Stop NGINX & PM2
       run:  |
             sudo service nginx stop
@@ -43,7 +38,7 @@ jobs:
             cd /var/www/IT-Project-COMP30022
             sudo git pull git@github.com:cairinmisa/IT-Project-COMP30022.git
             cd Backend
-            sudo npm install
+            npm install
             cd models
             sudo cp /tmp/prod-files/db.js .
             cd ../config
@@ -52,11 +47,11 @@ jobs:
     - name: Pull repo - Frontend
       run:  |
             cd /var/www/IT-Project-COMP30022/Frontend
-            sudo npm install
+            npm install
             cd src
             sudo cp /tmp/prod-files/.env .
             cd stores
             sudo cp /tmp/prod-files/Settings.js .
             cd /var/www/IT-Project-COMP30022/Frontend
-            sudo npm run-script build
+            npm run-script build
             sudo service nginx start
