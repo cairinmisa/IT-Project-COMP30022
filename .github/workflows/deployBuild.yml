@@ -18,10 +18,10 @@ name: Build / Deploy PROD Master Branch
 on:
   pull_request:
     branches:
-      - master
+      - 86-DOB-Validation-CiCD-Pipeline
   push: 
     branches: 
-      - master
+      - 86-DOB-Validation-CiCD-Pipeline
 
 jobs:
   deploy:
@@ -37,7 +37,7 @@ jobs:
     - name: Stop NGINX & PM2 
       run:  |
             sudo service nginx stop
-            pm2 stop 0
+            pm2 stop Backend
             
     - name: Pull repo - Backend
       run:  |
@@ -49,7 +49,7 @@ jobs:
             sudo cp /tmp/prod-files/db.js .
             cd ../config
             sudo cp /tmp/prod-files/keys.js .
-            pm2 start 0
+            pm2 start Backend
             
     - name: Pull repo - Frontend
       run:  |
