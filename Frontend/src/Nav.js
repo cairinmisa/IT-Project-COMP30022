@@ -36,6 +36,9 @@ class Nav extends Component {
             <input type = 'text' value = {this.state.value} onChange={this.handleChange}></input>
             <Link to = "/search"><button type = "button" onClick = {this.handleSubmit}>Submit</button></Link>
           </form>
+          <Link to="/">
+              <h1>eProfolio</h1>
+          </Link>
           <ul>
             <Link to="/">
               <li>Home</li>

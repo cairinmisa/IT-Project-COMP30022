@@ -226,8 +226,13 @@ input:focus {
   width: 100%;
   position: relative;
   color: var(--scheme-white);
-  height: 100px;
+  height: 130px;
   font-family: neue-montreal-medium, helvetica;
+}
+
+.navBar h1 {
+  padding-left: 2%;
+  float: left;
 }
 
 .navBar ul {
@@ -592,11 +597,6 @@ div {
   border-color: var(--scheme-black);
   border-style: solid;
   border-radius: 15px;
-}
-
-.ck-content .image-style-left {
-  float: left;
-  max-width: 50%;
 }
 
 @media screen and (min-width: 1200px) {
