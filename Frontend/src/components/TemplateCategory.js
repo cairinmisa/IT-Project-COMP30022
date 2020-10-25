@@ -45,7 +45,7 @@ class TemplateCategory extends Component {
     }
 
     render () {
-        if(this.state.templates.length == 0) {
+        if(this.state.templates.length === 0) {
             return null;
         }
         return (

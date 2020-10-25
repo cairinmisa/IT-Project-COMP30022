@@ -76,7 +76,7 @@ class EditFieldModal extends React.Component {
         }
 
         // Check if all fields have input
-        if(input != ""){ 
+        if(input !== ""){ 
             // Handle modifying Google user
             if(this.props.isGoogleUser) {
                 await axios({
@@ -95,7 +95,7 @@ class EditFieldModal extends React.Component {
             }  
                      
             // Handle modifying regular user
-            else if(password != "" && password2 != ""){
+            else if(password !== "" && password2 !== ""){
                 await axios({
                     method: 'put',
                     url:  host+'/profile/update',
@@ -159,7 +159,7 @@ class EditFieldModal extends React.Component {
         }
         
         // If password fields are not null then delete user 
-        else if(password != "" && password2 != "") {
+        else if(password !== "" && password2 !== "") {
             axios({
                 method: 'delete',
                 url:  host+'/profile/',
@@ -186,10 +186,10 @@ class EditFieldModal extends React.Component {
             return null;
         }
         else if (!this.resetModal) {
-            this.state.input = this.props.prevInput;
-            this.state.password = null;
-            this.state.password2 = null;
-            this.resetModal = true;
+            this.setState({input : this.props.prevInput});
+            this.setState({password : null});
+            this.setState({password2 : null});
+            this.setState({Modal : true});
         }
         if(this.props.whichField === "Delete Account") {
             return (
