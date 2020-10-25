@@ -32,11 +32,11 @@ class Nav extends Component {
     if(UserStore.isLoggedIn === false){
       return (
         <div className="navBar">
-          <form>
-            <input type = 'text' value = {this.state.value} onChange={this.handleChange}></input>
-            <Link to = "/search"><button type = "button" onClick = {this.handleSubmit}>Submit</button></Link>
-          </form>
           <ul>
+            <li><form>
+              <input type = 'text' value = {this.state.value} onChange={this.handleChange} placeholder="Search User"></input>
+              <Link to = "/search"><button type = "submit" onClick = {this.handleSubmit}>Submit</button></Link>
+            </form></li>
             <Link to="/">
               <li>Home</li>
             </Link>
@@ -60,11 +60,11 @@ class Nav extends Component {
     else{
       return(
         <div className="navBar">
-          <form>
-            <input type = 'text' value = {this.state.value} onChange={this.handleChange}></input>
-            <Link to = "/search"><button type = "button" onClick = {this.handleSubmit}>Submit</button></Link>
-          </form>
         <ul>
+          <li><form>
+            <input type = 'text' value = {this.state.value} onChange={this.handleChange} placeholder="Search User"></input>
+            <Link to = "/search"><button type = "submit" onClick = {this.handleSubmit}>Submit</button></Link>
+          </form></li>
           <Link to="/">
             <li>Home</li>
           </Link>
