@@ -339,7 +339,7 @@ div {
 }
 
 .welcome-content img {
-  width: 50%;
+  width: 25%;
   height: auto;
 }
 
@@ -488,7 +488,7 @@ div {
 }
 
 .loginForm {
-  height: 70vh;
+  height: 67vh;
   width: 100%;
 }
 
@@ -501,9 +501,7 @@ div {
 }
 
 .signupForm {
-  
-  padding-bottom: 5%;
-  height: 70vh;
+  height: 67vh;
   width: 100%;
 }
 
@@ -511,8 +509,7 @@ div {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -40%);
-  height: 60%;
+  transform: translate(-50%, -50%);
   width: 25%;
 }
 

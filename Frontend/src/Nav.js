@@ -44,9 +44,6 @@ class Nav extends Component {
                 <Link to = "/search"><button type = "submit" onClick = {this.handleSubmit}>🔍</button></Link>
               </form>
             </li>
-            <Link to="/">
-              <li>Home</li>
-            </Link>
             <Link to="/editor" >
               <li>Create</li>
             </Link>
@@ -77,9 +74,6 @@ class Nav extends Component {
                 <Link to = "/search"><button type = "submit" onClick = {this.handleSubmit}>🔍</button></Link>
               </form>
             </li>
-            <Link to="/">
-              <li>Home</li>
-            </Link>
             <Link to="/editor">
               <li>Create</li>
             </Link>
