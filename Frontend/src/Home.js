@@ -12,7 +12,7 @@ class Home extends Component {
           <img src={require("./images/fullbluelogo.png")} alt="Welcome Image" />
             <h1>
               Welcome to the eProfolio creation engine. Browse community made <Link to="/template">templates</Link> or{" "}
-              <Link to="/editor">create your own</Link>.
+              <Link to="/editor">create your own</Link> folio.
             </h1>
           </div>
         </div>
