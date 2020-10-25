@@ -215,14 +215,21 @@ input:focus {
 }
 
 .panelContent li::before {
-  content: "🡒";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  color: var(--scheme-red); /* Change the color */
-  font-weight: bold; /* If you want it to be bold */
-  display: inline-block; /* Needed to add space between the bullet and the text */
-  width: 1em; /* Also needed for space (tweak if needed) */
-  margin-left: -1em; /* Also needed for space (tweak if needed) */
+  content: "🡒";  
+  color: var(--scheme-red); 
+  font-weight: bold;
+  display: inline-block; 
+  width: 1em; 
+  margin-left: -1em; 
 }
 
+.selectedListItem {
+  padding-left: 5px;
+}
+
+.selectedListItem::before {
+  color: var(--scheme-aqua) !important; 
+}
 
 .container {
   font-size: 28px;

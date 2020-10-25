@@ -362,11 +362,11 @@ export default class TextEditor extends Component {
               <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
               <p className="bold">Your folios:</p>
               <ul className="folioTemplateList">
-                  {this.state.userPortfolios.map((portfolio, i) => <li key={i} className={this.state.listItemSelected == i ? "bold" : ""} onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1], false, i)}>{this.shortenString(portfolio[1],23)}</li>)}
+                  {this.state.userPortfolios.map((portfolio, i) => <li key={i} className={this.state.listItemSelected == i ? "selectedListItem" : ""} onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1], false, i)}>{this.shortenString(portfolio[1],23)}</li>)}
               </ul>
               <p className="bold">Your templates:</p>
               <ul className="folioTemplateList">
-                  {this.state.userTemplates.map((template, i) => <li key={i+this.state.userPortfolios.length} className={this.state.listItemSelected == i+this.state.userPortfolios.length ? "bold" : ""} onClick = {() => this.handleClick(template[0],template[2], template[1], true, i+this.state.userPortfolios.length)}>{this.shortenString(template[1],23)}</li>)}
+                  {this.state.userTemplates.map((template, i) => <li key={i+this.state.userPortfolios.length} className={this.state.listItemSelected == i+this.state.userPortfolios.length ? "selectedListItem" : ""} onClick = {() => this.handleClick(template[0],template[2], template[1], true, i+this.state.userPortfolios.length)}>{this.shortenString(template[1],23)}</li>)}
               </ul>
             </div>
           </div>
