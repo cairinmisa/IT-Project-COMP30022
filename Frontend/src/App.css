@@ -490,6 +490,7 @@ div {
 .loginForm {
   height: 67vh;
   width: 100%;
+  position: relative;
 }
 
 .loginForm-content {
@@ -503,6 +504,7 @@ div {
 .signupForm {
   height: 67vh;
   width: 100%;
+  position: relative;
 }
 
 .signupForm-content {
@@ -510,7 +512,7 @@ div {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 25%;
+  width: 400px;
 }
 
 .signupForm-content h1{
@@ -672,3 +674,22 @@ div {
     width: 60%;
   }
 }
+
+@media screen and (max-height: 800px) {
+  .signupForm-content {
+    zoom: 0.8;
+  }
+
+  .loginForm-content {
+    zoom: 0.8;
+  }
+} 
+
+@media screen and (max-height: 640px) {
+  .signupForm-content {
+    zoom: 0.7;
+  }
+  .loginForm-content {
+    zoom: 0.7;
+  }
+} 
