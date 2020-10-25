@@ -9,6 +9,7 @@ class Home extends Component {
       <div>
         <div className="welcome">
           <div className="welcome-content">
+          <img src={require("./images/fullbluelogo.png")} alt="Welcome Image" />
             <h1>
               Welcome to the eProfolio creation engine. Browse community made <Link to="/template">templates</Link> or{" "}
               <Link to="/editor">create your own</Link>.
