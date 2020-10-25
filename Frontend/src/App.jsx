@@ -18,7 +18,8 @@ class App extends React.Component {
 
   state = {
     search : "",
-    email : ""
+    email : "",
+    userID : ""
   }
 
   constructor(props){
@@ -27,8 +28,11 @@ class App extends React.Component {
     this.findUser = this.findUser.bind(this)
   }
 
-  findUser(email){
-    this.setState({email : email})
+  findUser(email, userID){
+    this.setState({
+      email : email,
+      userID : userID
+    })
   }
 
   submitSearch(search){
@@ -44,7 +48,7 @@ class App extends React.Component {
           <Nav submitSearch = {this.submitSearch}/>
           <Switch>
             <Route path="/login" exact component={LoginPage}></Route>
-            <Route path="/user" exact component = {() => <UserPage email = {this.state.email}/>}></Route>
+            <Route path="/user" exact component = {() => <UserPage email = {this.state.email} userID = {this.state.userID}/>}></Route>
             <Route path="/" exact component={Home}></Route>
             <Route path="/signup" exact component={SignUpForm}></Route>
             <Route path="/template" exact component={Template}></Route>

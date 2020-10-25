@@ -14,11 +14,8 @@ class UserPage extends Component {
 
      async getPortfolios(ID){
       await Axios({
-        method: 'post',
-        url:  host+'/eportfolio/userfetch', 
-        headers: {
-          Authorization : "Bearer " + UserStore.token
-        },
+        method: 'get',
+        url:  host+'/eportfolio/fetchPublic', 
         params: {
           userID : ID
         }
@@ -64,17 +61,17 @@ class UserPage extends Component {
     }
 
     componentDidMount(){
-        console.log("This is the email " + this.props.email)
         this.getUser(this.props.email)
-        this.getPortfolios(this.state.userID)
+        console.log(this.props.userID)
+        this.getPortfolios(this.props.userID)
     }
 
     render() { 
         return ( 
             <div>
-              <h1>{this.state.fullName}</h1>
-              <h2>{this.state.userName}</h2>
-              {this.state.portfolios.map((portfolio) => <li>{portfolio[1]}</li>)}
+              <h1>Welcome to {this.state.fullName}'s profile page!</h1>
+              <h2>Username: {this.state.userName}</h2>
+              {this.state.portfolios ? "No portfolios to show" : this.state.portfolios.map((portfolio) => <li>{portfolio[1]}</li>)}
             </div>
         );
     }

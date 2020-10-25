@@ -11,9 +11,8 @@ class SearchPage extends Component {
         eportfolios : []
     }
 
-    handleClick(email) {
-      console.log(email)
-      this.props.findUser(email)
+    handleClick(email,userID) {
+      this.props.findUser(email,userID)
     }
 
 
@@ -58,7 +57,7 @@ class SearchPage extends Component {
       .then(response => {
         let reqUsers = [];
         for(let i=0;i<response.data.length;i++){
-          reqUsers[i] = [response.data[i].fullName, response.data[i].emailAddress, response.data[i].username]
+          reqUsers[i] = [response.data[i].fullName, response.data[i].emailAddress, response.data[i].username,response.data[i].userID]
         }
         this.setState({
           users : reqUsers
@@ -112,7 +111,7 @@ class SearchPage extends Component {
                   <div>
                   {this.state.users.length>0 ? <h1>Users</h1> : null}
                   <ul>
-                    {this.state.users.map((user) => <Link to = "/user" onClick = {() => this.handleClick(user[1])}><li>{user[0]}, {user[2]}</li></Link>)}
+                    {this.state.users.map((user) => <Link to = "/user" onClick = {() => this.handleClick(user[1],user[3])}><li>{user[0]}, {user[2]}</li></Link>)}
                   </ul>
                   </div>
                   <div>
