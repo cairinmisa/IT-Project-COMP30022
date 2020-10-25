@@ -13,6 +13,7 @@ const validatenewEportInput = require('../controllers/validators/newEport');
 
 // Load Template module
 const Template = require("../models/dbschema/templates");
+const { findByIdAndUpdate } = require("../models/dbschema/templates");
 
 
 // Get all templates
@@ -125,7 +126,7 @@ router.get('/searchByTitle', async function(req,res, next){
   })
 
 
-  router.post('/rateTemplate', async function(req,res, next){
+  router.post('/rateTemplate',passport.authenticate('jwt', {session : false}), async function(req,res, next){
     // Check the TemplateID, Rating and UserID is given
     if( req.body.templateID == null){
       return res.send({hasErrors : "True", titleGiven : "False"});
@@ -133,16 +134,36 @@ router.get('/searchByTitle', async function(req,res, next){
     if( req.body.rating == null){
         return res.send({hasErrors : "True", ratingGiven : "False"});
     }
-    if( req.body.userID == null){
-        return res.send({hasErrors : "True", userIDGiven : "False"});
-    }
-    if(! (await fetchController.userIDExists(req.body.userID))){
+    if(! (await fetchController.userIDExists(req.user.userID))){
         return res.send({hasErrors : "True", userExists : "False"});
     }
-    rat
+    console.log(req.user)
+    var template = await Template.findOne({templateID : req.body.templateID})
+    var updatedData = {}
+
+    if(template == null){
+        return res.send({hasErrors : "True", templateExists : "False"});
+    }
+    console.log(template)
+    console.log(template.ratedUsers)
+    if(template.ratedUsers.includes(req.user.userID)){
+        return res.send({hasErrors : "True", ratingExists : "True"});
+    }
+    if(!([1,2,3,4,5].includes(parseInt(req.body.rating)))){
+        return res.send({hasErrors : "True", invalidRating : "True"});
+    }
+    updatedData.ratingTotal = req.body.rating + template.ratingTotal;
+    updatedData.ratedUsers = [...template.ratedUsers, req.user.userID]
+    updatedData.rating = (updatedData.ratingTotal) / (updatedData.ratedUsers.length)
+    console.log(updatedData.ratingTotal)
+    console.log(updatedData.ratedUsers.length)
     
+    await Template.findByIdAndUpdate({_id : template._id}, updatedData).then(function(){
+        return res.send({hasErrors : "False", newRating : updatedData.rating})
     })
+
+    
+})
   
-  })
 
 module.exports = router;
