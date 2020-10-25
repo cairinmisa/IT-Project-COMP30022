@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import UserStore from "./stores/UserStore";
+import InputField from "./pages/InputField";
 
 class Nav extends Component {
   
@@ -32,11 +33,13 @@ class Nav extends Component {
     if(UserStore.isLoggedIn === false){
       return (
         <div className="navBar">
-          <form>
-            <input type = 'text' value = {this.state.value} onChange={this.handleChange}></input>
-            <Link to = "/search"><button type = "button" onClick = {this.handleSubmit}>Submit</button></Link>
-          </form>
           <ul>
+            <li>
+              <form className="searchUserField">
+                <input type = 'text' value = {this.state.value} onChange={this.handleChange} placeholder="Search user by full name"></input>
+                <Link to = "/search"><button type = "submit" onClick = {this.handleSubmit}>🔍</button></Link>
+              </form>
+            </li>
             <Link to="/">
               <li>Home</li>
             </Link>
@@ -60,11 +63,13 @@ class Nav extends Component {
     else{
       return(
         <div className="navBar">
-          <form>
-            <input type = 'text' value = {this.state.value} onChange={this.handleChange}></input>
-            <Link to = "/search"><button type = "button" onClick = {this.handleSubmit}>Submit</button></Link>
-          </form>
         <ul>
+          <li>
+            <form className="searchUserField">
+              <input type = 'text' value = {this.state.value} onChange={this.handleChange} placeholder="Search user by full name"></input>
+              <Link to = "/search"><button type = "submit" onClick = {this.handleSubmit}>🔍</button></Link>
+            </form>
+          </li>
           <Link to="/">
             <li>Home</li>
           </Link>
