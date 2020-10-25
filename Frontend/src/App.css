@@ -447,6 +447,8 @@ div {
 }
 
 .signupForm {
+  
+  padding-bottom: 5%;
   height: 70vh;
   width: 100%;
 }
@@ -455,8 +457,9 @@ div {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px;
+  transform: translate(-50%, -40%);
+  height: 60%;
+  width: 25%;
 }
 
 .signupForm-content h1{
