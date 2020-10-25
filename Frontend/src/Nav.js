@@ -37,7 +37,7 @@ class Nav extends Component {
             <Link to = "/search"><button type = "button" onClick = {this.handleSubmit}>Submit</button></Link>
           </form>
           <Link to="/">
-              <h1>eProfolio</h1>
+            <img src={require("./images/PROlogo.png")} alt="HomeLogo" />
           </Link>
           <ul>
             <Link to="/">

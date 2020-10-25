@@ -226,12 +226,14 @@ input:focus {
   width: 100%;
   position: relative;
   color: var(--scheme-white);
-  height: 130px;
+  height: 150px;
   font-family: neue-montreal-medium, helvetica;
 }
 
-.navBar h1 {
-  padding-left: 2%;
+.navBar img {
+  width: 5%;
+  height: auto;
+  padding-left: 3%;
   float: left;
 }
 
