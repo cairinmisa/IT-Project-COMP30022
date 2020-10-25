@@ -10,12 +10,9 @@ class Home extends Component {
         <div className="welcome">
           <div className="welcome-content">
             <h1>
-              Welcome to eProfolio.
-            </h1>
-            <h2> 
-              Browse community made <Link to="/template">templates</Link> or{" "}
+              Welcome to the eProfolio creation engine. Browse community made <Link to="/template">templates</Link> or{" "}
               <Link to="/editor">create your own</Link>.
-            </h2>
+            </h1>
           </div>
         </div>
         <div className="highlight">

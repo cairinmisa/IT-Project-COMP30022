@@ -186,9 +186,11 @@ class EditFieldModal extends React.Component {
             return null;
         }
         else if (!this.resetModal) {
-            this.state.input = this.props.prevInput;
-            this.state.password = null;
-            this.state.password2 = null;
+            this.setState({
+                input : this.props.prevInput,
+                password: null,
+                password2: null
+            })
             this.resetModal = true;
         }
         if(this.props.whichField === "Delete Account") {
