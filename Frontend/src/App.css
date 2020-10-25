@@ -257,6 +257,28 @@ input:focus {
   color: var(--scheme-white);
 }
 
+.searchUserField input {
+  border-color: var(--scheme-black);
+  border-style: solid none solid solid;
+  border-radius: 28px 0 0 28px;
+  background-color: var(--scheme-white);
+  padding-left: 14px;
+  height: 30px;
+  font-family: neue-montreal-medium, helvetica;;
+}
+
+.searchUserField button {
+  border-color: var(--scheme-black);
+  border-style: solid solid solid none;
+  border-radius: 0 28px 28px 0;
+  background-color: var(--scheme-white);
+  padding-right: 15px;
+  padding-left: 6px;
+  height: 36px;
+  position: relative;
+  top: 1px;
+}
+
 .footer {
   background-image: url("images/svgs/bottom_blue_1.svg");
   background-size: cover;
