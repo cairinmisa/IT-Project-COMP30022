@@ -43,6 +43,10 @@
   color: var(--scheme-grey);
 }
 
+.big {
+  font-size: 30px;
+}
+
 .whiteBG {
   background-color: var(--scheme-white);
   color: var(--scheme-black);
