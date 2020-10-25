@@ -137,27 +137,32 @@ router.get('/searchByTitle', async function(req,res, next){
     if(! (await fetchController.userIDExists(req.user.userID))){
         return res.send({hasErrors : "True", userExists : "False"});
     }
-    console.log(req.user)
+     // Find the template to update
     var template = await Template.findOne({templateID : req.body.templateID})
     var updatedData = {}
 
+    // If the template is null, template is not public, or user has
+    // already rated this template, return an error
     if(template == null){
         return res.send({hasErrors : "True", templateExists : "False"});
     }
-    console.log(template)
-    console.log(template.ratedUsers)
+    if(template.isPublic == "False"){
+        return res.send({hasErrors : "True", publicTemplate : "False"});
+    }
     if(template.ratedUsers.includes(req.user.userID)){
         return res.send({hasErrors : "True", ratingExists : "True"});
     }
-    if(!([1,2,3,4,5].includes(parseInt(req.body.rating)))){
+    // Ensure that the given rating is valid
+    rating = parseFloat(req.body.rating)
+    if(rating > 5 || rating < 0){
         return res.send({hasErrors : "True", invalidRating : "True"});
     }
-    updatedData.ratingTotal = req.body.rating + template.ratingTotal;
+    // Update the rating values
+    updatedData.ratingTotal = rating + template.ratingTotal;
     updatedData.ratedUsers = [...template.ratedUsers, req.user.userID]
     updatedData.rating = (updatedData.ratingTotal) / (updatedData.ratedUsers.length)
-    console.log(updatedData.ratingTotal)
-    console.log(updatedData.ratedUsers.length)
-    
+
+    // Finally push the change to the template
     await Template.findByIdAndUpdate({_id : template._id}, updatedData).then(function(){
         return res.send({hasErrors : "False", newRating : updatedData.rating})
     })
