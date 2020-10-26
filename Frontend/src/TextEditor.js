@@ -348,7 +348,7 @@ export default class TextEditor extends Component {
           {this.state.displayConvertToFolio ? <TemplateToFolioModal closeCreateNew = {() => this.closeCreateNew()} createPortfolio = {(title, publicity) => this.convertToFolio(title, publicity)}/> : null}
           <div className="editorNavBar">
             <div className="leftAlign">
-              <Link to = "/" >Home</Link>
+              <Link to = "/" >eProfolio</Link>
             </div>
             <div className="rightAlign">
               <Link to = "/template" >Templates</Link>{" "}|{" "}

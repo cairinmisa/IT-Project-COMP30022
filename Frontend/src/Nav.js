@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import UserStore from "./stores/UserStore";
 import InputField from "./pages/InputField";
+import webLogo from "./images/PROlogo.png"
 
 class Nav extends Component {
   
@@ -33,6 +34,9 @@ class Nav extends Component {
     if(UserStore.isLoggedIn === false){
       return (
         <div className="navBar">
+          <Link to="/">
+            <img src={webLogo} alt="HomeLogo" />
+          </Link>
           <ul>
             <li>
               <form className="searchUserField">
@@ -40,9 +44,6 @@ class Nav extends Component {
                 <Link to = "/search"><button type = "submit" onClick = {this.handleSubmit}>🔍</button></Link>
               </form>
             </li>
-            <Link to="/">
-              <li>Home</li>
-            </Link>
             <Link to="/editor" >
               <li>Create</li>
             </Link>
@@ -63,27 +64,27 @@ class Nav extends Component {
     else{
       return(
         <div className="navBar">
-        <ul>
-          <li>
-            <form className="searchUserField">
-              <input type = 'text' value = {this.state.value} onChange={this.handleChange} placeholder="Search user by full name"></input>
-              <Link to = "/search"><button type = "submit" onClick = {this.handleSubmit}>🔍</button></Link>
-            </form>
-          </li>
           <Link to="/">
-            <li>Home</li>
+            <img src={webLogo} alt="HomeLogo" />
           </Link>
-          <Link to="/editor">
-            <li>Create</li>
-          </Link>
-          <Link to = "/template">
-            <li>Templates</li>
-          </Link>
-          <li>|</li>
-          <Link to = "/profile">
-            <li>{this.capitaliseName(UserStore.user ? UserStore.user.firstName : "")}</li>
-          </Link>
-        </ul>
+          <ul>
+            <li>
+              <form className="searchUserField">
+                <input type = 'text' value = {this.state.value} onChange={this.handleChange} placeholder="Search user by full name"></input>
+                <Link to = "/search"><button type = "submit" onClick = {this.handleSubmit}>🔍</button></Link>
+              </form>
+            </li>
+            <Link to="/editor">
+              <li>Create</li>
+            </Link>
+            <Link to = "/template">
+              <li>Templates</li>
+            </Link>
+            <li>|</li>
+            <Link to = "/profile">
+              <li>{this.capitaliseName(UserStore.user ? UserStore.user.firstName : "")}</li>
+            </Link>
+          </ul>
       </div>
       )
     }
