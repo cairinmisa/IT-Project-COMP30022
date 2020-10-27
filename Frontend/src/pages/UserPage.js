@@ -68,10 +68,12 @@ class UserPage extends Component {
 
     render() { 
         return ( 
-            <div>
-              <h1>Welcome to {this.state.fullName}'s profile page!</h1>
-              <h2>Username: {this.state.userName}</h2>
-              {this.state.portfolios ? "No portfolios to show" : this.state.portfolios.map((portfolio) => <li>{portfolio[1]}</li>)}
+            <div className = "accountForm">
+              <div className ="accountForm-content">
+                <h1>Welcome to {this.state.fullName}'s profile page!</h1>
+                <p className = "medium"><span role = "img" aria-label = "person">👨‍💼</span>Username: {this.state.userName}</p>
+                {this.state.portfolios.map((portfolio) => <li>{portfolio[1]}</li>)}
+              </div>
             </div>
         );
     }
