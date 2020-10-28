@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import InputField from "../pages/InputField";
 import {Redirect} from 'react-router-dom';
-import SubmitButton from "../pages/SubmitButton";
 
 class CreateNew extends Component {
 
@@ -23,7 +22,7 @@ class CreateNew extends Component {
     }
 
     render() { 
-        if(this.state.templatePageRedirect == true){
+        if(this.state.templatePageRedirect === true){
             return <Redirect  to="/template" />
         }
         return (  

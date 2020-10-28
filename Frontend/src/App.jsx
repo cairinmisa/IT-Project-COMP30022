@@ -11,7 +11,6 @@ import SignUpForm from "./pages/SignUpForm";
 import LoginPage from "./pages/LoginPage";
 import {Helmet} from "react-helmet";
 import SearchPage from "./pages/SearchPage";
-import { PropTypes } from "mobx-react";
 
 class App extends React.Component {
 

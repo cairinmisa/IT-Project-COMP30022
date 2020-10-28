@@ -15,7 +15,7 @@ class TemplateToFolioModal extends Component {
     }
 
     render() {
-        if(UserStore.isLoggedIn == false) {
+        if(UserStore.isLoggedIn === false) {
             return (  
                 <div className="greyOutBG">
                      <div className="modal">
