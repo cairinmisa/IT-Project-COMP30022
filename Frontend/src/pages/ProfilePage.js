@@ -49,7 +49,7 @@ class ProfilePage extends Component {
 
     componentDidMount() {
         console.log(UserStore.user);
-        if(UserStore.user.googleUser == "True"){
+        if(UserStore.user.googleUser === "True"){
             this.setState({isGoogleUser : true});
         }
     }

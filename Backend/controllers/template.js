@@ -42,7 +42,7 @@ exports.create = async (req,res,next) =>{
     }
     req.body.dateUpdated = req.body.dateCreated
     req.body.ratingTotal = 0
-    req.body.rating = 0
+    req.body.rating = -1
     req.body.ratedUsers = []
 
 

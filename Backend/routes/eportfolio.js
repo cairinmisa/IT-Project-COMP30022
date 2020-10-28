@@ -85,7 +85,7 @@ router.put('/save',passport.authenticate('jwt', {session : false}), (req, res)=>
 })
 
 // Fetches all public eportfolios from a user
-router.get('/fetchPublic/',passport.authenticate('jwt', {session : false}),async (req, res)=> {
+router.get('/fetchPublic/', async (req, res)=> {
     
     // Checks the userID isn't null
     if(req.query.userID == null){

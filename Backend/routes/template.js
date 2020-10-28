@@ -13,6 +13,7 @@ const validatenewEportInput = require('../controllers/validators/newEport');
 
 // Load Template module
 const Template = require("../models/dbschema/templates");
+const { findByIdAndUpdate } = require("../models/dbschema/templates");
 
 
 // Get all templates
@@ -123,5 +124,51 @@ router.get('/searchByTitle', async function(req,res, next){
     })
   
   })
+
+
+  router.post('/rateTemplate',passport.authenticate('jwt', {session : false}), async function(req,res, next){
+    // Check the TemplateID, Rating and UserID is given
+    if( req.body.templateID == null){
+      return res.send({hasErrors : "True", titleGiven : "False"});
+    }
+    if( req.body.rating == null){
+        return res.send({hasErrors : "True", ratingGiven : "False"});
+    }
+    if(! (await fetchController.userIDExists(req.user.userID))){
+        return res.send({hasErrors : "True", userExists : "False"});
+    }
+     // Find the template to update
+    var template = await Template.findOne({templateID : req.body.templateID})
+    var updatedData = {}
+
+    // If the template is null, template is not public, or user has
+    // already rated this template, return an error
+    if(template == null){
+        return res.send({hasErrors : "True", templateExists : "False"});
+    }
+    if(template.isPublic == "False"){
+        return res.send({hasErrors : "True", publicTemplate : "False"});
+    }
+    if(template.ratedUsers.includes(req.user.userID)){
+        return res.send({hasErrors : "True", ratingExists : "True"});
+    }
+    // Ensure that the given rating is valid
+    rating = parseFloat(req.body.rating)
+    if(rating > 5 || rating < 0){
+        return res.send({hasErrors : "True", invalidRating : "True"});
+    }
+    // Update the rating values
+    updatedData.ratingTotal = rating + template.ratingTotal;
+    updatedData.ratedUsers = [...template.ratedUsers, req.user.userID]
+    updatedData.rating = (updatedData.ratingTotal) / (updatedData.ratedUsers.length)
+
+    // Finally push the change to the template
+    await Template.findByIdAndUpdate({_id : template._id}, updatedData).then(function(){
+        return res.send({hasErrors : "False", newRating : updatedData.rating})
+    })
+
+    
+})
+  
 
 module.exports = router;

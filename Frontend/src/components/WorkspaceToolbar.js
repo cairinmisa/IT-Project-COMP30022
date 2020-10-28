@@ -3,16 +3,16 @@ import React, { Component } from 'react';
 class WorkspaceToolbar extends Component {
     render () {
         // If a folio isn't selected then return some place holder text
-        if(this.props.folioTitle == "") {
+        if(this.props.folioTitle === "") {
             return (
-                <div className = "bold workspace-title">
-                    Select a folio or create a new one to start editing.
+                <div className = "bold workspace-title big">
+                    <span className="red">🡐🡐</span> Create a folio from the panel on the left, or select a folio to start editing.
                 </div>
             );
         }
 
         // If a template is selected show a different toolbar with different functions
-        if(this.props.templateSelected == true) {
+        if(this.props.templateSelected === true) {
             return (
                 <div className = "bold workspace-title">
                   <span>
