@@ -9,7 +9,8 @@ class UserPage extends Component {
         userName : "",
         fullName : "",
         userID : "",
-        portfolios: []
+        portfolios: [],
+        templates: []
      }
 
      async getPortfolios(ID){
@@ -67,9 +68,24 @@ class UserPage extends Component {
         return ( 
             <div className = "accountForm">
               <div className ="accountForm-content">
-                <h1>Welcome to {this.state.fullName}'s profile page!</h1>
-                <p className = "medium"><span role = "img" aria-label = "person">👨‍💼</span>Username: {this.state.userName}</p>
-                {this.state.portfolios.map((portfolio) => <li>{portfolio[1]}</li>)}
+                <h1>{this.state.fullName}</h1>
+                <p className="username">@{this.state.userName}</p>
+                <p className="bold">Public Folios:</p>
+                <ul className="folioTemplateList">
+                  {
+                    this.state.portfolios.length !== 0
+                      ? this.state.portfolios.map((portfolio) => <li>{portfolio[1]}</li>)
+                      : "User does not have any public folios."
+                  }
+                </ul>
+                <p className="bold">Public Templates:</p>
+                <ul className="folioTemplateList">
+                  {
+                    this.state.templates.length !== 0
+                      ? this.state.templates.map((template) => <li>{template[1]}</li>)
+                      : "User does not have any public templates."
+                  }
+                </ul>
               </div>
             </div>
         );
