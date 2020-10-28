@@ -116,7 +116,7 @@ class LoginForm extends Component {
       <div className="loginForm">
         <div className="loginForm-content">
 
-          <span role = "img" aria-label="star">✨ Log in ✨</span>
+          <h1><span role = "img" aria-label="star">✨ Log in ✨</span></h1>
           <GoogleLoginButton/>
           <InputField
             type="text"
