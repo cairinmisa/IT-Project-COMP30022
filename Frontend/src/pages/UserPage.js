@@ -40,9 +40,6 @@ class UserPage extends Component {
         await Axios({
           method: 'get',
           url:  host+'/profile/findUser', 
-          headers: {
-            Authorization : "Bearer " + UserStore.token
-          },
           params: {
             emailAddress : email
           }
