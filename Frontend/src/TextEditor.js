@@ -28,7 +28,7 @@ export default class TextEditor extends Component {
     // So that we can bold selected folios
     listItemSelected : null
   }
-  
+
   constructor(props){
     super(props)
     this.closeCreateNew = this.closeCreateNew.bind(this)
@@ -77,7 +77,7 @@ export default class TextEditor extends Component {
     // Wait for the request to resolve before getting updated folios
     await Axios({
       method: 'put',
-      url:  host+'/eportfolio/save', 
+      url:  host+'/eportfolio/save',
       headers: {
         Authorization : "Bearer " + UserStore.token
       },
@@ -92,7 +92,7 @@ export default class TextEditor extends Component {
     })
     .catch(response => {
       console.log(response)
-    }) 
+    })
 
     // Instead of reload, get portfolios again such that user can keep editing their work
     // Also solves issue of reloading the page on autosave (which would be annoying to have)
@@ -109,7 +109,7 @@ export default class TextEditor extends Component {
     // Else delete
     await Axios({
       method: 'delete',
-      url:  host+'/eportfolio', 
+      url:  host+'/eportfolio',
       headers: {
         Authorization : "Bearer " + UserStore.token
       },
@@ -122,7 +122,7 @@ export default class TextEditor extends Component {
     })
     .catch(response => {
       console.log(response)
-    }) 
+    })
     window.location.reload(false)
   }
 
@@ -136,7 +136,7 @@ export default class TextEditor extends Component {
     // Else delete template
     await Axios({
       method: 'delete',
-      url:  host+'/template', 
+      url:  host+'/template',
       headers: {
         Authorization : "Bearer " + UserStore.token
       },
@@ -149,7 +149,7 @@ export default class TextEditor extends Component {
     })
     .catch(response => {
       console.log(response)
-    }) 
+    })
     window.location.reload(false)
   }
 
@@ -157,7 +157,7 @@ export default class TextEditor extends Component {
   async getPortfolios(userId){
     await Axios({
       method: 'post',
-      url:  host+'/eportfolio/userfetch', 
+      url:  host+'/eportfolio/userfetch',
       headers: {
         Authorization : "Bearer " + UserStore.token
       },
@@ -181,7 +181,7 @@ export default class TextEditor extends Component {
 
     await Axios({
       method: 'get',
-      url:  host+'/template/fetchFromUser', 
+      url:  host+'/template/fetchFromUser',
       headers: {
         Authorization : "Bearer " + UserStore.token
       },
@@ -208,7 +208,7 @@ export default class TextEditor extends Component {
   createPortfolio(title, publicity){
     Axios({
         method: 'post',
-        url:  host+'/eportfolio/create', 
+        url:  host+'/eportfolio/create',
         headers: {
           Authorization : "Bearer " + UserStore.token
         },
@@ -238,14 +238,14 @@ export default class TextEditor extends Component {
       })
       .catch(response => {
         console.log(response)
-      }) 
+      })
   }
 
   // Function for creating a template from a portfolio
   convertPortfolio(title, publicity, category){
     Axios({
         method: 'post',
-        url:  host+'/template/create', 
+        url:  host+'/template/create',
         headers: {
           Authorization : "Bearer " + UserStore.token
         },
@@ -281,13 +281,13 @@ export default class TextEditor extends Component {
       })
       .catch(response => {
         console.log(response)
-      }) 
+      })
   }
 
   convertToFolio(title, publicity) {
     Axios({
       method: 'post',
-      url:  host+'/template/createFolio', 
+      url:  host+'/template/createFolio',
       headers: {
         Authorization : "Bearer " + UserStore.token
       },
@@ -319,7 +319,7 @@ export default class TextEditor extends Component {
     })
     .catch(response => {
       console.log(response)
-    }) 
+    })
   }
 
   componentDidMount(){
@@ -362,23 +362,23 @@ export default class TextEditor extends Component {
               <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
               <p className="bold">Your folios:</p>
               <ul className="folioTemplateList">
-                  {this.state.userPortfolios.map((portfolio, i) => <li key={i} className={this.state.listItemSelected == i ? "selectedListItem" : ""} onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1], false, i)}>{this.shortenString(portfolio[1],23)}</li>)}
+                  {this.state.userPortfolios.map((portfolio, i) => <li key={i} className={this.state.listItemSelected === i ? "selectedListItem" : ""} onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1], false, i)}>{this.shortenString(portfolio[1],23)}</li>)}
               </ul>
               <p className="bold">Your templates:</p>
               <ul className="folioTemplateList">
-                  {this.state.userTemplates.map((template, i) => <li key={i+this.state.userPortfolios.length} className={this.state.listItemSelected == i+this.state.userPortfolios.length ? "selectedListItem" : ""} onClick = {() => this.handleClick(template[0],template[2], template[1], true, i+this.state.userPortfolios.length)}>{this.shortenString(template[1],23)}</li>)}
+                  {this.state.userTemplates.map((template, i) => <li key={i+this.state.userPortfolios.length} className={this.state.listItemSelected === i+this.state.userPortfolios.length ? "selectedListItem" : ""} onClick = {() => this.handleClick(template[0],template[2], template[1], true, i+this.state.userPortfolios.length)}>{this.shortenString(template[1],23)}</li>)}
               </ul>
             </div>
           </div>
           <div className="editorComponent">
-            <WorkspaceToolbar 
+            <WorkspaceToolbar
               folioTitle = {this.state.currentTitle}
               saveFolio = {() => this.savePortfolio()}
               deleteFolio = {() => this.deletePortfolio()}
               deleteTemplate = {() => this.deleteTemplate()}
               convert = {() => this.showTemplateModal()}
               convertToFolio = {() => this.showConvertToFolio()}
-              templateSelected = {this.state.isTemplateSelected} 
+              templateSelected = {this.state.isTemplateSelected}
             />
             <div className="editor-container">
               {this.state.currentTitle ? <CKEditor

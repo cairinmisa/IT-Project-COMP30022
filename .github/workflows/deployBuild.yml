@@ -40,18 +40,18 @@ jobs:
             cd Backend
             npm install
             cd models
-            sudo cp /tmp/prod-files/db.js .
+            sudo cp /var/www/prod/db.js .
             cd ../config
-            sudo cp /tmp/prod-files/keys.js .
+            sudo cp /var/www/prod/keys.js .
 
     - name: Pull repo - Frontend
       run:  |
             cd /var/www/IT-Project-COMP30022/Frontend
             npm install
             cd src
-            sudo cp /tmp/prod-files/.env .
+            sudo cp /var/www/prod/.env .
             cd stores
-            sudo cp /tmp/prod-files/Settings.js .
+            sudo cp /var/www/prod/Settings.js .
             cd /var/www/IT-Project-COMP30022/Frontend
             npm run-script build
             sudo service nginx start
