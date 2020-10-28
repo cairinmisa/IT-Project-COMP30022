@@ -147,7 +147,7 @@ class SignUpForm extends Component {
     return (
       <div className="signupForm">
         <div className="signupForm-content">
-          <span role = "img" aria-label = "pencil">✏️ Sign up ✏️</span>
+          <h1><span role = "img" aria-label = "pencil">✏️ Sign up ✏️</span></h1>
           <GoogleLoginButton/>
           <InputField
             type="email"
