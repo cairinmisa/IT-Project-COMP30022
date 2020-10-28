@@ -43,6 +43,10 @@
   color: var(--scheme-grey);
 }
 
+.big {
+  font-size: 30px;
+}
+
 .whiteBG {
   background-color: var(--scheme-white);
   color: var(--scheme-black);
@@ -157,6 +161,7 @@ input:focus {
   width: 100%;
   overflow-y:scroll;
   height: 100%;
+  background-color: #DDE;
 }
 
 .editorBorder {
@@ -209,6 +214,27 @@ input:focus {
   cursor: pointer;
 }
 
+.panelContent ul {
+  list-style: none;
+}
+
+.panelContent li::before {
+  content: "🡒";  
+  color: var(--scheme-red); 
+  font-weight: bold;
+  display: inline-block; 
+  width: 1em; 
+  margin-left: -1em; 
+}
+
+.selectedListItem {
+  padding-left: 5px;
+}
+
+.selectedListItem::before {
+  color: var(--scheme-aqua) !important; 
+}
+
 .container {
   font-size: 28px;
 }
@@ -226,8 +252,16 @@ input:focus {
   width: 100%;
   position: relative;
   color: var(--scheme-white);
-  height: 100px;
+  height: 120px;
   font-family: neue-montreal-medium, helvetica;
+}
+
+.navBar img {
+  width: 55px;
+  height: auto;
+  padding-left: 4.2%;
+  padding-top: 21px;
+  float: left;
 }
 
 .navBar ul {
@@ -240,6 +274,28 @@ input:focus {
   display: inline-block;
   padding-left: 25px;
   color: var(--scheme-white);
+}
+
+.searchUserField input {
+  border-color: var(--scheme-black);
+  border-style: solid none solid solid;
+  border-radius: 28px 0 0 28px;
+  background-color: var(--scheme-white);
+  padding-left: 14px;
+  height: 30px;
+  font-family: neue-montreal-medium, helvetica;;
+}
+
+.searchUserField button {
+  border-color: var(--scheme-black);
+  border-style: solid solid solid none;
+  border-radius: 0 28px 28px 0;
+  background-color: var(--scheme-white);
+  padding-right: 15px;
+  padding-left: 6px;
+  height: 36px;
+  position: relative;
+  top: 1px;
 }
 
 .footer {
@@ -280,6 +336,11 @@ div {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.welcome-content img {
+  width: 23%;
+  height: auto;
 }
 
 .welcome a {
@@ -427,8 +488,9 @@ div {
 }
 
 .loginForm {
-  height: 70vh;
+  height: 67vh;
   width: 100%;
+  position: relative;
 }
 
 .loginForm-content {
@@ -440,8 +502,9 @@ div {
 }
 
 .signupForm {
-  height: 70vh;
+  height: 67vh;
   width: 100%;
+  position: relative;
 }
 
 .signupForm-content {
@@ -611,3 +674,22 @@ div {
     width: 60%;
   }
 }
+
+@media screen and (max-height: 800px) {
+  .signupForm-content {
+    zoom: 0.8;
+  }
+
+  .loginForm-content {
+    zoom: 0.8;
+  }
+} 
+
+@media screen and (max-height: 640px) {
+  .signupForm-content {
+    zoom: 0.7;
+  }
+  .loginForm-content {
+    zoom: 0.7;
+  }
+} 

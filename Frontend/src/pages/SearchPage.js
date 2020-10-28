@@ -131,7 +131,7 @@ class SearchPage extends Component {
         }
       else{
         return(
-          <h1>Is this your Tinder? Cause you've got no matches!</h1>
+          <h1>Can not find any matches for "{this.props.search}".</h1>
         )
       }
     }

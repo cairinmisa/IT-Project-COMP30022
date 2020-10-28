@@ -11,7 +11,6 @@ import SignUpForm from "./pages/SignUpForm";
 import LoginPage from "./pages/LoginPage";
 import {Helmet} from "react-helmet";
 import SearchPage from "./pages/SearchPage";
-import { PropTypes } from "mobx-react";
 import UserPage from "./pages/UserPage"
 
 class App extends React.Component {
@@ -64,7 +63,7 @@ class App extends React.Component {
     return (
         <Router>
           <Helmet>
-            <title>ePortfolio Editor</title>
+            <title>eProfolio</title>
           </Helmet>
           <Switch>
             <Route path="/editor" exact component={TextEditor} ></Route>

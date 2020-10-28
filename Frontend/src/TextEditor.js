@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
-import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
-import Resume from "./templates/template2.js";
-import Diary from "./templates/template.js";
+//import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
+import BalloonBlockEditor from "ckeditor5-custom-build/build/ckeditor";
 import {Link} from "react-router-dom";
 import UserStore from "./stores/UserStore";
 import {Redirect} from 'react-router-dom';
@@ -24,7 +23,10 @@ export default class TextEditor extends Component {
     currentID : "",
     currentTitle: "",
     currentTemplate : "",
-    isTemplateSelected : false
+    isTemplateSelected : false,
+
+    // So that we can bold selected folios
+    listItemSelected : null
   }
   
   constructor(props){
@@ -33,12 +35,13 @@ export default class TextEditor extends Component {
     this.createPortfolio = this.createPortfolio.bind(this)
   }
 
-  handleClick(templateClicked, eportID, title, isTemplate) {
+  handleClick(templateClicked, eportID, title, isTemplate, id) {
     this.setState({
       currentTemplate : templateClicked,
       currentID : eportID,
       currentTitle: title,
-      isTemplateSelected : isTemplate
+      isTemplateSelected : isTemplate,
+      listItemSelected : id
     })
   }
 
@@ -66,11 +69,11 @@ export default class TextEditor extends Component {
 
   // Saves folio that a user has been working on
   async savePortfolio(){
-    if(this.state.currentID == "" || this.state.currentTitle == ""){
+    if(this.state.currentID === "" || this.state.currentTitle === ""){
       alert("You must give your portfolio a title before it can be created")
       return;
     }
-
+    console.log(this.state.currentTemplate)
     // Wait for the request to resolve before getting updated folios
     await Axios({
       method: 'put',
@@ -98,7 +101,12 @@ export default class TextEditor extends Component {
 
   // Deletes the currently selected folio
   async deletePortfolio(){
-    alert("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")
+    // Check if user wants to delete folio
+    if(!window.confirm("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")) {
+      return;
+    }
+
+    // Else delete
     await Axios({
       method: 'delete',
       url:  host+'/eportfolio', 
@@ -120,8 +128,12 @@ export default class TextEditor extends Component {
 
   // Deletes the currently selected folio
   async deleteTemplate(){
-    console.log(this.state.currentID)
-    alert("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")
+    // Check if user wants to delete template
+    if(!window.confirm("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")) {
+      return;
+    }
+
+    // Else delete template
     await Axios({
       method: 'delete',
       url:  host+'/template', 
@@ -311,7 +323,7 @@ export default class TextEditor extends Component {
   }
 
   componentDidMount(){
-    if(UserStore.user != undefined){
+    if(UserStore.user !== undefined){
       this.getPortfolios(UserStore.user.userID)
     }
   }
@@ -325,7 +337,7 @@ export default class TextEditor extends Component {
   }
 
   render() {
-    if(UserStore.user == undefined){
+    if(UserStore.user === undefined){
       return <Redirect  to="/login" />
     }
     else{
@@ -336,7 +348,7 @@ export default class TextEditor extends Component {
           {this.state.displayConvertToFolio ? <TemplateToFolioModal closeCreateNew = {() => this.closeCreateNew()} createPortfolio = {(title, publicity) => this.convertToFolio(title, publicity)}/> : null}
           <div className="editorNavBar">
             <div className="leftAlign">
-              <Link to = "/" >Home</Link>
+              <Link to = "/" >eProfolio</Link>
             </div>
             <div className="rightAlign">
               <Link to = "/template" >Templates</Link>{" "}|{" "}
@@ -349,12 +361,12 @@ export default class TextEditor extends Component {
               <p className="bold">Welcome {this.capitaliseName(UserStore.user.firstName)} </p>
               <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
               <p className="bold">Your folios:</p>
-              <ul>
-                  {this.state.userPortfolios.map((portfolio) => <li onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1], false)}>{this.shortenString(portfolio[1],23)}</li>)}
+              <ul className="folioTemplateList">
+                  {this.state.userPortfolios.map((portfolio, i) => <li key={i} className={this.state.listItemSelected == i ? "selectedListItem" : ""} onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1], false, i)}>{this.shortenString(portfolio[1],23)}</li>)}
               </ul>
               <p className="bold">Your templates:</p>
-              <ul>
-                  {this.state.userTemplates.map((template) => <li onClick = {() => this.handleClick(template[0],template[2], template[1], true)}>{this.shortenString(template[1],23)}</li>)}
+              <ul className="folioTemplateList">
+                  {this.state.userTemplates.map((template, i) => <li key={i+this.state.userPortfolios.length} className={this.state.listItemSelected == i+this.state.userPortfolios.length ? "selectedListItem" : ""} onClick = {() => this.handleClick(template[0],template[2], template[1], true, i+this.state.userPortfolios.length)}>{this.shortenString(template[1],23)}</li>)}
               </ul>
             </div>
           </div>
@@ -369,15 +381,65 @@ export default class TextEditor extends Component {
               templateSelected = {this.state.isTemplateSelected} 
             />
             <div className="editor-container">
-              <CKEditor
-                editor={BalloonEditor}
+              {this.state.currentTitle ? <CKEditor
+                editor={BalloonBlockEditor}
                 data= {this.state.currentTemplate}
+                config={{
+                  toolbar: {
+                    items: [
+                    ]
+                  },
+                  language: 'en',
+                  blockToolbar: [
+                    'heading',
+                    'bold',
+                    'italic',
+                    'underline',
+                    'link',
+                    '|',
+                    'imageUpload',
+                    'blockQuote',
+                    'insertTable',
+                    '|',
+                    'bulletedList',
+                    'numberedList',
+                    'indent',
+                    'outdent',
+                    '|',
+                    'undo',
+                    'redo'
+                  ],
+                  image: {
+                    styles: [
+                      // A completely custom full size style with no class, used as a default.
+                      'full', 'side', {name:'leftAlign', title: 'Align Left', icon: 'left', className: 'image-style-left'}
+                    ],
+                    toolbar: [
+                      'imageStyle:leftAlign',
+                      'imageStyle:full',
+                      'imageStyle:side',
+                      '|',
+                      'imageTextAlternative'
+                    ]
+                  },
+                  table: {
+                    contentToolbar: [
+                      'tableColumn',
+                      'tableRow',
+                      'mergeTableCells'
+                    ]
+                  },
+                  simpleUpload: {
+                    // The URL that the images are uploaded to.
+                    uploadUrl: host+'/uploader',
+                  }
+                }}
                 onChange = { (event, editor) => {
                   const data = editor.getData();
-                  this.setState({currentTemplate : data})
+                  this.setState({currentTemplate : data});
                 }
               }
-              />
+              /> : null}
               <div className="editorBorder"></div>
             </div>
           </div>
