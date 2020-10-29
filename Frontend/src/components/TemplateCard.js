@@ -20,17 +20,19 @@ class TemplateCard extends Component {
 
         // Send rating to server
         Axios({
-            method: 'get',
+            method: 'post',
             url:  host+'/template/rateTemplate',
             headers: {
                 Authorization : "Bearer " + UserStore.token
             },
-            params: {
+            data: {
                 userID : UserStore.user.userID,
+                templateID: this.props.template.templateID,
                 rating: rating
             }
           })
           .then(response => {
+              console.log(response.data);
             // Handle response errors
             if(response.data.hasErrors === "True") {
                 if(response.data.ratingExists === "True") {
@@ -52,6 +54,47 @@ class TemplateCard extends Component {
           }) 
     }
 
+    checkHasRated() {
+        // Check if user is logged in
+        if(UserStore.isLoggedIn === false) {
+            return;
+        }
+
+        // Send rating to server
+        Axios({
+            method: 'get',
+            url:  host+'/template/hasRated',
+            headers: {
+                Authorization : "Bearer " + UserStore.token
+            },
+            params: {
+                templateID: this.props.template.templateID
+            }
+          })
+          .then(response => {
+            // Handle response errors
+            if(response.data.hasErrors === "True") {
+                alert("Unknown error, please try again later.");
+            }
+
+            // Successful rating
+            else if(response.data.hasRated === "True"){
+                // Change the rating state
+                this.setState({
+                    hasUserRated : true,
+                    userRating : response.data.rating
+                })
+            }
+          })
+          .catch(response => {
+            console.log(response);
+          }) 
+    }
+
+    componentDidMount() {
+        this.checkHasRated();
+    }
+
     render () {
         return (
             <div className = "templateCard">
@@ -63,7 +106,7 @@ class TemplateCard extends Component {
                         ? <StarRatings
                             rating={this.state.userRating}
                             starRatedColor="blue"
-                            changeRating={(rating) => console.log("Rating Change" + rating)}
+                            changeRating={(rating) => this.rateTemplate(rating)}
                             numberOfStars={5}
                             name='rating'
                             className="templateRatingStars"
