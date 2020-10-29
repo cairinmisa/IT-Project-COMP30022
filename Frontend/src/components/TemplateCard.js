@@ -8,7 +8,25 @@ import {host} from "../stores/Settings"
 class TemplateCard extends Component {
     state = {
         hasUserRated : false,
-        userRating : 0
+        userRating : 0,
+        username: null
+    };
+
+    // Gets username from user ID
+    getUsernameFromID(id) {
+        Axios({
+            method: 'get',
+            url:  host+'/profile/usernameFromUserID',
+            params: {
+                userID: id
+            }
+          })
+          .then(response => {
+            console.log(response.data);
+            this.setState({
+                username: response.data.username
+            })
+        })
     };
 
     rateTemplate(rating) {
@@ -88,6 +106,7 @@ class TemplateCard extends Component {
     }
 
     componentDidMount() {
+        this.getUsernameFromID(this.props.template.userID)
         this.checkHasRated();
     }
 
@@ -95,7 +114,7 @@ class TemplateCard extends Component {
         return (
             <div className = "templateCard">
                 <p className="bold">{this.props.template.title}</p>
-                <p>Created by: {this.props.template.userID}</p>
+                <p>Created by: {this.state.username}</p>
                 <button onClick = {() => this.props.createNew(this.props.template.templateID)}>Use Template</button>
                 <span> 
                     {
