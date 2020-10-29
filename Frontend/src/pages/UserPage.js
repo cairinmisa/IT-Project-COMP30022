@@ -40,6 +40,29 @@ class UserPage extends Component {
       }) 
     }
 
+    async getTemplates(ID){
+      await Axios({
+        method: 'get',
+        url:  host+'/template/publictemplatefromUser', 
+        params: {
+          userID : ID
+        }
+      })
+      .then(response => {
+        console.log(response)
+        let templates = [];
+        for(let i=0;i<response.data.length;i++){
+          templates[i] = [response.data[i].data,response.data[i].title,response.data[i].templateID]
+        }
+        this.setState({
+          templates : templates
+        });
+      })
+      .catch(response => {
+        console.log(response)
+      }) 
+    }
+
 
     async getUser(email){
         await Axios({
@@ -64,8 +87,8 @@ class UserPage extends Component {
 
     componentDidMount(){
         this.getUser(this.props.email)
-        console.log(this.props.userID)
         this.getPortfolios(this.props.userID)
+        this.getTemplates(this.props.userID)
         if(UserStore.user !== null && this.state.email === UserStore.user.emailAddress) {
           this.setState({
             isLoggedInUser : true

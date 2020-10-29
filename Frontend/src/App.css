@@ -484,6 +484,7 @@ div {
   position: relative;
   left: 50%;
   transform: translate(-50%,0);
+  margin-top: 10px;
 }
 
 .accountForm-content ul {
