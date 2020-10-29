@@ -197,9 +197,6 @@ router.get('/hasRated',passport.authenticate('jwt', {session : false}), async fu
     } else{
         return res.send({hasErrors : "False", hasRated : "False"})
     }
-
-
-
 })
 
 router.get('/publictemplatefromUser', async function(req,res){
