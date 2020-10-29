@@ -66,7 +66,7 @@ class UserPage extends Component {
         this.getUser(this.props.email)
         console.log(this.props.userID)
         this.getPortfolios(this.props.userID)
-        if(this.state.email === UserStore.user.emailAddress) {
+        if(UserStore.user !== null && this.state.email === UserStore.user.emailAddress) {
           this.setState({
             isLoggedInUser : true
           });
@@ -106,7 +106,7 @@ class UserPage extends Component {
                 {
                   this.state.isLoggedInUser 
                   ? <SubmitButton
-                    text="Modify Account" derivedClass="whiteBG"
+                    text="Modify Account/Logout" derivedClass="redBG"
                     onClick={() => this.setState({redirectToModify : true})}
                     ></SubmitButton>
                   : null
