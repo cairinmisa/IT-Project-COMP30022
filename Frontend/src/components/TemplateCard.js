@@ -8,7 +8,7 @@ import {host} from "../stores/Settings"
 class TemplateCard extends Component {
     state = {
         hasUserRated : false,
-        userRating : null
+        userRating : 0
     };
 
     rateTemplate(rating) {
@@ -42,11 +42,7 @@ class TemplateCard extends Component {
 
             // Successful rating
             else {
-                // Change the rating state
-                this.setState({
-                    hasUserRated : true,
-                    userRating : rating
-                })
+                window.location.reload(false);
             }
           })
           .catch(response => {
@@ -101,29 +97,41 @@ class TemplateCard extends Component {
                 <p className="bold">{this.props.template.title}</p>
                 <p>Created by: {this.props.template.userID}</p>
                 <button onClick = {() => this.props.createNew(this.props.template.templateID)}>Use Template</button>
-                {
-                    this.state.hasUserRated
+                <span> 
+                    {
+                        this.props.template.rating > 0
+                        ? "Rating: " + this.props.template.rating.toString().substring(0,3) + "/5 " 
+                        : null
+                    }
+                    {
+                        this.props.template.rating > 0
                         ? <StarRatings
-                            rating={this.state.userRating}
-                            starRatedColor="blue"
-                            changeRating={(rating) => this.rateTemplate(rating)}
-                            numberOfStars={5}
-                            name='rating'
-                            className="templateRatingStars"
-                            starDimension="20px"
-                            starSpacing="4px"
-                          />
-                        : <StarRatings
-                            rating={this.props.template.rating}
+                            rating={1}
                             starRatedColor="orange"
-                            changeRating={(rating) => this.rateTemplate(rating)}
-                            numberOfStars={5}
+                            numberOfStars={1}
                             name='rating'
                             className="templateRatingStars"
                             starDimension="20px"
                             starSpacing="4px"
-                           />
-                }
+                          /> 
+                        : null
+                    }
+                    {
+                        this.props.template.rating < 0
+                        ? "Unrated" : null
+                    }
+                    {" | "} 
+                    <StarRatings
+                        rating={this.state.userRating}
+                        starRatedColor="blue"
+                        changeRating={(rating) => this.rateTemplate(rating)}
+                        numberOfStars={5}
+                        name='rating'
+                        className="templateRatingStars"
+                        starDimension="20px"
+                        starSpacing="4px"
+                    />
+                </span>
             </div>
         );
     }

@@ -650,7 +650,7 @@ div {
 .templateCard {
   display: inline-block;
   margin-right: 20px;
-  width: 300px;
+  width: 320px;
   height: 100%;
   border-color: var(--scheme-black);
   border-style: solid;
@@ -668,10 +668,13 @@ div {
   background-color: var(--scheme-white);
   color: black;
   font-size: 17px;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0);
+  display: block;
 }
 
 .star-ratings {
-  display: block !important;
   padding-top: 20px;
 }
 
