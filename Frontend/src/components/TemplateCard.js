@@ -25,7 +25,9 @@ class TemplateCard extends Component {
             console.log(response.data);
             this.setState({
                 username: response.data.username
-            });
+            })
+        })
+    };
 
     rateTemplate(rating) {
         // Check if user is logged in
