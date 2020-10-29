@@ -657,6 +657,24 @@ div {
   border-radius: 15px;
 }
 
+.templateCard button {
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 28px;
+  font-family: neue-montreal-bold, helvetica;
+  height: 30px;
+  width: 200px;
+  margin: 5px 0 0 0;
+  background-color: var(--scheme-white);
+  color: black;
+  font-size: 17px;
+}
+
+.star-ratings {
+  display: block !important;
+  padding-top: 20px;
+}
+
 @media screen and (min-width: 1200px) {
   h1 {
     font-size: 35px;
