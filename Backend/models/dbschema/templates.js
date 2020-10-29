@@ -13,7 +13,7 @@ var templateSchema = new Schema({
     title : String,
     rating : Number,
     ratingTotal : Number,
-    ratedUsers : [Number],
+    ratedUsers : [[Number]],
 }, {collection : 'Templates'});
 
 const Template = mongoose.model('template', templateSchema);
