@@ -169,6 +169,20 @@ router.get('/searchByTitle', async function(req,res, next){
 
     
 })
+
+router.get('/publictemplatefromUser', async function(req,res){
+    
+    // Check User Exists
+    if( req.query.userID == null){
+      return res.send({hasErrors : "True", userIDGiven : "False"});
+    }
+    // Return list of all templates belonging to that user that are public
+    await Template.find({userID : req.query.userID, isPublic : "True"})
+    .then(function(templateList){
+      return res.send(templateList);
+    })
   
+  })
+
 
 module.exports = router;
