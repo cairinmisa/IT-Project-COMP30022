@@ -480,6 +480,10 @@ div {
 
 .accountForm-content .submitButton {
   margin-bottom: 10px;
+  width: 80%;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0);
 }
 
 .accountForm-content ul {
