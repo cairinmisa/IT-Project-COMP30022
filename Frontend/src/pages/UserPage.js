@@ -68,24 +68,22 @@ class UserPage extends Component {
         return ( 
             <div className = "accountForm">
               <div className ="accountForm-content">
-                <h1>{this.state.fullName}</h1>
+                <h1>✌🏼 {this.state.fullName} ✌🏼</h1>
                 <p className="username">@{this.state.userName}</p>
+                
                 <p className="bold">Public Folios:</p>
-                <ul className="folioTemplateList">
-                  {
-                    this.state.portfolios.length !== 0
-                      ? this.state.portfolios.map((portfolio) => <li>{portfolio[1]}</li>)
-                      : "User does not have any public folios."
-                  }
-                </ul>
+                {
+                  this.state.portfolios.length !== 0
+                    ? this.state.portfolios.map((portfolio, i) => <li className="folioTemplate-li" key={i}>{portfolio[1]}</li>)
+                    : "User does not have any public folios."
+                }
+
                 <p className="bold">Public Templates:</p>
-                <ul className="folioTemplateList">
-                  {
-                    this.state.templates.length !== 0
-                      ? this.state.templates.map((template) => <li>{template[1]}</li>)
-                      : "User does not have any public templates."
-                  }
-                </ul>
+                {
+                  this.state.templates.length !== 0
+                    ? this.state.templates.map((template, i) => <li className="folioTemplate-li" key={i}>{template[1]}</li>)
+                    : "User does not have any public templates."
+                }
               </div>
             </div>
         );

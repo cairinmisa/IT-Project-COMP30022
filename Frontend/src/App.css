@@ -467,7 +467,7 @@ div {
 
 .accountForm-content p {
   font-size: 24px;
-  margin: 0 0 10px 0;
+  margin: 5px 0 5px 0;
 }
 
 .accountForm-content button {
@@ -485,6 +485,18 @@ div {
 .accountForm-content ul {
   position: relative;
   top: -7px;
+}
+
+.folioTemplate-li {
+  list-style: none;
+}
+
+.folioTemplate-li::before {
+  content: "🡒";  
+  color: var(--scheme-red); 
+  font-weight: bold;
+  display: inline-block; 
+  width: 1em; 
 }
 
 .username {
