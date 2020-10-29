@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage";
 import {Helmet} from "react-helmet";
 import SearchPage from "./pages/SearchPage";
 import UserPage from "./pages/UserPage"
+import UserStore from "./stores/UserStore";
 
 class App extends React.Component {
 
@@ -51,7 +52,8 @@ class App extends React.Component {
             <Route path="/" exact component={Home}></Route>
             <Route path="/signup" exact component={SignUpForm}></Route>
             <Route path="/template" exact component={Template}></Route>
-            <Route path="/profile" exact component={ProfilePage}></Route>
+            <Route path="/profile" exact component={() => <UserPage email = {UserStore.user.emailAddress} userID = {UserStore.user.userID}/>}></Route>
+            <Route path="/accountinfo" exact component={ProfilePage}></Route>
             <Route path="/search" exact component = {() => <SearchPage search = {this.state.search} findUser = {this.findUser}/>}></Route>
           </Switch>
           <Footer />

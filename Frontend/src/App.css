@@ -214,17 +214,17 @@ input:focus {
   cursor: pointer;
 }
 
-.panelContent ul {
+.folioTemplateList {
   list-style: none;
 }
 
-.panelContent li::before {
+.folioTemplateList li::before {
   content: "🡒";  
   color: var(--scheme-red); 
   font-weight: bold;
   display: inline-block; 
   width: 1em; 
-  margin-left: -1em; 
+  margin-left: -1.4em; 
 }
 
 .selectedListItem {
@@ -449,7 +449,7 @@ div {
 }
 
 .accountForm {
-  height: 71vh;
+  height: 69vh;
   width: 100%;
 }
 
@@ -467,7 +467,7 @@ div {
 
 .accountForm-content p {
   font-size: 24px;
-  margin: 0 0 10px 0;
+  margin: 5px 0 5px 0;
 }
 
 .accountForm-content button {
@@ -480,6 +480,35 @@ div {
 
 .accountForm-content .submitButton {
   margin-bottom: 10px;
+  width: 80%;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0);
+  margin-top: 10px;
+}
+
+.accountForm-content ul {
+  position: relative;
+  top: -7px;
+}
+
+.folioTemplate-li {
+  list-style: none;
+}
+
+.folioTemplate-li::before {
+  content: "🡒";  
+  color: var(--scheme-red); 
+  font-weight: bold;
+  display: inline-block; 
+  width: 1em; 
+}
+
+.username {
+  position: relative;
+  top: -10px;
+  font-size: 18px !important;
+  color: #666;
 }
 
 .noBorder {
