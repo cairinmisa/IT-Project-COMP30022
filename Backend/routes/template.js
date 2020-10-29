@@ -183,7 +183,7 @@ router.get('/hasRated',passport.authenticate('jwt', {session : false}), async fu
     
     // Check the correct information is given
     if( req.query.templateID == null){
-        return res.send({hasErrors : "True", userIDGiven : "False"});
+        return res.send({hasErrors : "True", templateIDGiven : "False"});
     }
 
     template = await Template.findOne({templateID : req.query.templateID});
