@@ -323,7 +323,7 @@ export default class TextEditor extends Component {
   }
 
   componentDidMount(){
-    if(UserStore.user !== undefined){
+    if(UserStore.user !== null){
       this.getPortfolios(UserStore.user.userID)
     }
   }
@@ -337,7 +337,7 @@ export default class TextEditor extends Component {
   }
 
   render() {
-    if(UserStore.user === undefined){
+    if(UserStore.user === null){
       return <Redirect  to="/login" />
     }
     else{
