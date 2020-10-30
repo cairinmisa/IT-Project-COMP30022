@@ -36,12 +36,12 @@ class EportReader extends Component {
 
     async getTemplate(search){
       await Axios({
-        method: 'post',
-        url:  host+'/template/fetch', 
+        method: 'get',
+        url:  host+'/template/searchByID', 
         headers: {
           Authorization : "Bearer " + UserStore.token
         },
-        data: {
+        params: {
           templateID : search
         }
       })

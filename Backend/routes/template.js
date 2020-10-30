@@ -125,7 +125,7 @@ router.get('/searchByTitle', async function(req,res, next){
   
 })
 
-router.get('/searchbyID', (req, res)=> {
+router.get('/searchbyID', async (req, res)=> {
 
     if(req.query.templateID ==null){
         return res.send({eportGiven : "False", hasErrors : "True"})
