@@ -55,6 +55,7 @@ class EportReader extends Component {
   }
 
     componentDidMount(){
+      console.log(this.props.eportID,this.props.tempID)
       if(this.props.eportID !== ""){
         this.getPortfolio(this.props.eportID);
       }

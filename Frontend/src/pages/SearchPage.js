@@ -95,7 +95,7 @@ class SearchPage extends Component {
         .then(response => {
           let reqPortfolios = [];
           for(let i=0;i<response.data.length;i++){
-            reqPortfolios[i] = [response.data[i].title, response.data[i].userID]
+            reqPortfolios[i] = [response.data[i].title, response.data[i].eportID]
           }
           this.setState({
             eportfolios : reqPortfolios
