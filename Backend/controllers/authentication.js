@@ -195,7 +195,8 @@ exports.update = async (req,res,next) =>{
     
     
     // Fix fullName if new name is entered
-    await User.find({userID : req.body.userID}).then(function(olduser){
+    await User.findOne({userID : req.body.userID}).then(function(olduser){
+
         if((req.body.firstName != null) && (req.body.lastName != null)){
             req.body.fullName = req.body.firstName + " " + req.body.lastName
         } else if (req.body.firstName != null && (req.body.lastName == null)){

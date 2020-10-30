@@ -13,6 +13,7 @@ const validatenewEportInput = require('../controllers/validators/newEport');
 
 // Load Template module
 const Template = require("../models/dbschema/templates");
+const { findByIdAndUpdate } = require("../models/dbschema/templates");
 
 
 // Get all templates
@@ -137,6 +138,95 @@ router.get('/searchbyID', (req, res)=> {
     }
     
 })
+
+
+
+router.post('/rateTemplate',passport.authenticate('jwt', {session : false}), async function(req,res, next){
+    // Check the TemplateID, Rating and UserID is given
+    if( req.body.templateID == null){
+      return res.send({hasErrors : "True", templateIDGiven : "False"});
+    }
+    if( req.body.rating == null){
+        return res.send({hasErrors : "True", ratingGiven : "False"});
+    }
+    if(! (await fetchController.userIDExists(req.user.userID))){
+        return res.send({hasErrors : "True", userExists : "False"});
+    }
+     // Find the template to update
+    var template = await Template.findOne({templateID : req.body.templateID})
+    var updatedData = {}
+
+    // If the template is null, template is not public, or user has
+    // already rated this template, return an error
+    if(template == null){
+        return res.send({hasErrors : "True", templateExists : "False"});
+    }
+    if(template.isPublic == "False"){
+        return res.send({hasErrors : "True", publicTemplate : "False"});
+    }
+
+    // Ensure that the given rating is valid
+    rating = parseFloat(req.body.rating)
+    if(rating > 5 || rating < 0){
+        return res.send({hasErrors : "True", invalidRating : "True"});
+    }
+    // Set default for ratedUsers field
+    updatedData.ratedUsers = template.ratedUsers
+    updatedData.ratingTotal = template.ratingTotal
+
+    // If the rating exists, then remove it and update ratingTotal
+    if(fetchController.hasRated(template.ratedUsers, req.user.userID)){ 
+        removedRating = fetchController.remRating(updatedData.ratedUsers,req.user.userID)
+        updatedData.ratingTotal = updatedData.ratingTotal - removedRating
+    }
+    // Update the rating values
+    updatedData.ratedUsers = [...updatedData.ratedUsers, [req.user.userID, rating]]
+    updatedData.ratingTotal = rating + updatedData.ratingTotal;
+    updatedData.rating = (updatedData.ratingTotal) / (updatedData.ratedUsers.length)
+
+    // Finally push the change to the template
+    await Template.findByIdAndUpdate({_id : template._id}, updatedData).then(function(){
+        return res.send({hasErrors : "False", newRating : updatedData.rating})
+    })
+
+    
+})
+
+
+router.get('/hasRated',passport.authenticate('jwt', {session : false}), async function(req,res, next){
+    
+    // Check the correct information is given
+    if( req.query.templateID == null){
+        return res.send({hasErrors : "True", templateIDGiven : "False"});
+    }
+
+    template = await Template.findOne({templateID : req.query.templateID});
+    // If template doesn't exist, return error
+    if(template==null){
+        return res.send({hasErrors : "True", templateExists : "False"})
+    }
+    // otherwise, return true or false depending on if user has rated already
+    if(fetchController.hasRated(template.ratedUsers,req.user.userID)){
+        rating = fetchController.remRating(template.ratedUsers,req.user.userID)
+        return res.send({hasErrors : "False", hasRated : "True", rating: rating})
+    } else{
+        return res.send({hasErrors : "False", hasRated : "False"})
+    }
+})
+
+router.get('/publictemplatefromUser', async function(req,res){
+    
+    // Check User Exists
+    if( req.query.userID == null){
+      return res.send({hasErrors : "True", userIDGiven : "False"});
+    }
+    // Return list of all templates belonging to that user that are public
+    await Template.find({userID : req.query.userID, isPublic : "True"})
+    .then(function(templateList){
+      return res.send(templateList);
+    })
+  
+  })
 
 
 module.exports = router;

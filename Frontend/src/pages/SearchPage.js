@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import UserStore from "../stores/UserStore";
 import Axios from "axios";
 import {host} from "../stores/Settings";
+import {Link} from "react-router-dom";
 
 class SearchPage extends Component {
     state = { 
@@ -9,6 +10,11 @@ class SearchPage extends Component {
         templates : [],
         eportfolios : []
     }
+
+    handleClick(email,userID) {
+      this.props.findUser(email,userID)
+    }
+
 
     async getTemplates(search){
         await Axios({
@@ -51,7 +57,7 @@ class SearchPage extends Component {
       .then(response => {
         let reqUsers = [];
         for(let i=0;i<response.data.length;i++){
-          reqUsers[i] = [response.data[i].fullName, response.data[i].userID, response.data[i].username]
+          reqUsers[i] = [response.data[i].fullName, response.data[i].emailAddress, response.data[i].username,response.data[i].userID]
         }
         this.setState({
           users : reqUsers
@@ -92,7 +98,6 @@ class SearchPage extends Component {
   }
 
     componentDidMount(){
-        console.log(this.props.search)
         this.getTemplates(this.props.search)
         this.getUsers(this.props.search)
         this.getPortfolios(this.props.search)
@@ -106,7 +111,7 @@ class SearchPage extends Component {
                   <div>
                   {this.state.users.length>0 ? <h1>Users</h1> : null}
                   <ul>
-                    {this.state.users.map((user) => <li>{user[0]}, {user[2]}</li>)}
+                    {this.state.users.map((user) => <Link to = "/user" onClick = {() => this.handleClick(user[1],user[3])}><li>{user[0]}, {user[2]}</li></Link>)}
                   </ul>
                   </div>
                   <div>

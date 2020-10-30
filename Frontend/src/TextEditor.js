@@ -69,7 +69,7 @@ export default class TextEditor extends Component {
 
   // Saves folio that a user has been working on
   async savePortfolio(){
-    if(this.state.currentID == "" || this.state.currentTitle == ""){
+    if(this.state.currentID === "" || this.state.currentTitle === ""){
       alert("You must give your portfolio a title before it can be created")
       return;
     }
@@ -323,7 +323,7 @@ export default class TextEditor extends Component {
   }
 
   componentDidMount(){
-    if(UserStore.user != undefined){
+    if(UserStore.user !== null){
       this.getPortfolios(UserStore.user.userID)
     }
   }
@@ -337,7 +337,7 @@ export default class TextEditor extends Component {
   }
 
   render() {
-    if(UserStore.user == undefined){
+    if(UserStore.user === null){
       return <Redirect  to="/login" />
     }
     else{

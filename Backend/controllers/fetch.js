@@ -118,3 +118,28 @@ exports.templateExists = async (templateID) =>{
         return false;
     }
 }
+
+exports.hasRated = (array, userID) =>{
+    arrayLength = array.length
+
+    for(i=0;i<arrayLength;i++){
+        if(array[i][0]==userID){
+            return true
+            }
+            
+        }
+    return false;
+}
+
+exports.remRating = (array, userID) =>{
+    arrayLength = array.length
+
+    for(i=0;i<arrayLength;i++){
+        if(array[i][0]==userID){
+            oldRating = array[i][1]
+            array.splice(i,1);
+            return oldRating
+        }
+    }
+    return array
+}
