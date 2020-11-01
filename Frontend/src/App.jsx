@@ -64,7 +64,7 @@ class App extends React.Component {
             <Route path="/" exact component={Home}></Route>
             <Route path="/signup" exact component={SignUpForm}></Route>
             <Route path="/template" exact component={() => <Template eportID = {this.state.searchEportID}/>}></Route>
-            <Route path="/profile" exact component={() => <UserPage email = {UserStore.user.emailAddress} userID = {UserStore.user.userID}/>}></Route>
+            <Route path="/profile" exact component={() => <UserPage email = {UserStore.user.emailAddress} searchEport = {this.searchEport} userID = {UserStore.user.userID}/>}></Route>
             <Route path="/accountinfo" exact component={ProfilePage}></Route>
             <Route path="/eportReader" exact component={() => <EportReader eportID = {this.state.eportID} tempID = {this.state.tempID}/>}></Route>
             <Route path="/search" exact component = {() => <SearchPage search = {this.state.search} searchEport = {this.searchEport} searchTemp = {this.searchTemp} findUser = {this.findUser}/>}></Route>

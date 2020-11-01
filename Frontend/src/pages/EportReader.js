@@ -66,7 +66,7 @@ class EportReader extends Component {
 
     render() { 
         return ( 
-          <div className="editorComponent">
+          <div className="readerContent">
             <CKEditor
                       editor={ BalloonBlockEditor }
                       data={this.state.data ? this.state.data : ""}

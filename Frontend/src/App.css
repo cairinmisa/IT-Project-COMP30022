@@ -177,7 +177,7 @@ input:focus {
   transform:translate(-50%,0);
 }
 
-.editorComponent h2 {
+.editorComponent h2, .readerContent h2 {
   border-bottom: solid;
   border-width: 2px;
 }
@@ -705,6 +705,19 @@ div {
 
 .star-ratings {
   padding-top: 20px;
+}
+
+.readerContent {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 28px;
+  border: solid;
+  border-radius: 28px;
+  width: 66%;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0);
+  min-height: 66vh;
 }
 
 @media screen and (min-width: 1200px) {
