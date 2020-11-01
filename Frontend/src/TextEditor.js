@@ -69,10 +69,6 @@ export default class TextEditor extends Component {
 
   // Saves folio that a user has been working on
   async savePortfolio(){
-    if(this.state.currentID === "" || this.state.currentTitle === ""){
-      alert("You must give your portfolio a title before it can be created")
-      return;
-    }
     console.log(this.state.currentTemplate)
     // Wait for the request to resolve before getting updated folios
     await Axios({
@@ -84,6 +80,33 @@ export default class TextEditor extends Component {
       data: {
         dateUpdated : Date().toLocaleString(),
         eportID : this.state.currentID.toString(),
+        data : this.state.currentTemplate
+      }
+    })
+    .then(response => {
+      console.log(response)
+    })
+    .catch(response => {
+      console.log(response)
+    }) 
+
+    // Instead of reload, get portfolios again such that user can keep editing their work
+    // Also solves issue of reloading the page on autosave (which would be annoying to have)
+    this.getPortfolios(UserStore.user.userID);
+  }
+
+  // Saves template that a user has been working on
+  async saveTemplate(){
+    // Wait for the request to resolve before getting updated folios
+    await Axios({
+      method: 'put',
+      url:  host+'/template/saveTemplate', 
+      headers: {
+        Authorization : "Bearer " + UserStore.token
+      },
+      data: {
+        dateUpdated : Date().toLocaleString(),
+        templateID : this.state.currentID.toString(),
         data : this.state.currentTemplate
       }
     })
@@ -374,6 +397,7 @@ export default class TextEditor extends Component {
             <WorkspaceToolbar 
               folioTitle = {this.state.currentTitle}
               saveFolio = {() => this.savePortfolio()}
+              saveTemplate = {() => this.saveTemplate()}
               deleteFolio = {() => this.deletePortfolio()}
               deleteTemplate = {() => this.deleteTemplate()}
               convert = {() => this.showTemplateModal()}
