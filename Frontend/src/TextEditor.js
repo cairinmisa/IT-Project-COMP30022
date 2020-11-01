@@ -24,6 +24,8 @@ export default class TextEditor extends Component {
     currentTitle: "",
     currentTemplate : "",
     isTemplateSelected : false,
+    isSaving: false,
+    lastSavedAt: null,
 
     // So that we can bold selected folios
     listItemSelected : null
@@ -41,7 +43,8 @@ export default class TextEditor extends Component {
       currentID : eportID,
       currentTitle: title,
       isTemplateSelected : isTemplate,
-      listItemSelected : id
+      listItemSelected : id,
+      lastSavedAt: null
     })
   }
 
@@ -70,6 +73,10 @@ export default class TextEditor extends Component {
   // Saves folio that a user has been working on
   async savePortfolio(){
     console.log(this.state.currentTemplate)
+
+    // Change state to saving
+    this.setState({isSaving: true});
+
     // Wait for the request to resolve before getting updated folios
     await Axios({
       method: 'put',
@@ -93,10 +100,21 @@ export default class TextEditor extends Component {
     // Instead of reload, get portfolios again such that user can keep editing their work
     // Also solves issue of reloading the page on autosave (which would be annoying to have)
     this.getPortfolios(UserStore.user.userID);
+
+    // Finish saving
+    var d = new Date();
+    var savedTime = d.getHours() + ":" + d.getMinutes();
+    this.setState({
+      isSaving: false,
+      lastSavedAt: savedTime
+    });
   }
 
   // Saves template that a user has been working on
   async saveTemplate(){
+    // Change state to saving
+    this.setState({isSaving: true});
+
     // Wait for the request to resolve before getting updated folios
     await Axios({
       method: 'put',
@@ -120,6 +138,14 @@ export default class TextEditor extends Component {
     // Instead of reload, get portfolios again such that user can keep editing their work
     // Also solves issue of reloading the page on autosave (which would be annoying to have)
     this.getPortfolios(UserStore.user.userID);
+
+    // Finish saving
+    var d = new Date();
+    var savedTime = d.getHours() + ":" + d.getMinutes();
+    this.setState({
+      isSaving: false,
+      lastSavedAt: savedTime
+    });
   }
 
   // Deletes the currently selected folio
@@ -402,7 +428,9 @@ export default class TextEditor extends Component {
               deleteTemplate = {() => this.deleteTemplate()}
               convert = {() => this.showTemplateModal()}
               convertToFolio = {() => this.showConvertToFolio()}
-              templateSelected = {this.state.isTemplateSelected} 
+              templateSelected = {this.state.isTemplateSelected}
+              isSaving = {this.state.isSaving}
+              lastSavedAt = {this.state.lastSavedAt} 
             />
             <div className="editor-container">
               {this.state.currentTitle ? <CKEditor

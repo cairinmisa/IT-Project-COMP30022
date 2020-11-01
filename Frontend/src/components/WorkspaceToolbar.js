@@ -20,6 +20,7 @@ class WorkspaceToolbar extends Component {
                     {" "}| <button onClick = {() => this.props.saveTemplate()}>Save</button>
                     {" "}| <button onClick = {() => this.props.deleteTemplate()}>Delete</button>
                     {" "}| <button onClick = {() => this.props.convertToFolio()}>Create Folio from Template</button>
+                    {" "}| {this.props.isSaving ? "Saving..." : (this.props.lastSavedAt ? "Last saved at " + this.props.lastSavedAt : "")}
                   </span>
                 </div>
             );
@@ -33,6 +34,7 @@ class WorkspaceToolbar extends Component {
                 {" "}| <button onClick = {() => this.props.saveFolio()}>Save</button>
                 {" "}| <button onClick = {() => this.props.deleteFolio()}>Delete</button>
                 {" "}| <button onClick = {() => this.props.convert()}>Share as Template</button>
+                {" "}| {this.props.isSaving ? "Saving..." : (this.props.lastSavedAt ? "Last saved at " + this.props.lastSavedAt : "")}
               </span>
             </div>
         );
