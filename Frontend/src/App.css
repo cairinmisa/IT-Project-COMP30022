@@ -310,6 +310,12 @@ input:focus {
   height: 125px;
 }
 
+.footer-content {
+  background-color: rgba(0,0,0,0);
+  float: right;
+  margin: 50px 5% 0 0; 
+}
+
 .btn {
   -webkit-border-radius: 28;
   -moz-border-radius: 28;
