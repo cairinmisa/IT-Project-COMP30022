@@ -11,6 +11,7 @@ import CreateNew from "./components/CreateNew";
 import CreateTemplateModal from "./components/CreateTemplateModal";
 import WorkspaceToolbar from "./components/WorkspaceToolbar";
 import TemplateToFolioModal from "./components/TemplateToFolioModal";
+import webLogo from "./images/fullwhitelogo.png";
 
 
 export default class TextEditor extends Component {
@@ -348,7 +349,7 @@ export default class TextEditor extends Component {
           {this.state.displayConvertToFolio ? <TemplateToFolioModal closeCreateNew = {() => this.closeCreateNew()} createPortfolio = {(title, publicity) => this.convertToFolio(title, publicity)}/> : null}
           <div className="editorNavBar">
             <div className="leftAlign">
-              <Link to = "/" >eProfolio</Link>
+              <Link to = "/" ><img className="workspaceLogo" src={webLogo} alt="HomeLogo" /></Link>
             </div>
             <div className="rightAlign">
               <Link to = "/template" >Templates</Link>{" "}|{" "}
