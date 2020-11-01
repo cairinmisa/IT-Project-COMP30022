@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
-//import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
 import BalloonBlockEditor from "ckeditor5-custom-build/build/ckeditor";
 import {Link} from "react-router-dom";
 import UserStore from "./stores/UserStore";
@@ -380,13 +379,14 @@ export default class TextEditor extends Component {
               deleteTemplate = {() => this.deleteTemplate()}
               convert = {() => this.showTemplateModal()}
               convertToFolio = {() => this.showConvertToFolio()}
-              templateSelected = {this.state.isTemplateSelected} 
+              templateSelected = {this.state.isTemplateSelected}
+              folioData = {this.state.currentTemplate} 
             />
-            <ReactToPdf targetRef={this.pdfRef} scale={0.54} filename={this.state.currentTitle + ".pdf"}>
-                      {({toPdf}) => (
-                        <button onClick={toPdf}>Generate pdf</button>
-                      )}
-                    </ReactToPdf>
+            {/* <ReactToPdf targetRef={this.pdfRef} scale={0.54} filename={this.state.currentTitle + ".pdf"}>
+              {({toPdf}) => (
+                <button onClick={toPdf}>Generate pdf</button>
+              )}
+            </ReactToPdf> */}
             <div className="editor-container" ref={this.pdfRef}>
               {this.state.currentTitle ? <CKEditor
                 editor={BalloonBlockEditor}
