@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactToPdf from 'react-to-pdf'
 
 class WorkspaceToolbar extends Component {
     render () {
@@ -20,6 +21,7 @@ class WorkspaceToolbar extends Component {
                     {" "}| <button onClick = {() => this.props.saveTemplate()}>Save</button>
                     {" "}| <button onClick = {() => this.props.deleteTemplate()}>Delete</button>
                     {" "}| <button onClick = {() => this.props.convertToFolio()}>Create Folio from Template</button>
+                    {" "}| 
                   </span>
                 </div>
             );

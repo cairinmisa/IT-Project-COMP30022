@@ -11,6 +11,7 @@ import CreateNew from "./components/CreateNew";
 import CreateTemplateModal from "./components/CreateTemplateModal";
 import WorkspaceToolbar from "./components/WorkspaceToolbar";
 import TemplateToFolioModal from "./components/TemplateToFolioModal";
+import ReactToPdf from 'react-to-pdf'
 
 
 export default class TextEditor extends Component {
@@ -33,6 +34,7 @@ export default class TextEditor extends Component {
     super(props)
     this.closeCreateNew = this.closeCreateNew.bind(this)
     this.createPortfolio = this.createPortfolio.bind(this)
+    this.pdfRef = React.createRef();
   }
 
   handleClick(templateClicked, eportID, title, isTemplate, id) {
@@ -380,7 +382,12 @@ export default class TextEditor extends Component {
               convertToFolio = {() => this.showConvertToFolio()}
               templateSelected = {this.state.isTemplateSelected} 
             />
-            <div className="editor-container">
+            <ReactToPdf targetRef={this.pdfRef} scale={0.54} filename={this.state.currentTitle + ".pdf"}>
+                      {({toPdf}) => (
+                        <button onClick={toPdf}>Generate pdf</button>
+                      )}
+                    </ReactToPdf>
+            <div className="editor-container" ref={this.pdfRef}>
               {this.state.currentTitle ? <CKEditor
                 editor={BalloonBlockEditor}
                 data= {this.state.currentTemplate}
