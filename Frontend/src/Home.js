@@ -19,7 +19,7 @@ class Home extends Component {
           <div className="highlight-text">
             <h2>
               <img src={require("./images/highlight.png")} alt="Portfolio Highlight 1" />
-              👏 A{" "}<span className="blue">new way</span> to create portfolios 👏
+              👏 A{" "}<span className="green">new way</span> to create portfolios 👏
             </h2>
             <h3>
               Our easy to use workspace makes creating displays of your work a
@@ -32,7 +32,7 @@ class Home extends Component {
           <div className="highlight-text">
             <h2>
               <img src={require("./images/highlight-4.PNG")} alt="Portfolio Highlight 2" />
-              <span className="blue">🚀 Show off</span> your work in minutes 🚀
+              <span className="green">🚀 Show off</span> your work in minutes 🚀
             </h2>
             <h3>
               We provide plenty of ready to go templates so that you don't need
