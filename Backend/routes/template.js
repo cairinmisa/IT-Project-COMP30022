@@ -123,7 +123,22 @@ router.get('/searchByTitle', async function(req,res, next){
       return res.send(templateList);
     })
   
-  })
+})
+
+router.get('/searchbyID', async (req, res)=> {
+
+    if(req.query.templateID ==null){
+        return res.send({eportGiven : "False", hasErrors : "True"})
+    }
+    template = await Template.findOne({templateID : req.query.templateID});
+    if(template == null){
+        return res.send({hasErrors : "True", templateExists : "False"});
+    } else{
+        return res.send(template)
+    }
+    
+})
+
 
 
 router.post('/rateTemplate',passport.authenticate('jwt', {session : false}), async function(req,res, next){

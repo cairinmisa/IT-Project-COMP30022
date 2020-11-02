@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import UserStore from "../stores/UserStore";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 import {host} from "../stores/Settings";
 import SubmitButton from "./SubmitButton";
 import { Redirect } from 'react-router-dom';
@@ -96,6 +97,11 @@ class UserPage extends Component {
         }
     }
 
+    searchEport(title){
+      this.props.searchEport(title);
+    }
+
+
     render() { 
         if(this.state.redirectToModify) {
           return (
@@ -113,7 +119,7 @@ class UserPage extends Component {
                 <p className="bold">Public Folios:</p>
                 {
                   this.state.portfolios.length !== 0
-                    ? this.state.portfolios.map((portfolio, i) => <li className="folioTemplate-li" key={i}>{portfolio[1]}</li>)
+                    ? this.state.portfolios.map((portfolio, i) => <Link to = "/eportReader" onClick = {() => this.searchEport(portfolio[2])}><li className="folioTemplate-li" key={i}>{portfolio[1]}</li></Link>)
                     : (this.state.isLoggedInUser ? "You do not have any public folios." : "User does not have any public folios.")
                 }
 
@@ -121,7 +127,7 @@ class UserPage extends Component {
                 <p className="bold">Public Templates:</p>
                 {
                   this.state.templates.length !== 0
-                    ? this.state.templates.map((template, i) => <li className="folioTemplate-li" key={i}>{template[1]}</li>)
+                    ? this.state.templates.map((template, i) => <Link to = "/eportReader"><li className="folioTemplate-li" key={i}>{template[1]}</li></Link>)
                     : (this.state.isLoggedInUser ? <p>You do not have any public templates.</p> : <p>User does not have any public templates.</p>)
                 }
 
