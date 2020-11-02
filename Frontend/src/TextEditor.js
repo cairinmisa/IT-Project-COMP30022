@@ -25,6 +25,9 @@ export default class TextEditor extends Component {
     currentTitle: "",
     currentTemplate : "",
     isTemplateSelected : false,
+    isSaving: false,
+    lastSavedAt: null,
+    unsaved: false,
 
     // So that we can bold selected folios
     listItemSelected : null
@@ -48,7 +51,9 @@ export default class TextEditor extends Component {
       currentID : eportID,
       currentTitle: title,
       isTemplateSelected : isTemplate,
-      listItemSelected : id
+      listItemSelected : id,
+      lastSavedAt: null,
+      unsaved: false
     })
   }
 
@@ -76,6 +81,9 @@ export default class TextEditor extends Component {
 
   // Saves folio that a user has been working on
   async savePortfolio(){
+    // Change state to saving
+    this.setState({isSaving: true});
+
     // Wait for the request to resolve before getting updated folios
     await Axios({
       method: 'put',
@@ -99,6 +107,54 @@ export default class TextEditor extends Component {
     // Instead of reload, get portfolios again such that user can keep editing their work
     // Also solves issue of reloading the page on autosave (which would be annoying to have)
     this.getPortfolios(UserStore.user.userID);
+
+    // Finish saving
+    var d = new Date();
+    var savedTime = d.getHours() + ":" + d.getMinutes();
+    this.setState({
+      isSaving: false,
+      lastSavedAt: savedTime,
+      unsaved: false
+    });
+  }
+
+  // Saves template that a user has been working on
+  async saveTemplate(){
+    // Change state to saving
+    this.setState({isSaving: true});
+
+    // Wait for the request to resolve before getting updated folios
+    await Axios({
+      method: 'put',
+      url:  host+'/template/saveTemplate', 
+      headers: {
+        Authorization : "Bearer " + UserStore.token
+      },
+      data: {
+        dateUpdated : Date().toLocaleString(),
+        templateID : this.state.currentID.toString(),
+        data : this.state.currentTemplate
+      }
+    })
+    .then(response => {
+      console.log(response)
+    })
+    .catch(response => {
+      console.log(response)
+    }) 
+
+    // Instead of reload, get portfolios again such that user can keep editing their work
+    // Also solves issue of reloading the page on autosave (which would be annoying to have)
+    this.getPortfolios(UserStore.user.userID);
+
+    // Finish saving
+    var d = new Date();
+    var savedTime = d.getHours() + ":" + d.getMinutes();
+    this.setState({
+      isSaving: false,
+      lastSavedAt: savedTime,
+      unsaved: false
+    });
   }
 
   // Deletes the currently selected folio
@@ -376,11 +432,15 @@ export default class TextEditor extends Component {
             <WorkspaceToolbar 
               folioTitle = {this.state.currentTitle}
               saveFolio = {() => this.savePortfolio()}
+              saveTemplate = {() => this.saveTemplate()}
               deleteFolio = {() => this.deletePortfolio()}
               deleteTemplate = {() => this.deleteTemplate()}
               convert = {() => this.showTemplateModal()}
               convertToFolio = {() => this.showConvertToFolio()}
               templateSelected = {this.state.isTemplateSelected}
+              isSaving = {this.state.isSaving}
+              lastSavedAt = {this.state.lastSavedAt}
+              unsaved = {this.state.unsaved} 
               folioData = {this.state.currentTemplate} 
             />
             <div className="editor-container" ref={this.pdfRef}>
@@ -439,7 +499,14 @@ export default class TextEditor extends Component {
                 }}
                 onChange = { (event, editor) => {
                   const data = editor.getData();
-                  this.setState({currentTemplate : data});
+                  if(this.state.currentTemplate !== data){
+                    this.setState({
+                      unsaved: true
+                    });
+                  }
+                  this.setState({
+                    currentTemplate : data
+                  });
                 }
               }
               /> : null}
