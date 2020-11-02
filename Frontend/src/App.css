@@ -187,6 +187,11 @@ input:focus {
   margin-bottom: 10px;
 }
 
+.fullWidth {
+  width: 78vw;
+  height: 2500px;
+}
+
 .userPanel {
   height: 100%;
   width: 17%;

@@ -382,11 +382,6 @@ export default class TextEditor extends Component {
               templateSelected = {this.state.isTemplateSelected}
               folioData = {this.state.currentTemplate} 
             />
-            {/* <ReactToPdf targetRef={this.pdfRef} scale={0.54} filename={this.state.currentTitle + ".pdf"}>
-              {({toPdf}) => (
-                <button onClick={toPdf}>Generate pdf</button>
-              )}
-            </ReactToPdf> */}
             <div className="editor-container" ref={this.pdfRef}>
               {this.state.currentTitle ? <CKEditor
                 editor={BalloonBlockEditor}

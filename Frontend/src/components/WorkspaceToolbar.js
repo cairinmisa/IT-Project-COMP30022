@@ -41,16 +41,16 @@ class WorkspaceToolbar extends Component {
               Create Folio from Template
             </button>{" "}
             {"| "}
-            <ReactToPdf scale={0.78} filename={this.props.folioTitle + ".pdf"}>
+            <ReactToPdf scale={0.54} filename={this.props.folioTitle + ".pdf"}>
               {({ toPdf, targetRef }) => (
                 <span>
                   <button onClick={() => this.generatePdf(toPdf)}>Generate pdf</button>
                   <div ref={targetRef}>
-                    {this.state.displayPdf ? <CKEditor
+                    {this.state.displayPdf ? <div className="fullWidth"><CKEditor
                       editor={BalloonBlockEditor}
                       data={this.props.folioData}
                       disabled={true}
-                    /> : null}
+                    /></div> : null}
                   </div>
                 </span>
               )}
@@ -71,16 +71,16 @@ class WorkspaceToolbar extends Component {
             Share as Template
           </button> {" "}
           |{" "}
-          <ReactToPdf scale={0.78} filename={this.props.folioTitle + ".pdf"}>
+          <ReactToPdf scale={0.54} filename={this.props.folioTitle + ".pdf"}>
             {({ toPdf, targetRef }) => (
               <span>
                 <button onClick={() => this.generatePdf(toPdf)}>Generate pdf</button>
                 <div ref={targetRef}>
-                  {this.state.displayPdf ? <CKEditor
+                  {this.state.displayPdf ? <div className="fullWidth"><CKEditor
                     editor={BalloonBlockEditor}
                     data={this.props.folioData}
                     disabled={true}
-                  /> : null}
+                  /></div> : null}
                 </div>
               </span>
             )}
