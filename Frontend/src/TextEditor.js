@@ -21,7 +21,7 @@ export default class TextEditor extends Component {
     displayCreate : false,
     displayCreateTemplate : false,
     displayConvertToFolio : false,
-    currentID : "",
+    currentID : null,
     currentTitle: "",
     currentTemplate : "",
     isTemplateSelected : false,
@@ -37,7 +37,12 @@ export default class TextEditor extends Component {
     this.pdfRef = React.createRef();
   }
 
-  handleClick(templateClicked, eportID, title, isTemplate, id) {
+  async handleClick(templateClicked, eportID, title, isTemplate, id) {
+    // Autosave to save data
+    if(this.state.currentID !== null) {
+      await this.savePortfolio();
+    }
+    
     this.setState({
       currentTemplate : templateClicked,
       currentID : eportID,
@@ -71,11 +76,6 @@ export default class TextEditor extends Component {
 
   // Saves folio that a user has been working on
   async savePortfolio(){
-    if(this.state.currentID === "" || this.state.currentTitle === ""){
-      alert("You must give your portfolio a title before it can be created")
-      return;
-    }
-    console.log(this.state.currentTemplate)
     // Wait for the request to resolve before getting updated folios
     await Axios({
       method: 'put',
