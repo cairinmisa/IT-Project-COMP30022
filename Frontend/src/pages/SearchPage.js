@@ -3,12 +3,14 @@ import UserStore from "../stores/UserStore";
 import Axios from "axios";
 import {host} from "../stores/Settings";
 import {Link} from "react-router-dom";
+import { resolveTripleslashReference } from 'typescript';
 
 class SearchPage extends Component {
     state = { 
         users : [],
         templates : [],
-        eportfolios : []
+        eportfolios : [],
+        usernames : []
     }
 
     constructor(props){
@@ -41,7 +43,7 @@ class SearchPage extends Component {
         .then(response => {
           let reqtemplates = [];
           for(let i=0;i<response.data.length;i++){
-            reqtemplates[i] = [response.data[i].data,response.data[i].title,response.data[i].templateID]
+            reqtemplates[i] = [response.data[i].data,response.data[i].title,response.data[i].templateID, response.data[i].username];
           }
           this.setState({
             templates : reqtemplates
@@ -95,7 +97,7 @@ class SearchPage extends Component {
         .then(response => {
           let reqPortfolios = [];
           for(let i=0;i<response.data.length;i++){
-            reqPortfolios[i] = [response.data[i].title, response.data[i].eportID]
+            reqPortfolios[i] = [response.data[i].title, response.data[i].eportID, response.data[i].userID, response.data[i].username];
           }
           this.setState({
             eportfolios : reqPortfolios
@@ -105,8 +107,7 @@ class SearchPage extends Component {
         .catch(response => {
           console.log(response)
         }) 
-      
-  }
+      }
 
     componentDidMount(){
         this.getTemplates(this.props.search)
@@ -128,13 +129,13 @@ class SearchPage extends Component {
                   <div>
                   {this.state.eportfolios.length>0 ? <h1>Eportfolios</h1> : null}
                   <ul>
-                    {this.state.eportfolios.map((eportfolio) => <Link to = "/eportReader" onClick = {() => this.searchEport(eportfolio[1])}><li>{eportfolio[0]}</li></Link>)}
+                    {this.state.eportfolios.map((eportfolio) => <li><Link to = "/eportReader" onClick = {() => this.searchEport(eportfolio[1])}>{eportfolio[0]}.</Link> Created By {eportfolio[3]}</li>)}
                   </ul>
                   </div>
                   <div>
                   {this.state.templates.length>0 ? <h1>Templates</h1> : null}
                   <ul>
-                    {this.state.templates.map((template) => <Link to = "/eportReader" onClick = {() => this.searchTemp(template[2])}><li>{template[1]}</li></Link>)}
+                    {this.state.templates.map((template) => <li><Link to = "/eportReader" onClick = {() => this.searchTemp(template[2])}>{template[1]}.</Link> Created by {template[3]}</li>)}
                   </ul>
                   </div>
               </div>
