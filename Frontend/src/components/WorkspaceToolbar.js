@@ -33,7 +33,8 @@ class WorkspaceToolbar extends Component {
       return (
         <div className="bold workspace-title">
           <span>
-            {this.props.folioTitle ? this.props.folioTitle : null} |{" "}
+            {this.props.folioTitle ? this.props.folioTitle : null}
+            {this.props.isSaving ? ", Saving..." : (this.props.unsaved === true ? ", Unsaved" + (this.props.lastSavedAt ? ", last saved at " + this.props.lastSavedAt : "") : "")} |{" "}
             <button onClick={() => this.props.saveTemplate()}>Save</button> |{" "}
             <button onClick={() => this.props.deleteTemplate()}>Delete</button>{" "}
             |{" "}
@@ -64,7 +65,8 @@ class WorkspaceToolbar extends Component {
     return (
       <div className="bold workspace-title">
         <span>
-          {this.props.folioTitle ? this.props.folioTitle : null} |{" "}
+          {this.props.folioTitle ? this.props.folioTitle : null}
+          {this.props.isSaving ? ", Saving..." : (this.props.unsaved === true ? ", Unsaved" + (this.props.lastSavedAt ? ", last saved at " + this.props.lastSavedAt : "") : "")} |{" "}
           <button onClick={() => this.props.saveFolio()}>Save</button> |{" "}
           <button onClick={() => this.props.deleteFolio()}>Delete</button> |{" "}
           <button onClick={() => this.props.convert()}>
