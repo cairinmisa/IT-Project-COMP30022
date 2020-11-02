@@ -38,12 +38,6 @@ class Nav extends Component {
             <img src={webLogo} alt="HomeLogo" />
           </Link>
           <ul>
-            <li>
-              <form className="searchUserField">
-                <input type = 'text' value = {this.state.value} onChange={this.handleChange} placeholder="Search user by full name"></input>
-                <Link to = "/search"><button type = "submit" onClick = {this.handleSubmit}>🔍</button></Link>
-              </form>
-            </li>
             <Link to="/editor" >
               <li>Create</li>
             </Link>
