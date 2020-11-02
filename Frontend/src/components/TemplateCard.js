@@ -22,7 +22,6 @@ class TemplateCard extends Component {
             }
           })
           .then(response => {
-            console.log(response.data);
             this.setState({
                 username: response.data.username
             })
@@ -50,7 +49,6 @@ class TemplateCard extends Component {
             }
           })
           .then(response => {
-              console.log(response.data);
             // Handle response errors
             if(response.data.hasErrors === "True") {
                 if(response.data.ratingExists === "True") {
