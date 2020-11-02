@@ -1,4 +1,6 @@
 const User = require('../models/dbschema/user');
+const Template = require('../models/dbschema/templates');
+const Eportfolio = require('../models/dbschema/eportfolio');
 const fetchController = require('./fetch');
 const errorController = require('./error');
 const bcrypt = require('bcryptjs');
@@ -27,8 +29,13 @@ exports.delete = async (req, res, next) => {
                res.send({"passwordIncorrect" : "True",hasErrors : "True"});
             }
         }
+        await Template.deleteMany({userID: user.userID});
+
+        await Eportfolio.deleteMany({userID: user.userID});
+
+
         User.findByIdAndDelete({_id : user._id}).then(function(user2){
-             response.hasErrors = "False";
+            response.hasErrors = "False";
             response.username = user2.username;
             response.emailAddress = user2.emailAddress;
             response.firstName = user2.firstName;
