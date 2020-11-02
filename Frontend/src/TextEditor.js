@@ -26,6 +26,7 @@ export default class TextEditor extends Component {
     isTemplateSelected : false,
     isSaving: false,
     lastSavedAt: null,
+    unsaved: false,
 
     // So that we can bold selected folios
     listItemSelected : null
@@ -44,7 +45,8 @@ export default class TextEditor extends Component {
       currentTitle: title,
       isTemplateSelected : isTemplate,
       listItemSelected : id,
-      lastSavedAt: null
+      lastSavedAt: null,
+      unsaved: false
     })
   }
 
@@ -106,7 +108,8 @@ export default class TextEditor extends Component {
     var savedTime = d.getHours() + ":" + d.getMinutes();
     this.setState({
       isSaving: false,
-      lastSavedAt: savedTime
+      lastSavedAt: savedTime,
+      unsaved: false
     });
   }
 
@@ -144,7 +147,8 @@ export default class TextEditor extends Component {
     var savedTime = d.getHours() + ":" + d.getMinutes();
     this.setState({
       isSaving: false,
-      lastSavedAt: savedTime
+      lastSavedAt: savedTime,
+      unsaved: false
     });
   }
 
@@ -430,7 +434,8 @@ export default class TextEditor extends Component {
               convertToFolio = {() => this.showConvertToFolio()}
               templateSelected = {this.state.isTemplateSelected}
               isSaving = {this.state.isSaving}
-              lastSavedAt = {this.state.lastSavedAt} 
+              lastSavedAt = {this.state.lastSavedAt}
+              unsaved = {this.state.unsaved} 
             />
             <div className="editor-container">
               {this.state.currentTitle ? <CKEditor
@@ -488,7 +493,14 @@ export default class TextEditor extends Component {
                 }}
                 onChange = { (event, editor) => {
                   const data = editor.getData();
-                  this.setState({currentTemplate : data});
+                  if(this.state.currentTemplate !== data){
+                    this.setState({
+                      unsaved: true
+                    });
+                  }
+                  this.setState({
+                    currentTemplate : data
+                  });
                 }
               }
               /> : null}
