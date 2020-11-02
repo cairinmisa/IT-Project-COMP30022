@@ -44,7 +44,7 @@ class WorkspaceToolbar extends Component {
             <ReactToPdf scale={0.54} filename={this.props.folioTitle + ".pdf"}>
               {({ toPdf, targetRef }) => (
                 <span>
-                  <button onClick={() => this.generatePdf(toPdf)}>Generate pdf</button>
+                  <button onClick={() => this.generatePdf(toPdf)}>Generate PDF</button>
                   <div ref={targetRef}>
                     {this.state.displayPdf ? <div className="fullWidth"><CKEditor
                       editor={BalloonBlockEditor}
@@ -74,7 +74,7 @@ class WorkspaceToolbar extends Component {
           <ReactToPdf scale={0.54} filename={this.props.folioTitle + ".pdf"}>
             {({ toPdf, targetRef }) => (
               <span>
-                <button onClick={() => this.generatePdf(toPdf)}>Generate pdf</button>
+                <button onClick={() => this.generatePdf(toPdf)}>Generate PDF</button>
                 <div ref={targetRef}>
                   {this.state.displayPdf ? <div className="fullWidth"><CKEditor
                     editor={BalloonBlockEditor}
