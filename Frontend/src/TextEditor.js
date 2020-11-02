@@ -10,6 +10,7 @@ import CreateNew from "./components/CreateNew";
 import CreateTemplateModal from "./components/CreateTemplateModal";
 import WorkspaceToolbar from "./components/WorkspaceToolbar";
 import TemplateToFolioModal from "./components/TemplateToFolioModal";
+import webLogo from "./images/fullwhitelogo.png";
 import ReactToPdf from 'react-to-pdf'
 
 
@@ -20,7 +21,7 @@ export default class TextEditor extends Component {
     displayCreate : false,
     displayCreateTemplate : false,
     displayConvertToFolio : false,
-    currentID : "",
+    currentID : null,
     currentTitle: "",
     currentTemplate : "",
     isTemplateSelected : false,
@@ -39,7 +40,12 @@ export default class TextEditor extends Component {
     this.pdfRef = React.createRef();
   }
 
-  handleClick(templateClicked, eportID, title, isTemplate, id) {
+  async handleClick(templateClicked, eportID, title, isTemplate, id) {
+    // Autosave to save data
+    if(this.state.currentID !== null) {
+      await this.savePortfolio();
+    }
+    
     this.setState({
       currentTemplate : templateClicked,
       currentID : eportID,
@@ -75,8 +81,6 @@ export default class TextEditor extends Component {
 
   // Saves folio that a user has been working on
   async savePortfolio(){
-    console.log(this.state.currentTemplate)
-
     // Change state to saving
     this.setState({isSaving: true});
 
@@ -402,7 +406,7 @@ export default class TextEditor extends Component {
           {this.state.displayConvertToFolio ? <TemplateToFolioModal closeCreateNew = {() => this.closeCreateNew()} createPortfolio = {(title, publicity) => this.convertToFolio(title, publicity)}/> : null}
           <div className="editorNavBar">
             <div className="leftAlign">
-              <Link to = "/" >eProfolio</Link>
+              <Link to = "/" ><img className="workspaceLogo" src={webLogo} alt="HomeLogo" /></Link>
             </div>
             <div className="rightAlign">
               <Link to = "/template" >Templates</Link>{" "}|{" "}

@@ -22,7 +22,6 @@ class TemplateCard extends Component {
             }
           })
           .then(response => {
-            console.log(response.data);
             this.setState({
                 username: response.data.username
             })
@@ -50,7 +49,6 @@ class TemplateCard extends Component {
             }
           })
           .then(response => {
-              console.log(response.data);
             // Handle response errors
             if(response.data.hasErrors === "True") {
                 if(response.data.ratingExists === "True") {
@@ -105,6 +103,15 @@ class TemplateCard extends Component {
           }) 
     }
 
+    // Appends "..." to end of string if it exceeds a specified length
+    shortenString(str, len) {
+        if(str == null) return;
+        if(str.length > len - 3) {
+        return str.substring(0,len-3) + "...";
+        }
+        return str;
+    }
+
     componentDidMount() {
         this.getUsernameFromID(this.props.template.userID)
         this.checkHasRated();
@@ -113,8 +120,8 @@ class TemplateCard extends Component {
     render () {
         return (
             <div className = "templateCard">
-                <p className="bold">{this.props.template.title}</p>
-                <p>Created by: {this.state.username}</p>
+                <p className="bold">{this.shortenString(this.props.template.title, 26)}</p>
+                <p>Created by: {this.shortenString(this.state.username,20)}</p>
                 <button onClick = {() => this.props.createNew(this.props.template.templateID)}>Use Template</button>
                 <span> 
                     {

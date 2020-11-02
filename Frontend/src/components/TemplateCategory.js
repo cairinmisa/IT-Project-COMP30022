@@ -25,14 +25,13 @@ class TemplateCategory extends Component {
             for(let i = 0; i < response.data.length; i++){
                 templates[i] = response.data[i];
             }
+            templates.sort((a,b) => parseFloat(b.rating) - parseFloat(a.rating));
+            console.log(templates);
 
             // Set global templates list
             this.setState({
                 templates : templates
             });
-
-            // Print response for debug
-            console.log(response);
           })
           .catch(response => {
             console.log(response);
