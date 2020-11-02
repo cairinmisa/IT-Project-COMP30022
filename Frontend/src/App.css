@@ -177,7 +177,7 @@ input:focus {
   transform:translate(-50%,0);
 }
 
-.editorComponent h2 {
+.editorComponent h2, .readerContent h2 {
   border-bottom: solid;
   border-width: 2px;
 }
@@ -185,6 +185,11 @@ input:focus {
 .workspace-title {
   float: left;
   margin-bottom: 10px;
+}
+
+.fullWidth {
+  width: 1470px;
+  height: 2500px;
 }
 
 .userPanel {
@@ -308,6 +313,12 @@ input:focus {
   position: relative;
   color: var(--scheme-white);
   height: 125px;
+}
+
+.footer-content {
+  background-color: rgba(0,0,0,0);
+  float: right;
+  margin: 50px 5% 0 0; 
 }
 
 .btn {
@@ -705,6 +716,19 @@ div {
 
 .star-ratings {
   padding-top: 20px;
+}
+
+.readerContent {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 28px;
+  border: solid;
+  border-radius: 28px;
+  width: 66%;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0);
+  min-height: 66vh;
 }
 
 @media screen and (min-width: 1200px) {

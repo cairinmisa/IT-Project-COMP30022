@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
-//import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
 import BalloonBlockEditor from "ckeditor5-custom-build/build/ckeditor";
 import {Link} from "react-router-dom";
 import UserStore from "./stores/UserStore";
@@ -11,6 +10,7 @@ import CreateNew from "./components/CreateNew";
 import CreateTemplateModal from "./components/CreateTemplateModal";
 import WorkspaceToolbar from "./components/WorkspaceToolbar";
 import TemplateToFolioModal from "./components/TemplateToFolioModal";
+import ReactToPdf from 'react-to-pdf'
 
 
 export default class TextEditor extends Component {
@@ -36,6 +36,7 @@ export default class TextEditor extends Component {
     super(props)
     this.closeCreateNew = this.closeCreateNew.bind(this)
     this.createPortfolio = this.createPortfolio.bind(this)
+    this.pdfRef = React.createRef();
   }
 
   handleClick(templateClicked, eportID, title, isTemplate, id) {
@@ -436,8 +437,9 @@ export default class TextEditor extends Component {
               isSaving = {this.state.isSaving}
               lastSavedAt = {this.state.lastSavedAt}
               unsaved = {this.state.unsaved} 
+              folioData = {this.state.currentTemplate} 
             />
-            <div className="editor-container">
+            <div className="editor-container" ref={this.pdfRef}>
               {this.state.currentTitle ? <CKEditor
                 editor={BalloonBlockEditor}
                 data= {this.state.currentTemplate}
