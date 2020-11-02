@@ -11,10 +11,21 @@ class SearchPage extends Component {
         eportfolios : []
     }
 
+    constructor(props){
+      super(props);
+    }
+
     handleClick(email,userID) {
       this.props.findUser(email,userID)
     }
 
+    searchEport(eportID){
+      this.props.searchEport(eportID);
+    }
+
+    searchTemp(tempID){
+      this.props.searchTemp(tempID);
+    }
 
     async getTemplates(search){
         await Axios({
@@ -84,7 +95,7 @@ class SearchPage extends Component {
         .then(response => {
           let reqPortfolios = [];
           for(let i=0;i<response.data.length;i++){
-            reqPortfolios[i] = [response.data[i].title]
+            reqPortfolios[i] = [response.data[i].title, response.data[i].eportID]
           }
           this.setState({
             eportfolios : reqPortfolios
@@ -117,13 +128,13 @@ class SearchPage extends Component {
                   <div>
                   {this.state.eportfolios.length>0 ? <h1>Eportfolios</h1> : null}
                   <ul>
-                    {this.state.eportfolios.map((eportfolio) => <li>{eportfolio[0]}</li>)}
+                    {this.state.eportfolios.map((eportfolio) => <Link to = "/eportReader" onClick = {() => this.searchEport(eportfolio[1])}><li>{eportfolio[0]}</li></Link>)}
                   </ul>
                   </div>
                   <div>
                   {this.state.templates.length>0 ? <h1>Templates</h1> : null}
                   <ul>
-                    {this.state.templates.map((template) => <li>{template[1]}</li>)}
+                    {this.state.templates.map((template) => <Link to = "/eportReader" onClick = {() => this.searchTemp(template[2])}><li>{template[1]}</li></Link>)}
                   </ul>
                   </div>
               </div>
