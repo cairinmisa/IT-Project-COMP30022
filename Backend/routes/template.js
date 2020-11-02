@@ -121,6 +121,7 @@ router.get('/searchByTitle', async function(req,res, next){
     if( req.query.title == null){
       return res.send({hasErrors : "True", titleGiven : "False"});
     }
+    // Build the list to return
     await Template.find({title : regex, isPublic : "True"}).then(async function(tempList){
       tempLength = tempList.length;
       for(i=0;i<tempLength;i++){
