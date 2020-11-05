@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
-//import BalloonEditor from "@ckeditor/ckeditor5-build-balloon-block";
 import BalloonBlockEditor from "ckeditor5-custom-build/build/ckeditor";
 import {Link} from "react-router-dom";
 import UserStore from "./stores/UserStore";
@@ -11,6 +10,8 @@ import CreateNew from "./components/CreateNew";
 import CreateTemplateModal from "./components/CreateTemplateModal";
 import WorkspaceToolbar from "./components/WorkspaceToolbar";
 import TemplateToFolioModal from "./components/TemplateToFolioModal";
+import webLogo from "./images/fullwhitelogo.png";
+import ReactToPdf from 'react-to-pdf'
 
 
 export default class TextEditor extends Component {
@@ -20,10 +21,13 @@ export default class TextEditor extends Component {
     displayCreate : false,
     displayCreateTemplate : false,
     displayConvertToFolio : false,
-    currentID : "",
+    currentID : null,
     currentTitle: "",
     currentTemplate : "",
     isTemplateSelected : false,
+    isSaving: false,
+    lastSavedAt: null,
+    unsaved: false,
 
     // So that we can bold selected folios
     listItemSelected : null
@@ -33,15 +37,23 @@ export default class TextEditor extends Component {
     super(props)
     this.closeCreateNew = this.closeCreateNew.bind(this)
     this.createPortfolio = this.createPortfolio.bind(this)
+    this.pdfRef = React.createRef();
   }
 
-  handleClick(templateClicked, eportID, title, isTemplate, id) {
+  async handleClick(templateClicked, eportID, title, isTemplate, id) {
+    // Autosave to save data
+    if(this.state.currentID !== null) {
+      await this.savePortfolio();
+    }
+
     this.setState({
       currentTemplate : templateClicked,
       currentID : eportID,
       currentTitle: title,
       isTemplateSelected : isTemplate,
-      listItemSelected : id
+      listItemSelected : id,
+      lastSavedAt: null,
+      unsaved: false
     })
   }
 
@@ -69,11 +81,9 @@ export default class TextEditor extends Component {
 
   // Saves folio that a user has been working on
   async savePortfolio(){
-    if(this.state.currentID === "" || this.state.currentTitle === ""){
-      alert("You must give your portfolio a title before it can be created")
-      return;
-    }
-    console.log(this.state.currentTemplate)
+    // Change state to saving
+    this.setState({isSaving: true});
+
     // Wait for the request to resolve before getting updated folios
     await Axios({
       method: 'put',
@@ -97,6 +107,54 @@ export default class TextEditor extends Component {
     // Instead of reload, get portfolios again such that user can keep editing their work
     // Also solves issue of reloading the page on autosave (which would be annoying to have)
     this.getPortfolios(UserStore.user.userID);
+
+    // Finish saving
+    var d = new Date();
+    var savedTime = d.getHours() + ":" + d.getMinutes();
+    this.setState({
+      isSaving: false,
+      lastSavedAt: savedTime,
+      unsaved: false
+    });
+  }
+
+  // Saves template that a user has been working on
+  async saveTemplate(){
+    // Change state to saving
+    this.setState({isSaving: true});
+
+    // Wait for the request to resolve before getting updated folios
+    await Axios({
+      method: 'put',
+      url:  host+'/template/saveTemplate',
+      headers: {
+        Authorization : "Bearer " + UserStore.token
+      },
+      data: {
+        dateUpdated : Date().toLocaleString(),
+        templateID : this.state.currentID.toString(),
+        data : this.state.currentTemplate
+      }
+    })
+    .then(response => {
+      console.log(response)
+    })
+    .catch(response => {
+      console.log(response)
+    })
+
+    // Instead of reload, get portfolios again such that user can keep editing their work
+    // Also solves issue of reloading the page on autosave (which would be annoying to have)
+    this.getPortfolios(UserStore.user.userID);
+
+    // Finish saving
+    var d = new Date();
+    var savedTime = d.getHours() + ":" + d.getMinutes();
+    this.setState({
+      isSaving: false,
+      lastSavedAt: savedTime,
+      unsaved: false
+    });
   }
 
   // Deletes the currently selected folio
@@ -323,7 +381,7 @@ export default class TextEditor extends Component {
   }
 
   componentDidMount(){
-    if(UserStore.user !== undefined){
+    if(UserStore.user !== null){
       this.getPortfolios(UserStore.user.userID)
     }
   }
@@ -337,7 +395,7 @@ export default class TextEditor extends Component {
   }
 
   render() {
-    if(UserStore.user === undefined){
+    if(UserStore.user === null){
       return <Redirect  to="/login" />
     }
     else{
@@ -348,7 +406,7 @@ export default class TextEditor extends Component {
           {this.state.displayConvertToFolio ? <TemplateToFolioModal closeCreateNew = {() => this.closeCreateNew()} createPortfolio = {(title, publicity) => this.convertToFolio(title, publicity)}/> : null}
           <div className="editorNavBar">
             <div className="leftAlign">
-              <Link to = "/" >eProfolio</Link>
+              <Link to = "/" ><img className="workspaceLogo" src={webLogo} alt="HomeLogo" /></Link>
             </div>
             <div className="rightAlign">
               <Link to = "/template" >Templates</Link>{" "}|{" "}
@@ -374,13 +432,18 @@ export default class TextEditor extends Component {
             <WorkspaceToolbar
               folioTitle = {this.state.currentTitle}
               saveFolio = {() => this.savePortfolio()}
+              saveTemplate = {() => this.saveTemplate()}
               deleteFolio = {() => this.deletePortfolio()}
               deleteTemplate = {() => this.deleteTemplate()}
               convert = {() => this.showTemplateModal()}
               convertToFolio = {() => this.showConvertToFolio()}
               templateSelected = {this.state.isTemplateSelected}
+              isSaving = {this.state.isSaving}
+              lastSavedAt = {this.state.lastSavedAt}
+              unsaved = {this.state.unsaved}
+              folioData = {this.state.currentTemplate}
             />
-            <div className="editor-container">
+            <div className="editor-container" ref={this.pdfRef}>
               {this.state.currentTitle ? <CKEditor
                 editor={BalloonBlockEditor}
                 data= {this.state.currentTemplate}
@@ -429,7 +492,14 @@ export default class TextEditor extends Component {
                 }}
                 onChange = { (event, editor) => {
                   const data = editor.getData();
-                  this.setState({currentTemplate : data});
+                  if(this.state.currentTemplate !== data){
+                    this.setState({
+                      unsaved: true
+                    });
+                  }
+                  this.setState({
+                    currentTemplate : data
+                  });
                 }
               }
               /> : null}

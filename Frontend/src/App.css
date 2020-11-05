@@ -120,11 +120,15 @@ input:focus {
 .editorNavBar {
   padding-top: 5px;
   background-color: var(--scheme-blue);
-  height: 27px;
+  height: 32px;
   font-size: 18px;
   color: white;
   font-family: neue-montreal-medium, helvetica;
   position: relative;
+}
+
+.workspaceLogo {
+  height: 30px;
 }
 
 .editorNavBar .leftAlign {
@@ -134,6 +138,7 @@ input:focus {
 }
 
 .editorNavBar .rightAlign {
+  padding-top: 2px;
   background-color: var(--scheme-blue);
   position:absolute;
   right: 0;
@@ -177,7 +182,7 @@ input:focus {
   transform:translate(-50%,0);
 }
 
-.editorComponent h2 {
+.editorComponent h2, .readerContent h2 {
   border-bottom: solid;
   border-width: 2px;
 }
@@ -185,6 +190,11 @@ input:focus {
 .workspace-title {
   float: left;
   margin-bottom: 10px;
+}
+
+.fullWidth {
+  width: 1470px;
+  height: 2500px;
 }
 
 .userPanel {
@@ -214,17 +224,17 @@ input:focus {
   cursor: pointer;
 }
 
-.panelContent ul {
+.folioTemplateList {
   list-style: none;
 }
 
-.panelContent li::before {
+.folioTemplateList li::before {
   content: "🡒";  
   color: var(--scheme-red); 
   font-weight: bold;
   display: inline-block; 
   width: 1em; 
-  margin-left: -1em; 
+  margin-left: -1.4em; 
 }
 
 .selectedListItem {
@@ -308,6 +318,12 @@ input:focus {
   position: relative;
   color: var(--scheme-white);
   height: 125px;
+}
+
+.footer-content {
+  background-color: rgba(0,0,0,0);
+  float: right;
+  margin: 50px 5% 0 0; 
 }
 
 .btn {
@@ -449,7 +465,7 @@ div {
 }
 
 .accountForm {
-  height: 71vh;
+  height: 69vh;
   width: 100%;
 }
 
@@ -467,7 +483,7 @@ div {
 
 .accountForm-content p {
   font-size: 24px;
-  margin: 0 0 10px 0;
+  margin: 5px 0 5px 0;
 }
 
 .accountForm-content button {
@@ -480,6 +496,35 @@ div {
 
 .accountForm-content .submitButton {
   margin-bottom: 10px;
+  width: 80%;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0);
+  margin-top: 10px;
+}
+
+.accountForm-content ul {
+  position: relative;
+  top: -7px;
+}
+
+.folioTemplate-li {
+  list-style: none;
+}
+
+.folioTemplate-li::before {
+  content: "🡒";  
+  color: var(--scheme-red); 
+  font-weight: bold;
+  display: inline-block; 
+  width: 1em; 
+}
+
+.username {
+  position: relative;
+  top: -10px;
+  font-size: 18px !important;
+  color: #666;
 }
 
 .noBorder {
@@ -650,11 +695,45 @@ div {
 .templateCard {
   display: inline-block;
   margin-right: 20px;
-  width: 300px;
+  width: 320px;
   height: 100%;
   border-color: var(--scheme-black);
   border-style: solid;
   border-radius: 15px;
+}
+
+.templateCard button {
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 28px;
+  font-family: neue-montreal-bold, helvetica;
+  height: 30px;
+  width: 200px;
+  margin: 5px 0 0 0;
+  background-color: var(--scheme-white);
+  color: black;
+  font-size: 17px;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0);
+  display: block;
+}
+
+.star-ratings {
+  padding-top: 20px;
+}
+
+.readerContent {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 28px;
+  border: solid;
+  border-radius: 28px;
+  width: 66%;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0);
+  min-height: 66vh;
 }
 
 @media screen and (min-width: 1200px) {
