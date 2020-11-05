@@ -1,5 +1,6 @@
 const validator = require('validator');
 const isEmpty = require('is-empty');
+const isValidBirthdate = require('is-valid-birthdate')
 const bcrypt = require('bcryptjs');
 
 const User = require('../../models/dbschema/user');
@@ -23,6 +24,7 @@ module.exports = function validateRegisterInput(data){
   data.firstName = !isEmpty(data.firstName) ? data.firstName : "";
   data.lastName = !isEmpty(data.lastName) ? data.lastName : "";
   data.emailAddress = !isEmpty(data.emailAddress) ? data.emailAddress : "";
+  data.dOB = !isEmpty(data.dOB) ? data.dOB : "";
 
   // Implement the checks for
   // UserName Check
@@ -61,6 +63,10 @@ module.exports = function validateRegisterInput(data){
 
   if (!validator.equals(data.password, data.password2)) {
     errors.passwordMatch = "False";
+  }
+
+  if (!isValidBirthdate(data.dOB, {minAge: 18})) {
+    errors.legalAge = "False";
   }
 
   // Return errors if any. If not, return true if all is Valid

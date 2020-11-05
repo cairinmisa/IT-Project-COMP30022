@@ -36,6 +36,8 @@ jobs:
     - name: Pull repo - Backend
       run:  |
             cd /var/www/IT-Project-COMP30022
+            sudo git fetch git@github.com:cairinmisa/IT-Project-COMP30022.git
+            sudo git reset --hard origin/master
             sudo git pull git@github.com:cairinmisa/IT-Project-COMP30022.git
             cd Backend
             npm install
@@ -47,7 +49,9 @@ jobs:
     - name: Pull repo - Frontend
       run:  |
             cd /var/www/IT-Project-COMP30022/Frontend
-            npm install
+            sudo rm -r node_modules
+            sudo rm package-lock.json
+            npm install --production
             cd src
             sudo cp /var/www/prod/.env .
             cd stores
