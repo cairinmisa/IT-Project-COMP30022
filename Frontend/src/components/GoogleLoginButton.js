@@ -60,7 +60,7 @@ class GoogleLoginButton extends Component {
                     clientId={CLIENT_ID}
                     render={renderProps => (
                         <button onClick={renderProps.onClick} className="btn">
-                            <img src={require("../images/svgs/google-icon.svg")}/>
+                            <img src={require("../images/svgs/google-icon.svg")} alt="Google Icon"/>
                             Log in with Google.
                         </button>
                     )}
