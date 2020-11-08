@@ -16,19 +16,23 @@ class Nav extends Component {
     value: ""
   }
   
+  // Capitalises first letter of a string
   capitaliseName(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+  // Handles search input change
   handleChange(event){
     this.setState({value : event.target.value})
   }
   
+  // Handles search submit
   handleSubmit(){ 
     this.props.submitSearch(this.state.value)
   }
 
-
+  // There are two different nav bars: one for when the user is
+  // logged in, and one for when the user is not logged in
   render() {
     if(UserStore.isLoggedIn === false){
       return (
@@ -63,7 +67,7 @@ class Nav extends Component {
           <ul>
             <li>
               <form className="searchUserField">
-                <input type = 'text' value = {this.state.value} onChange={this.handleChange} placeholder="Search user by full name"></input>
+                <input type = 'text' value = {this.state.value} onChange={this.handleChange} placeholder="Search users or templates"></input>
                 <Link to = "/search"><button type = "submit" onClick = {this.handleSubmit}>🔍</button></Link>
               </form>
             </li>

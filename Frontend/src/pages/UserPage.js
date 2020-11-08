@@ -3,7 +3,7 @@ import UserStore from "../stores/UserStore";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import {host} from "../stores/Settings";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../components/SubmitButton";
 import { Redirect } from 'react-router-dom';
 
 class UserPage extends Component {
@@ -18,6 +18,7 @@ class UserPage extends Component {
         redirectToModify : false
      }
 
+     // Gets public folios of a user
      async getPortfolios(ID){
       await Axios({
         method: 'get',
@@ -27,7 +28,7 @@ class UserPage extends Component {
         }
       })
       .then(response => {
-        console.log(response)
+        // Set up folios in component state from response data
         let portfolios = [];
         for(let i=0;i<response.data.length;i++){
           portfolios[i] = [response.data[i].data,response.data[i].title,response.data[i].eportID]
@@ -37,10 +38,12 @@ class UserPage extends Component {
         });
       })
       .catch(response => {
+        // An unknown error has occurred
         console.log(response)
       }) 
     }
 
+    // Gets public templates of a user
     async getTemplates(ID){
       await Axios({
         method: 'get',
@@ -50,7 +53,7 @@ class UserPage extends Component {
         }
       })
       .then(response => {
-        console.log(response)
+        // Set up templates in component state from response data
         let templates = [];
         for(let i=0;i<response.data.length;i++){
           templates[i] = [response.data[i].data,response.data[i].title,response.data[i].templateID]
@@ -60,11 +63,12 @@ class UserPage extends Component {
         });
       })
       .catch(response => {
+        // An unknown error has occurred
         console.log(response)
       }) 
     }
 
-
+    // Gets user information from email address
     async getUser(email){
         await Axios({
           method: 'get',
@@ -74,7 +78,6 @@ class UserPage extends Component {
           }
         })
         .then(response => {
-          console.log(response)
           this.setState({
             fullName : response.data.firstName + " " + response.data.lastName,
             userName : response.data.username,
@@ -82,10 +85,12 @@ class UserPage extends Component {
           })
         })
         .catch(response => {
+          // An unknown error has occurred
           console.log(response)
         }) 
     }
 
+    // Get users public info, folios and templates on component load
     componentDidMount(){
         this.getUser(this.props.email)
         this.getPortfolios(this.props.userID)
@@ -97,12 +102,9 @@ class UserPage extends Component {
         }
     }
 
-    searchEport(title){
-      this.props.searchEport(title);
-    }
-
-
-    render() { 
+    render() {
+        // Redirect user to modify their information if they clicked 
+        // the modify button 
         if(this.state.redirectToModify) {
           return (
             <Redirect to="/accountinfo" />
@@ -119,7 +121,7 @@ class UserPage extends Component {
                 <p className="bold">Public Folios:</p>
                 {
                   this.state.portfolios.length !== 0
-                    ? this.state.portfolios.map((portfolio, i) => <Link to = "/eportReader" onClick = {() => this.searchEport(portfolio[2])}><li className="folioTemplate-li" key={i}>{portfolio[1]}</li></Link>)
+                    ? this.state.portfolios.map((portfolio, i) => <Link to = "/eportReader" onClick = {() => this.props.searchEport(portfolio[2])}><li className="folioTemplate-li" key={i}>{portfolio[1]}</li></Link>)
                     : (this.state.isLoggedInUser ? "You do not have any public folios." : "User does not have any public folios.")
                 }
 
@@ -127,7 +129,7 @@ class UserPage extends Component {
                 <p className="bold">Public Templates:</p>
                 {
                   this.state.templates.length !== 0
-                    ? this.state.templates.map((template, i) => <Link to = "/eportReader"><li className="folioTemplate-li" key={i}>{template[1]}</li></Link>)
+                    ? this.state.templates.map((template, i) => <Link to = "/eportReader" onClick = {() => this.props.searchTemp(template[2])}><li className="folioTemplate-li" key={i}>{template[1]}</li></Link>)
                     : (this.state.isLoggedInUser ? <p>You do not have any public templates.</p> : <p>User does not have any public templates.</p>)
                 }
 

@@ -11,10 +11,12 @@ class CreateNew extends Component {
         templatePageRedirect : false
     }
 
+    // Called when user presses submit button
     handleSubmit(){
         this.props.createPortfolio(this.state.input, this.state.publicity)
     }
 
+    // Set redirect state to true if user clicks the create from template button
     templateRedirect(){
         this.setState({
             templatePageRedirect : true
@@ -22,6 +24,8 @@ class CreateNew extends Component {
     }
 
     render() { 
+        // If user has clicked the create from template button then redirect them
+        // to the templates page
         if(this.state.templatePageRedirect === true){
             return <Redirect  to="/template" />
         }

@@ -42,6 +42,7 @@ async function setupApp() {
         }
       })
       .catch(response => {
+        // An error has occurred
         console.log("Unable to find server or an unknown error has occured. Wiping Local Storage.");
         localStorage.clear();
       });
@@ -53,4 +54,6 @@ async function setupApp() {
     document.getElementById("root")
   );
 }
+
+// Init app
 setupApp();

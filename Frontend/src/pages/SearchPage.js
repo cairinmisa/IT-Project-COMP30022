@@ -16,18 +16,22 @@ class SearchPage extends Component {
       super(props);
     }
 
+    // Called when user clicks on a user search result
     handleClick(email,userID) {
       this.props.findUser(email,userID)
     }
 
+    // Called when user clicks on a folio search result
     searchEport(eportID){
       this.props.searchEport(eportID);
     }
 
+    // Called when user clicks on a template search result
     searchTemp(tempID){
       this.props.searchTemp(tempID);
     }
 
+    // Search templates by title
     async getTemplates(search){
         await Axios({
           method: 'get',
@@ -47,14 +51,15 @@ class SearchPage extends Component {
           this.setState({
             templates : reqtemplates
           });
-          console.log(response)
         })
         .catch(response => {
+          // An unknown error has occurred
           console.log(response)
         }) 
         
     }
 
+    // Search user by their full name
     async getUsers(search){
       await Axios({
         method: 'get',
@@ -74,14 +79,14 @@ class SearchPage extends Component {
         this.setState({
           users : reqUsers
         });
-        console.log(response)
       })
       .catch(response => {
+        // An unknown error has occurred
         console.log(response)
       }) 
     }
 
-
+    // Searches folios by title
     async getPortfolios(search){
         await Axios({
           method: 'get',
@@ -101,13 +106,14 @@ class SearchPage extends Component {
           this.setState({
             eportfolios : reqPortfolios
           });
-          console.log(response)
         })
         .catch(response => {
+          // An unknown error has occurred
           console.log(response)
         }) 
       }
-
+    
+    // Search users, folios and templates by the search string
     componentDidMount(){
         this.getTemplates(this.props.search)
         this.getUsers(this.props.search)

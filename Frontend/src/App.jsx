@@ -33,6 +33,8 @@ class App extends React.Component {
     this.searchTemp = this.searchTemp.bind(this)
   }
 
+  // Stores email address and user ID of a user that 
+  // the user wants to get information on
   findUser(searchEmail, searchUserID){
     this.setState({
       searchEmail : searchEmail,
@@ -40,16 +42,25 @@ class App extends React.Component {
     })
   }
 
+  // Called when user submits a search using the nav bar
   submitSearch(search){
     this.setState({search : search})
   }
   
+  // Stores folio ID of folio that user wants to read
   searchEport(eportID){
-    this.setState({eportID: eportID})
+    this.setState({
+      eportID: eportID,
+      tempID : null
+    })
   }
 
+  // Stores template ID of template that user wants to read
   searchTemp(tempID){
-    this.setState({tempID : tempID})
+    this.setState({
+      eportID : null,
+      tempID : tempID
+    })
   }
 
   render() {
@@ -60,11 +71,11 @@ class App extends React.Component {
           <Nav submitSearch = {this.submitSearch}/>
           <Switch>
             <Route path="/login" exact component={LoginPage}></Route>
-            <Route path="/user" exact component = {() => <UserPage email = {this.state.searchEmail} searchEport = {this.searchEport} userID = {this.state.searchUserID}/>}></Route>
+            <Route path="/user" exact component = {() => <UserPage email = {this.state.searchEmail} searchEport = {this.searchEport} searchTemp = {this.searchTemp} userID = {this.state.searchUserID}/>}></Route>
             <Route path="/" exact component={Home}></Route>
             <Route path="/signup" exact component={SignUpForm}></Route>
             <Route path="/template" exact component={() => <Template eportID = {this.state.searchEportID}/>}></Route>
-            <Route path="/profile" exact component={() => <UserPage email = {UserStore.user.emailAddress} searchEport = {this.searchEport} userID = {UserStore.user.userID}/>}></Route>
+            <Route path="/profile" exact component={() => <UserPage email = {UserStore.user.emailAddress} searchEport = {this.searchEport} searchTemp = {this.searchTemp} userID = {UserStore.user.userID}/>}></Route>
             <Route path="/accountinfo" exact component={ProfilePage}></Route>
             <Route path="/eportReader" exact component={() => <EportReader eportID = {this.state.eportID} tempID = {this.state.tempID}/>}></Route>
             <Route path="/search" exact component = {() => <SearchPage search = {this.state.search} searchEport = {this.searchEport} searchTemp = {this.searchTemp} findUser = {this.findUser}/>}></Route>
