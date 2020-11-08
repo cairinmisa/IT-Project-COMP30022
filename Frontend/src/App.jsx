@@ -74,13 +74,14 @@ class App extends React.Component {
       );
     };
 
-    // Route components with no Nav Bar first 
+    // Render the whole app
     return (
         <Router>
           <Helmet>
             <title>eProfolio</title>
           </Helmet>
           <Switch>
+            {/* Render routes with no nav bar first */}
             <Route path="/editor" exact component={TextEditor} ></Route>
             <Route component={NavRoutes}/>
           </Switch>

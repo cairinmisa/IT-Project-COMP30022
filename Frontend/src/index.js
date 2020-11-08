@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App.jsx";
-import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
 import {host} from "./stores/Settings"
 import jwt_decode from "jwt-decode";
@@ -10,7 +9,8 @@ import UserStore from "./stores/UserStore";
 
 // Function called on startup to initiate the app
 async function setupApp() {
-  // Check if jwt has expired
+  // Check if user session has expired by checking
+  // if jwt token is still valid
   const token = localStorage.getItem("token");
   if(token != null) {
     var decoded = jwt_decode(token);
@@ -19,7 +19,8 @@ async function setupApp() {
     } 
   }
   
-  // If email address of user isn't null then grab user data
+  // If a user is logged in, then load user data
+  // (check if emailAddress stored is null)
   const emailAddress = localStorage.getItem("emailAddress");
   if(emailAddress != null){
     await axios({
@@ -35,7 +36,8 @@ async function setupApp() {
           UserStore.isLoggedIn = true;
           UserStore.token = token;
         } else if (response.data.hasErrors === "True") {
-          // User may have been deleted so clear storage
+          // User may have been deleted or something has gone
+          // wrong so clear local storage
           localStorage.clear();
         }
       })
@@ -50,9 +52,5 @@ async function setupApp() {
       <App />,
     document.getElementById("root")
   );
-  // If you want your app to work offline and load faster, you can change
-  // unregister() to register() below. Note this comes with some pitfalls.
-  // Learn more about service workers: https://bit.ly/CRA-PWA
-  serviceWorker.unregister();
 }
 setupApp();
