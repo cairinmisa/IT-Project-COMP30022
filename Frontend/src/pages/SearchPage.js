@@ -3,7 +3,6 @@ import UserStore from "../stores/UserStore";
 import Axios from "axios";
 import {host} from "../stores/Settings";
 import {Link} from "react-router-dom";
-import { resolveTripleslashReference } from 'typescript';
 
 class SearchPage extends Component {
     state = { 

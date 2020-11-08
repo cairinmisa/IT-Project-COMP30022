@@ -1,12 +1,12 @@
 import React from "react";
 import "./App.css";
-import Home from "./Home";
+import Home from "./pages/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Nav from "./Nav";
-import TextEditor from "./TextEditor";
+import Nav from "./components/Nav";
+import TextEditor from "./pages/TextEditor";
 import Template from "./pages/Template";
 import ProfilePage from "./pages/ProfilePage";
-import Footer from "./Footer";
+import Footer from "./components/Footer";
 import SignUpForm from "./pages/SignUpForm";
 import LoginPage from "./pages/LoginPage";
 import {Helmet} from "react-helmet";

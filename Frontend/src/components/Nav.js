@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import UserStore from "./stores/UserStore";
-import InputField from "./pages/InputField";
-import webLogo from "./images/PROlogo.png"
+import UserStore from "../stores/UserStore";
+import webLogo from "../images/PROlogo.png"
 
 class Nav extends Component {
   

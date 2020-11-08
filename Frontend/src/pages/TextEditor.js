@@ -2,16 +2,15 @@ import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import BalloonBlockEditor from "ckeditor5-custom-build/build/ckeditor";
 import {Link} from "react-router-dom";
-import UserStore from "./stores/UserStore";
+import UserStore from "../stores/UserStore";
 import {Redirect} from 'react-router-dom';
 import Axios from "axios";
-import {host} from "./stores/Settings";
-import CreateNew from "./components/CreateNew";
-import CreateTemplateModal from "./components/CreateTemplateModal";
-import WorkspaceToolbar from "./components/WorkspaceToolbar";
-import TemplateToFolioModal from "./components/TemplateToFolioModal";
-import webLogo from "./images/fullwhitelogo.png";
-import ReactToPdf from 'react-to-pdf'
+import {host} from "../stores/Settings";
+import CreateNew from "../components/CreateNew";
+import CreateTemplateModal from "../components/CreateTemplateModal";
+import WorkspaceToolbar from "../components/WorkspaceToolbar";
+import TemplateToFolioModal from "../components/TemplateToFolioModal";
+import webLogo from "../images/fullwhitelogo.png";
 
 
 export default class TextEditor extends Component {
