@@ -28,6 +28,7 @@ class TemplateCard extends Component {
         })
     };
 
+    // Called when user rates template
     rateTemplate(rating) {
         // Check if user is logged in
         if(UserStore.isLoggedIn === false) {
@@ -62,10 +63,12 @@ class TemplateCard extends Component {
             }
           })
           .catch(response => {
+            // An unknown error has occurred
             console.log(response);
           }) 
     }
 
+    // Checks if user has rated this template before
     checkHasRated() {
         // Check if user is logged in
         if(UserStore.isLoggedIn === false) {
@@ -99,6 +102,7 @@ class TemplateCard extends Component {
             }
           })
           .catch(response => {
+            // An unknown error has occurred
             console.log(response);
           }) 
     }
@@ -107,7 +111,7 @@ class TemplateCard extends Component {
     shortenString(str, len) {
         if(str == null) return;
         if(str.length > len - 3) {
-        return str.substring(0,len-3) + "...";
+            return str.substring(0,len-3) + "...";
         }
         return str;
     }

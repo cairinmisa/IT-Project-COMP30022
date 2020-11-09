@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import InputField from "./InputField";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../components/SubmitButton";
 import UserStore from "../stores/UserStore";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -17,6 +17,7 @@ class LoginForm extends Component {
     };
   }
 
+  // Called when user changes input
   setInputValue(property, val) {
     val = val.trim();
     this.setState({
@@ -24,6 +25,7 @@ class LoginForm extends Component {
     });
   }
 
+  // Limits the length of user input
   setLimitedInputValue(property, val) {
     val = val.trim();
     if (val.length > 16) {
@@ -34,6 +36,7 @@ class LoginForm extends Component {
     });
   }
 
+  // Resets user input
   resetForm() {
     this.setState({
       email: "",
@@ -42,8 +45,8 @@ class LoginForm extends Component {
     });
   }
 
+  // Handle login response
   async handleResponse(response) {
-    //handle success
     if(!response.data.hasErrors) {
       // Store the received token (take the actual token and not the "Bearer" )
       UserStore.token = response.data.token.split(" ")[1];
@@ -72,16 +75,18 @@ class LoginForm extends Component {
         alert("Email not given.");
       }
       
+      // Reset input
       this.resetForm();
     }
   }
 
+  // Handle login error response
   handleResponseError(response) {
-    //handle error
     console.log(response);
     this.resetForm();
   }
 
+  // Logs in user when they click login
   async doLogin() {
     // If user hasn't specified an email then return
     if (!this.state.email) {

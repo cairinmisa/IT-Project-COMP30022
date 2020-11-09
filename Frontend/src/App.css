@@ -336,6 +336,20 @@ input:focus {
   cursor: pointer;
 }
 
+.workspace-title button {
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  border-color: var(--scheme-black);
+  border-style: solid;
+  border-radius: 28px;
+  cursor: pointer;
+  font-family: neue-montreal-regular;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 div {
   background-color: var(--scheme-white);
   text-align: center;

@@ -8,10 +8,12 @@ class WorkspaceToolbar extends Component {
     displayPdf : false
   };
 
+  // Called when user presses generate PDF
   generatePdf(toPdf) {
     this.setState({displayPdf: true});
     this.forceUpdate();
     setTimeout(() => {
+      // Create the PDF
       toPdf();
       this.setState({displayPdf : false});
     }, 10);

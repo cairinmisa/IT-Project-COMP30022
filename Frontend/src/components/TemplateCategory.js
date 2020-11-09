@@ -8,9 +8,7 @@ class TemplateCategory extends Component {
         templates : []
     }
 
-    // Loads public templates
-    // TODO: Change such that it loads templates of a specific category
-    //       and sorts them according to this.props.sort
+    // Loads public templates by specific category
     async loadTemplates() {
         await Axios({
             method: 'get',
@@ -20,13 +18,14 @@ class TemplateCategory extends Component {
             }
           })
           .then(response => {
-            // Seperate the data and put templates into a list
+            // Seperate the response data and put templates into a list
             let templates = [];
             for(let i = 0; i < response.data.length; i++){
                 templates[i] = response.data[i];
             }
+
+            // Sort the templates by highest rated
             templates.sort((a,b) => parseFloat(b.rating) - parseFloat(a.rating));
-            console.log(templates);
 
             // Set global templates list
             this.setState({
@@ -34,11 +33,12 @@ class TemplateCategory extends Component {
             });
           })
           .catch(response => {
+            // An unknown error has occurred
             console.log(response);
           }) 
     }
 
-    // Grab templates when component is mounted
+    // Fetch templates from server when component is mounted
     componentDidMount() {
         this.loadTemplates();
     }

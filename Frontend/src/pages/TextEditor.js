@@ -2,16 +2,15 @@ import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import BalloonBlockEditor from "ckeditor5-custom-build/build/ckeditor";
 import {Link} from "react-router-dom";
-import UserStore from "./stores/UserStore";
+import UserStore from "../stores/UserStore";
 import {Redirect} from 'react-router-dom';
 import Axios from "axios";
-import {host} from "./stores/Settings";
-import CreateNew from "./components/CreateNew";
-import CreateTemplateModal from "./components/CreateTemplateModal";
-import WorkspaceToolbar from "./components/WorkspaceToolbar";
-import TemplateToFolioModal from "./components/TemplateToFolioModal";
-import webLogo from "./images/fullwhitelogo.png";
-import ReactToPdf from 'react-to-pdf'
+import {host} from "../stores/Settings";
+import CreateNew from "../components/CreateNew";
+import CreateTemplateModal from "../components/CreateTemplateModal";
+import WorkspaceToolbar from "../components/WorkspaceToolbar";
+import TemplateToFolioModal from "../components/TemplateToFolioModal";
+import webLogo from "../images/fullwhitelogo.png";
 
 
 export default class TextEditor extends Component {
@@ -40,6 +39,7 @@ export default class TextEditor extends Component {
     this.pdfRef = React.createRef();
   }
 
+  // Called when user clicks between their folios and templates
   async handleClick(templateClicked, eportID, title, isTemplate, id) {
     // Autosave to save data
     if(this.state.currentID !== null) {
@@ -57,19 +57,23 @@ export default class TextEditor extends Component {
     })
   }
 
+  // Closes create modals
   closeCreateNew(){
     this.setState({displayCreate: false, displayCreateTemplate: false, displayConvertToFolio : false})
   }
 
+  // Shows create new folio modal
   createNew(){
     this.setState({currentTemplate : ""})
     this.setState({displayCreate : true})
   }
 
+  // Shows create new template modal
   showTemplateModal(){
     this.setState({displayCreateTemplate : true})
   }
 
+  // Shows convert folio to template modal
   showConvertToFolio() {
     this.setState({displayConvertToFolio : true})
   }
@@ -97,10 +101,9 @@ export default class TextEditor extends Component {
         data : this.state.currentTemplate
       }
     })
-    .then(response => {
-      console.log(response)
-    })
+    .then(response => {})
     .catch(response => {
+      // An unknown error has occurred
       console.log(response)
     })
 
@@ -136,10 +139,9 @@ export default class TextEditor extends Component {
         data : this.state.currentTemplate
       }
     })
-    .then(response => {
-      console.log(response)
-    })
+    .then(response => {})
     .catch(response => {
+      // An unknown error has occurred
       console.log(response)
     })
 
@@ -175,16 +177,15 @@ export default class TextEditor extends Component {
         eportID : this.state.currentID
       }
     })
-    .then(response => {
-      console.log(response)
-    })
+    .then(response => {})
     .catch(response => {
+      // An unknown error has occurred
       console.log(response)
     })
     window.location.reload(false)
   }
 
-  // Deletes the currently selected folio
+  // Deletes the currently selected template
   async deleteTemplate(){
     // Check if user wants to delete template
     if(!window.confirm("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")) {
@@ -202,17 +203,17 @@ export default class TextEditor extends Component {
         templateID : this.state.currentID
       }
     })
-    .then(response => {
-      console.log(response)
-    })
+    .then(response => {})
     .catch(response => {
+      // An unknown error has occurred
       console.log(response)
     })
     window.location.reload(false)
   }
 
-  // Gets portfolios of the user
+  // Gets portfolios & templates of the user
   async getPortfolios(userId){
+    // Get folios
     await Axios({
       method: 'post',
       url:  host+'/eportfolio/userfetch',
@@ -224,6 +225,7 @@ export default class TextEditor extends Component {
       }
     })
     .then(response => {
+      // Sets up the folios in the component state from response data
       let portfolios = [];
       for(let i=0;i<response.data.length;i++){
         portfolios[i] = [response.data[i].data,response.data[i].title,response.data[i].eportID]
@@ -231,12 +233,13 @@ export default class TextEditor extends Component {
       this.setState({
         userPortfolios : portfolios
       });
-      console.log(response)
     })
     .catch(response => {
+      // An unknown error has occurred
       console.log(response)
     })
 
+    // Get templates
     await Axios({
       method: 'get',
       url:  host+'/template/fetchFromUser',
@@ -248,6 +251,7 @@ export default class TextEditor extends Component {
       }
     })
     .then(response => {
+      // Sets up the templates in the component state from response data
       let templates = [];
       for(let i=0;i<response.data.length;i++){
         templates[i] = [response.data[i].data,response.data[i].title,response.data[i].templateID]
@@ -255,9 +259,9 @@ export default class TextEditor extends Component {
       this.setState({
         userTemplates : templates
       });
-      console.log(response)
     })
     .catch(response => {
+      // An unknown error has occurred
       console.log(response)
     })
   }
@@ -292,9 +296,9 @@ export default class TextEditor extends Component {
         else if(response.data.hasErrors === "False"){
           window.location.reload(false);
         }
-        console.log(response)
       })
       .catch(response => {
+        // An unknown error has occurred
         console.log(response)
       })
   }
@@ -335,13 +339,14 @@ export default class TextEditor extends Component {
           this.setState({displayCreateTemplate: false})
           this.getPortfolios(UserStore.user.userID);
         }
-        console.log(response)
       })
       .catch(response => {
+        // An unknown error has occurred
         console.log(response)
       })
   }
 
+  // Function for creating folio from template
   convertToFolio(title, publicity) {
     Axios({
       method: 'post',
@@ -373,13 +378,14 @@ export default class TextEditor extends Component {
         this.setState({displayConvertToFolio: false})
         this.getPortfolios(UserStore.user.userID);
       }
-      console.log(response)
     })
     .catch(response => {
+      // An unknown error has occurred
       console.log(response)
     })
   }
 
+  // Get user's folios & templates on component load 
   componentDidMount(){
     if(UserStore.user !== null){
       this.getPortfolios(UserStore.user.userID)
@@ -395,6 +401,7 @@ export default class TextEditor extends Component {
   }
 
   render() {
+    // If user has not logged in (or their session expired) then redirect them to the login page
     if(UserStore.user === null){
       return <Redirect  to="/login" />
     }
@@ -486,7 +493,6 @@ export default class TextEditor extends Component {
                     ]
                   },
                   simpleUpload: {
-                    // The URL that the images are uploaded to.
                     uploadUrl: host+'/uploader',
                   }
                 }}

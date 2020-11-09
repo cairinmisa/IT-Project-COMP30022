@@ -14,6 +14,7 @@ class EportReader extends Component {
         super(props);
     }
 
+    // Gets a folio with specific ID
     async getPortfolio(search){
         await Axios({
           method: 'post',
@@ -26,14 +27,15 @@ class EportReader extends Component {
           }
         })
         .then(response => {
-          console.log(response)
           this.setState({data : response.data.data})
         })
         .catch(response => {
+          // An unknown error has occurred
           console.log(response)
         }) 
     }
 
+    // Gets a template with a specific ID
     async getTemplate(search){
       await Axios({
         method: 'get',
@@ -46,16 +48,16 @@ class EportReader extends Component {
         }
       })
       .then(response => {
-        console.log(response)
         this.setState({data : response.data.data})
       })
       .catch(response => {
+        // An unknown error has occurred
         console.log(response)
       }) 
   }
 
-    componentDidMount(){
-      console.log(this.props.eportID,this.props.tempID)
+  // Get folio/template information on load  
+  componentDidMount(){
       if(this.props.eportID !== ""){
         this.getPortfolio(this.props.eportID);
       }
@@ -71,12 +73,6 @@ class EportReader extends Component {
                       editor={ BalloonBlockEditor }
                       data={this.state.data ? this.state.data : ""}
                       disabled = {true}
-                      config = {{
-                        simpleUpload: {
-                          // The URL that the images are uploaded to.
-                          uploadUrl: host+'/uploader',
-                        }
-                      }}
             />
           </div>
         )
