@@ -2,7 +2,7 @@
 
 # Workflow should:
 # 1. Move to the repo directory
-# 2. Stop NGINX and Backend Server
+# 2. Stop NGINX serice
 # 3. Pull repo
 # 4. NPM Install in Backend
 # 5. Copy PROD environment settings into Backend
@@ -18,10 +18,10 @@ name: Build / Deploy PROD Master Branch
 on:
   pull_request:
     branches:
-      - 86-DOB-Validation-CiCD-Pipeline
+      - Master
   push:
     branches:
-      - 86-DOB-Validation-CiCD-Pipeline
+      - Master
 
 jobs:
   deploy:
@@ -29,7 +29,7 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Stop NGINX & PM2
+    - name: Stop NGINX
       run:  |
             sudo service nginx stop
 
