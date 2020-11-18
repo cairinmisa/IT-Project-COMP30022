@@ -52,7 +52,6 @@ router.post('/userfetch',passport.authenticate('jwt', {session : false}), (req, 
     eportController.fetchAll(req,res)
 })
 
-
 // Delete Eportfolio from EportID
 router.delete('/',passport.authenticate('jwt', {session : false}), (req, res)=> {
 

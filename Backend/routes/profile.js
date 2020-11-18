@@ -108,15 +108,10 @@ router.get('/findUser/', async function(req,res,next){
   });
 });
 
-// @Route POST api/
-// @desc REGISTER User
-// @access PUBLIC
-
+// Register a new user
 router.post("/", async (req,res) => {
   // Form Validation
   const {errors, isValid} = validateRegisterInput(req.body);
-  console.log(req.user);
-  console.log(req.body.username);
   // Check Validation
   if (!isValid){
     return res.status(200).json(errors);
@@ -124,9 +119,7 @@ router.post("/", async (req,res) => {
   await userController.register(req,res);
 });
 
-// @Route PUT api/
-// @desc MODIFY User
-// @access PUBLIC
+// Update a particular user
 router.put('/update',passport.authenticate('jwt', {session : false}),async function(req,res,next){
   if(req.body.userID==null){
     return res.send({userIDGiven : "False", hasErrors : "True"})
@@ -141,10 +134,7 @@ router.put('/update',passport.authenticate('jwt', {session : false}),async funct
   userController.update(req,res,next);
 });
 
-
-// @Route DELETE api/
-// @desc DELETE User
-// @access PUBLIC
+// Delete a particular user
 router.delete('/',passport.authenticate('jwt', {session : false}), function(req,res, next){
   // Check user is accessing their own account
   if(!(req.user.emailAddress == req.body.emailAddress)){
@@ -157,6 +147,7 @@ router.delete('/',passport.authenticate('jwt', {session : false}), function(req,
     userController.delete(req,res,next);
 })
 
+// Search for a user by Name
 router.get('/searchByName', async function(req,res, next){
 
   var regex = new RegExp(["^", req.query.fullName, "$"].join(""),"i");
@@ -170,6 +161,7 @@ router.get('/searchByName', async function(req,res, next){
 
 })
 
+// Return user information from User ID
 router.get('/usernameFromUserID',async function(req,res, next){
   if(req.query.userID == null){
     return res.send({hasErrors: "True", userIDGiven : "False"});
