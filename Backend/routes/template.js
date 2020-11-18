@@ -3,7 +3,6 @@ const router = express.Router();
 const passport = require('passport');
 
 // Load controllers
-const eportController = require('../controllers/eport');
 const fetchController = require('../controllers/fetch');
 const templateController = require('../controllers/template');
 
@@ -13,8 +12,6 @@ const validatenewEportInput = require('../controllers/validators/newEport');
 
 // Load Template module
 const Template = require("../models/dbschema/templates");
-const { findByIdAndUpdate } = require("../models/dbschema/templates");
-
 
 
 // Create a new template
@@ -53,7 +50,6 @@ router.post('/createFolio',passport.authenticate('jwt', {session : false}), (req
     templateController.createfromTemplate(req,res)
 })
 
-
 // Delete an existing template
 router.delete('/',passport.authenticate('jwt', {session : false}), (req, res)=> {
     // Validates the Template ID is provided
@@ -63,6 +59,7 @@ router.delete('/',passport.authenticate('jwt', {session : false}), (req, res)=> 
     
     templateController.deleteTemplate(req,res)
 })
+
 // Fetch all public templates
 router.get('/getPublic',async (req, res)=> {
 
@@ -97,6 +94,7 @@ router.get('/fetchFromUser/',passport.authenticate('jwt', {session : false}),asy
 
 })
 
+// Save template given new information
 router.put('/saveTemplate/',passport.authenticate('jwt', {session : false}),async (req, res)=> {
   if(req.body.dateUpdated == null){
       return res.send({hasErrors : "True", dateGiven : "False"});
@@ -107,6 +105,7 @@ router.put('/saveTemplate/',passport.authenticate('jwt', {session : false}),asyn
   templateController.saveTemplate(req,res);
 })
 
+// Search for a template given a title
 router.get('/searchByTitle', async function(req,res, next){
     // Create regex to form case insensitive search
     var regex = new RegExp(["^", req.query.title, "$"].join(""),"i");
@@ -119,6 +118,7 @@ router.get('/searchByTitle', async function(req,res, next){
   
 })
 
+// Search for a template given the templateID
 router.get('/searchbyID', async (req, res)=> {
 
     if(req.query.templateID ==null){
@@ -133,8 +133,7 @@ router.get('/searchbyID', async (req, res)=> {
     
 })
 
-
-
+// Rates a template given a rating and a user
 router.post('/rateTemplate',passport.authenticate('jwt', {session : false}), async function(req,res, next){
     // Check the TemplateID, Rating and UserID is given
     if( req.body.templateID == null){
@@ -186,7 +185,7 @@ router.post('/rateTemplate',passport.authenticate('jwt', {session : false}), asy
     
 })
 
-
+// Checks if a user has rated a particular template
 router.get('/hasRated',passport.authenticate('jwt', {session : false}), async function(req,res, next){
     
     // Check the correct information is given
@@ -208,6 +207,7 @@ router.get('/hasRated',passport.authenticate('jwt', {session : false}), async fu
     }
 })
 
+// Returns all public templates from user
 router.get('/publictemplatefromUser', async function(req,res){
     
     // Check User Exists
@@ -221,6 +221,5 @@ router.get('/publictemplatefromUser', async function(req,res){
     })
   
   })
-
 
 module.exports = router;
