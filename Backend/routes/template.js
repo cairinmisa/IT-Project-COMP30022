@@ -16,12 +16,6 @@ const Template = require("../models/dbschema/templates");
 const { findByIdAndUpdate } = require("../models/dbschema/templates");
 
 
-// Get all templates
-router.get('/', async (req, res,next)=> {
-    await Template.find().then(function(templates){
-        res.send(templates);
-    })
-})
 
 // Create a new template
 router.post('/create',passport.authenticate('jwt', {session : false}), (req, res)=> {

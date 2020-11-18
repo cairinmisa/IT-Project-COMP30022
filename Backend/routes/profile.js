@@ -8,27 +8,20 @@ const passport = require('passport');
 // Load controllers
 const userController = require('../controllers/user');
 const fetchController = require('../controllers/fetch');
-const errorController = require('../controllers/error');
 
 // Load input validation
 const validateRegisterInput = require('../controllers/validators/register');
 const validateLoginInput = require('../controllers/validators/login');
-const validateDeleteInput = require('../controllers/validators/delete');
 const validategetUserInput = require('../controllers/validators/getUser');
-const validateupdateInput = require('../controllers/validators/update');
 
 
 // Load User model
 const User = require("../models/dbschema/user");
-
-
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 
 
-// @route POST api/login
-// @desc Login user and return JWT token
-// @access PUBLIC
+// Returns an access token for a user (Login)
 router.post('/login', async (req,res) => {
   // Check if logging in with Google 
   if(req.body.googleToken != null) {
@@ -89,9 +82,7 @@ router.post('/login', async (req,res) => {
   });
 });
 
-// @Route GET api/
-// @desc RETURN User
-// @access PUBLIC
+// Returns information given a particular emailAddress
 router.get('/findUser/', async function(req,res,next){
   const { errors, isValid } = validategetUserInput(req.query);
   if (!isValid) {
@@ -115,13 +106,6 @@ router.get('/findUser/', async function(req,res,next){
         res.send(response);
       }
   });
-});
-
-// GET ALL USERS
-router.get('/',async function(req,res,next){
-
-    userlist = await fetchController.getAllUsers(req,res,next);
-    res.send(userlist);
 });
 
 // @Route POST api/
