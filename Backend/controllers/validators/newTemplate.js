@@ -2,8 +2,6 @@ const validator = require('validator');
 const isEmpty = require('is-empty');
 const bcrypt = require('bcryptjs');
 
-const Eportfolio = require('../../models/dbschema/eportfolio');
-const { error } = require('../error');
 
 // Login validation and Authentication
 module.exports = function validatenewEportInput(data) {
