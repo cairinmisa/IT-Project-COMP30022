@@ -47,14 +47,16 @@ This outlines how to install and deploy the application on a local server with o
 
 **Steps**
 1. Create a new cluster in MongoDB with a username and password
-2. Put username and password into the .env file in the Backend folder (Variables DATABASE_USER and DATABASE_PASS)
+2. Create a .env file in the Backend folder with the contents
+ `DATABASE_USER = <YOUR_USERNAME>
+  DATABASE_PASS = <YOUR_PASSWORD>`
 3. Edit the DB connection configuration in Backend/models/db.js to point to the newly created database (dbName)
 4. Run 'npm install' in the Backend folder to install the dependencies
 5. Run npm start to start the backend server
 6. Change directory to the Frontend folder and run 'npm install' to install depdendencies 
-7. Create an .env file with the Variable BASE_URL and set it to the backend server (ex: BASE_URL ="localhost:8000")
-8. Run npm start to start React in DEV mode
-9. Open any browser and go to the host you set it to
+7. Create an .env file with the contents `BASE_URL = "<BACKEND_SERVER>"`
+8. Run npm start to start the web server
+9. Open any browser and go to web server address
 10. Done!
 
 
