@@ -12,7 +12,7 @@ const validatesaveEportInput = require('../controllers/validators/saveEport');
 
 // Load User model
 const Eportfolio = require("../models/dbschema/eportfolio");
-
+const User = require("../models/dbschema/user");
 
 // Create a new Eportfolio
 router.post('/create',passport.authenticate('jwt', {session : false}), (req, res)=> {
@@ -91,17 +91,30 @@ router.get('/fetchPublic/', async (req, res)=> {
 
 })
 
-// Searches eportfolios by title
-router.get('/searchByTitle', async function(req,res, next){
+// Searches the database for eportfolios by title
 
+router.get('/searchByTitle', async function(req,res, next){
      // Create regex to form case insensitive search
+     var eportfolioList = []
      var regex = new RegExp(["^", req.query.title, "$"].join(""),"i");
     if( req.query.title == null){
       return res.send({hasErrors : "True", titleGiven : "False"});
     }
-  
-    await Eportfolio.find({title : regex, isPublic : "True"}).then(function(eportList){
-      return res.send(eportList);
+    // Build the List to return
+    await Eportfolio.find({title : regex, isPublic : "True"}).then(async function(eportList){
+        eportLength = eportList.length;
+        for(i=0;i<eportLength;i++){
+            tempUser = await User.findOne({userID : eportList[i].userID});
+            eportfolioList[i] = {}
+            eportfolioList[i].username = tempUser.username;
+            eportfolioList[i].title = eportList[i].title;
+            eportfolioList[i].data = eportList[i].data;
+            eportfolioList[i].dateUpdated = eportList[i].dateUpdated;
+            eportfolioList[i].eportID = eportList[i].eportID;
+            
+        }
+        return res.send(eportfolioList)
+
     })
   
   })

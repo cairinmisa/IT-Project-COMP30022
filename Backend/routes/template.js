@@ -13,6 +13,9 @@ const validatenewEportInput = require('../controllers/validators/newEport');
 // Load Template module
 const Template = require("../models/dbschema/templates");
 
+const { findByIdAndUpdate } = require("../models/dbschema/templates");
+const User = require("../models/dbschema/user");
+
 
 // Create a new template
 router.post('/create',passport.authenticate('jwt', {session : false}), (req, res)=> {
@@ -108,11 +111,26 @@ router.put('/saveTemplate/',passport.authenticate('jwt', {session : false}),asyn
 // Search for a template given a title
 router.get('/searchByTitle', async function(req,res, next){
     // Create regex to form case insensitive search
+    var templateList = []
     var regex = new RegExp(["^", req.query.title, "$"].join(""),"i");
     if( req.query.title == null){
       return res.send({hasErrors : "True", titleGiven : "False"});
     }
-    await Template.find({title : regex, isPublic : "True"}).then(function(templateList){
+    // Build the list to return
+    await Template.find({title : regex, isPublic : "True"}).then(async function(tempList){
+      tempLength = tempList.length;
+      for(i=0;i<tempLength;i++){
+          tempUser = await User.findOne({userID : tempList[i].userID});
+          templateList[i] = {}
+          templateList[i].username = tempUser.username;
+          templateList[i].title = tempList[i].title;
+          templateList[i].category = tempList[i].category;
+          templateList[i].data = tempList[i].data;
+          templateList[i].dateUpdated = tempList[i].dateUpdated;
+          templateList[i].templateID = tempList[i].templateID;
+          
+      }
+      console.log(templateList);
       return res.send(templateList);
     })
   

@@ -9,6 +9,7 @@ class CreateTemplateModal extends Component {
         category: "Professional"
     }
 
+    // Called when user clicks submit button
     handleSubmit(){
         this.props.createTemplate(this.state.title, this.state.publicity, this.state.category)
     }

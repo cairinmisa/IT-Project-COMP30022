@@ -12,6 +12,7 @@ class EditFieldModal extends React.Component {
     };
     resetModal = false;
 
+    // Resets all input fields of the component
     resetForm() {
         this.setState({
             input: this.props.prevInput,
@@ -20,8 +21,8 @@ class EditFieldModal extends React.Component {
         });
     }
 
+    // Handles response of modifying user information
     handleResponse(response) {
-        // Modifying success
         if(!response.data.hasErrors) {
             // Submit if everything went smoooth
             this.props.onSubmit();
@@ -51,6 +52,7 @@ class EditFieldModal extends React.Component {
         }
     }
 
+    // Handles response error of editing user information
     handleResponseError(response) {
         console.log(response);
         alert("An unknown error has occured.");
@@ -117,7 +119,6 @@ class EditFieldModal extends React.Component {
 
     // Handles delete response from the database
     handleDeleteResponse(response) {
-        console.log(response);
         // Modifying success
         if(response.data.hasErrors === "False") {
             // Send the user back to login page

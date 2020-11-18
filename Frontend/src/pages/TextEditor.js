@@ -2,16 +2,15 @@ import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import BalloonBlockEditor from "ckeditor5-custom-build/build/ckeditor";
 import {Link} from "react-router-dom";
-import UserStore from "./stores/UserStore";
+import UserStore from "../stores/UserStore";
 import {Redirect} from 'react-router-dom';
 import Axios from "axios";
-import {host} from "./stores/Settings";
-import CreateNew from "./components/CreateNew";
-import CreateTemplateModal from "./components/CreateTemplateModal";
-import WorkspaceToolbar from "./components/WorkspaceToolbar";
-import TemplateToFolioModal from "./components/TemplateToFolioModal";
-import webLogo from "./images/fullwhitelogo.png";
-import ReactToPdf from 'react-to-pdf'
+import {host} from "../stores/Settings";
+import CreateNew from "../components/CreateNew";
+import CreateTemplateModal from "../components/CreateTemplateModal";
+import WorkspaceToolbar from "../components/WorkspaceToolbar";
+import TemplateToFolioModal from "../components/TemplateToFolioModal";
+import webLogo from "../images/fullwhitelogo.png";
 
 
 export default class TextEditor extends Component {
@@ -32,7 +31,7 @@ export default class TextEditor extends Component {
     // So that we can bold selected folios
     listItemSelected : null
   }
-  
+
   constructor(props){
     super(props)
     this.closeCreateNew = this.closeCreateNew.bind(this)
@@ -40,12 +39,13 @@ export default class TextEditor extends Component {
     this.pdfRef = React.createRef();
   }
 
+  // Called when user clicks between their folios and templates
   async handleClick(templateClicked, eportID, title, isTemplate, id) {
     // Autosave to save data
     if(this.state.currentID !== null) {
       await this.savePortfolio();
     }
-    
+
     this.setState({
       currentTemplate : templateClicked,
       currentID : eportID,
@@ -57,19 +57,23 @@ export default class TextEditor extends Component {
     })
   }
 
+  // Closes create modals
   closeCreateNew(){
     this.setState({displayCreate: false, displayCreateTemplate: false, displayConvertToFolio : false})
   }
 
+  // Shows create new folio modal
   createNew(){
     this.setState({currentTemplate : ""})
     this.setState({displayCreate : true})
   }
 
+  // Shows create new template modal
   showTemplateModal(){
     this.setState({displayCreateTemplate : true})
   }
 
+  // Shows convert folio to template modal
   showConvertToFolio() {
     this.setState({displayConvertToFolio : true})
   }
@@ -87,7 +91,7 @@ export default class TextEditor extends Component {
     // Wait for the request to resolve before getting updated folios
     await Axios({
       method: 'put',
-      url:  host+'/eportfolio/save', 
+      url:  host+'/eportfolio/save',
       headers: {
         Authorization : "Bearer " + UserStore.token
       },
@@ -97,12 +101,11 @@ export default class TextEditor extends Component {
         data : this.state.currentTemplate
       }
     })
-    .then(response => {
+    .then(response => {})
+    .catch(response => {
+      // An unknown error has occurred
       console.log(response)
     })
-    .catch(response => {
-      console.log(response)
-    }) 
 
     // Instead of reload, get portfolios again such that user can keep editing their work
     // Also solves issue of reloading the page on autosave (which would be annoying to have)
@@ -126,7 +129,7 @@ export default class TextEditor extends Component {
     // Wait for the request to resolve before getting updated folios
     await Axios({
       method: 'put',
-      url:  host+'/template/saveTemplate', 
+      url:  host+'/template/saveTemplate',
       headers: {
         Authorization : "Bearer " + UserStore.token
       },
@@ -136,12 +139,11 @@ export default class TextEditor extends Component {
         data : this.state.currentTemplate
       }
     })
-    .then(response => {
+    .then(response => {})
+    .catch(response => {
+      // An unknown error has occurred
       console.log(response)
     })
-    .catch(response => {
-      console.log(response)
-    }) 
 
     // Instead of reload, get portfolios again such that user can keep editing their work
     // Also solves issue of reloading the page on autosave (which would be annoying to have)
@@ -167,7 +169,7 @@ export default class TextEditor extends Component {
     // Else delete
     await Axios({
       method: 'delete',
-      url:  host+'/eportfolio', 
+      url:  host+'/eportfolio',
       headers: {
         Authorization : "Bearer " + UserStore.token
       },
@@ -175,16 +177,15 @@ export default class TextEditor extends Component {
         eportID : this.state.currentID
       }
     })
-    .then(response => {
+    .then(response => {})
+    .catch(response => {
+      // An unknown error has occurred
       console.log(response)
     })
-    .catch(response => {
-      console.log(response)
-    }) 
     window.location.reload(false)
   }
 
-  // Deletes the currently selected folio
+  // Deletes the currently selected template
   async deleteTemplate(){
     // Check if user wants to delete template
     if(!window.confirm("Are you sure you want to delete " + this.state.currentTitle +"? This action cannot be reversed.")) {
@@ -194,7 +195,7 @@ export default class TextEditor extends Component {
     // Else delete template
     await Axios({
       method: 'delete',
-      url:  host+'/template', 
+      url:  host+'/template',
       headers: {
         Authorization : "Bearer " + UserStore.token
       },
@@ -202,20 +203,20 @@ export default class TextEditor extends Component {
         templateID : this.state.currentID
       }
     })
-    .then(response => {
+    .then(response => {})
+    .catch(response => {
+      // An unknown error has occurred
       console.log(response)
     })
-    .catch(response => {
-      console.log(response)
-    }) 
     window.location.reload(false)
   }
 
-  // Gets portfolios of the user
+  // Gets portfolios & templates of the user
   async getPortfolios(userId){
+    // Get folios
     await Axios({
       method: 'post',
-      url:  host+'/eportfolio/userfetch', 
+      url:  host+'/eportfolio/userfetch',
       headers: {
         Authorization : "Bearer " + UserStore.token
       },
@@ -224,6 +225,7 @@ export default class TextEditor extends Component {
       }
     })
     .then(response => {
+      // Sets up the folios in the component state from response data
       let portfolios = [];
       for(let i=0;i<response.data.length;i++){
         portfolios[i] = [response.data[i].data,response.data[i].title,response.data[i].eportID]
@@ -231,15 +233,16 @@ export default class TextEditor extends Component {
       this.setState({
         userPortfolios : portfolios
       });
-      console.log(response)
     })
     .catch(response => {
+      // An unknown error has occurred
       console.log(response)
     })
 
+    // Get templates
     await Axios({
       method: 'get',
-      url:  host+'/template/fetchFromUser', 
+      url:  host+'/template/fetchFromUser',
       headers: {
         Authorization : "Bearer " + UserStore.token
       },
@@ -248,6 +251,7 @@ export default class TextEditor extends Component {
       }
     })
     .then(response => {
+      // Sets up the templates in the component state from response data
       let templates = [];
       for(let i=0;i<response.data.length;i++){
         templates[i] = [response.data[i].data,response.data[i].title,response.data[i].templateID]
@@ -255,9 +259,9 @@ export default class TextEditor extends Component {
       this.setState({
         userTemplates : templates
       });
-      console.log(response)
     })
     .catch(response => {
+      // An unknown error has occurred
       console.log(response)
     })
   }
@@ -266,7 +270,7 @@ export default class TextEditor extends Component {
   createPortfolio(title, publicity){
     Axios({
         method: 'post',
-        url:  host+'/eportfolio/create', 
+        url:  host+'/eportfolio/create',
         headers: {
           Authorization : "Bearer " + UserStore.token
         },
@@ -292,18 +296,18 @@ export default class TextEditor extends Component {
         else if(response.data.hasErrors === "False"){
           window.location.reload(false);
         }
-        console.log(response)
       })
       .catch(response => {
+        // An unknown error has occurred
         console.log(response)
-      }) 
+      })
   }
 
   // Function for creating a template from a portfolio
   convertPortfolio(title, publicity, category){
     Axios({
         method: 'post',
-        url:  host+'/template/create', 
+        url:  host+'/template/create',
         headers: {
           Authorization : "Bearer " + UserStore.token
         },
@@ -335,17 +339,18 @@ export default class TextEditor extends Component {
           this.setState({displayCreateTemplate: false})
           this.getPortfolios(UserStore.user.userID);
         }
-        console.log(response)
       })
       .catch(response => {
+        // An unknown error has occurred
         console.log(response)
-      }) 
+      })
   }
 
+  // Function for creating folio from template
   convertToFolio(title, publicity) {
     Axios({
       method: 'post',
-      url:  host+'/template/createFolio', 
+      url:  host+'/template/createFolio',
       headers: {
         Authorization : "Bearer " + UserStore.token
       },
@@ -373,13 +378,14 @@ export default class TextEditor extends Component {
         this.setState({displayConvertToFolio: false})
         this.getPortfolios(UserStore.user.userID);
       }
-      console.log(response)
     })
     .catch(response => {
+      // An unknown error has occurred
       console.log(response)
-    }) 
+    })
   }
 
+  // Get user's folios & templates on component load 
   componentDidMount(){
     if(UserStore.user !== null){
       this.getPortfolios(UserStore.user.userID)
@@ -395,6 +401,7 @@ export default class TextEditor extends Component {
   }
 
   render() {
+    // If user has not logged in (or their session expired) then redirect them to the login page
     if(UserStore.user === null){
       return <Redirect  to="/login" />
     }
@@ -420,16 +427,16 @@ export default class TextEditor extends Component {
               <p className="medium clickable" onClick = {() => this.createNew()}><span className="green">+</span> Create new</p>
               <p className="bold">Your folios:</p>
               <ul className="folioTemplateList">
-                  {this.state.userPortfolios.map((portfolio, i) => <li key={i} className={this.state.listItemSelected == i ? "selectedListItem" : ""} onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1], false, i)}>{this.shortenString(portfolio[1],23)}</li>)}
+                  {this.state.userPortfolios.map((portfolio, i) => <li key={i} className={this.state.listItemSelected === i ? "selectedListItem" : ""} onClick = {() => this.handleClick(portfolio[0],portfolio[2], portfolio[1], false, i)}>{this.shortenString(portfolio[1],23)}</li>)}
               </ul>
               <p className="bold">Your templates:</p>
               <ul className="folioTemplateList">
-                  {this.state.userTemplates.map((template, i) => <li key={i+this.state.userPortfolios.length} className={this.state.listItemSelected == i+this.state.userPortfolios.length ? "selectedListItem" : ""} onClick = {() => this.handleClick(template[0],template[2], template[1], true, i+this.state.userPortfolios.length)}>{this.shortenString(template[1],23)}</li>)}
+                  {this.state.userTemplates.map((template, i) => <li key={i+this.state.userPortfolios.length} className={this.state.listItemSelected === i+this.state.userPortfolios.length ? "selectedListItem" : ""} onClick = {() => this.handleClick(template[0],template[2], template[1], true, i+this.state.userPortfolios.length)}>{this.shortenString(template[1],23)}</li>)}
               </ul>
             </div>
           </div>
           <div className="editorComponent">
-            <WorkspaceToolbar 
+            <WorkspaceToolbar
               folioTitle = {this.state.currentTitle}
               saveFolio = {() => this.savePortfolio()}
               saveTemplate = {() => this.saveTemplate()}
@@ -440,8 +447,8 @@ export default class TextEditor extends Component {
               templateSelected = {this.state.isTemplateSelected}
               isSaving = {this.state.isSaving}
               lastSavedAt = {this.state.lastSavedAt}
-              unsaved = {this.state.unsaved} 
-              folioData = {this.state.currentTemplate} 
+              unsaved = {this.state.unsaved}
+              folioData = {this.state.currentTemplate}
             />
             <div className="editor-container" ref={this.pdfRef}>
               {this.state.currentTitle ? <CKEditor
@@ -457,7 +464,6 @@ export default class TextEditor extends Component {
                     'heading',
                     'bold',
                     'italic',
-                    'underline',
                     'link',
                     '|',
                     'imageUpload',
@@ -473,16 +479,10 @@ export default class TextEditor extends Component {
                     'redo'
                   ],
                   image: {
-                    styles: [
-                      // A completely custom full size style with no class, used as a default.
-                      'full', 'side', {name:'leftAlign', title: 'Align Left', icon: 'left', className: 'image-style-left'}
-                    ],
                     toolbar: [
-                      'imageStyle:leftAlign',
+                      'imageTextAlternative',
                       'imageStyle:full',
-                      'imageStyle:side',
-                      '|',
-                      'imageTextAlternative'
+                      'imageStyle:side'
                     ]
                   },
                   table: {
@@ -493,7 +493,6 @@ export default class TextEditor extends Component {
                     ]
                   },
                   simpleUpload: {
-                    // The URL that the images are uploaded to.
                     uploadUrl: host+'/uploader',
                   }
                 }}

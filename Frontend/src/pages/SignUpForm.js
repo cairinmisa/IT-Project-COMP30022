@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import InputField from "./InputField";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../components/SubmitButton";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {host} from "../stores/Settings"
@@ -22,12 +22,14 @@ class SignUpForm extends Component {
     };
   }
 
+  // Handles changing input
   setInputValue(property, val) {
     this.setState({
       [property]: val
     });
   }
 
+  // Keeps input restricted to a certain length
   setLimitedInputValue(property, val) {
     val = val.trim();
     if (val.length > 16) {
@@ -38,6 +40,7 @@ class SignUpForm extends Component {
     });
   }
 
+  // Resets all the inputs
   resetSignUp() {
     this.setState({
       email: "",
@@ -51,10 +54,10 @@ class SignUpForm extends Component {
     });
   }
 
+  // Handle signup response
   handleResponse(response) {
-    //handle success
-    console.log(response.data);
     if(response.data.hasErrors === "False") {
+      // Take user to login page if signup is successful
       this.props.history.push('/login');
     }
     else if (response.data.hasErrors === "True"){
@@ -100,12 +103,13 @@ class SignUpForm extends Component {
     }
   }
 
+  // Handle response error
   handleResponseError(response) {
-    //handle error
     console.log(response);
     this.resetSignUp();
   }
 
+  // Called when user clicks signup button
   async doSignUp() {
     if (!this.state.email) {
       return;

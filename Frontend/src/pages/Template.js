@@ -12,18 +12,19 @@ class Template extends Component {
     templateID : null
   }
 
+  // Shows create new folio from template modal
   createNew(templateID){
       this.setState({displayCreate : true});
       this.setState({templateID: templateID});
   }
 
+  // Closes create new folio from template modal
   closeCreateNew(){
       this.setState({displayCreate: false});
   }
 
   // Function for creating a folio from scratch. Sends request to server and handles errors
   createPortfolio(title, publicity){
-    console.log(this.state.templateID);
     Axios({
         method: 'post',
         url:  host+'/template/createFolio', 
@@ -54,9 +55,9 @@ class Template extends Component {
             alert("Folio now exists in your workspace");
             this.closeCreateNew();
         }
-        console.log(response);
     })
     .catch(response => {
+        // An unknown error has occurred
         console.log(response);
     }) 
   }

@@ -9,15 +9,14 @@
     "@ckeditor/ckeditor5-build-inline": "22.0.0",
     "@ckeditor/ckeditor5-react": "2.1.0",
     "@ckeditor/ckeditor5-upload": "^23.0.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
+    "chokidar": "^3.4.3",
     "ckeditor5-custom-build": "file:ckeditor5",
     "dotenv": "^8.2.0",
     "jwt-decode": "^3.0.0",
     "mobx": "5.15.6",
-    "mobx-react": "6.3.0",
+    "mobx-react": "^6.3.1",
+    "moment": "^2.29.1",
     "postcss-loader": "4.0.1",
     "raw-loader": "4.0.1",
     "react": "^16.14.0",
@@ -27,7 +26,7 @@
     "react-google-login": "^5.1.22",
     "react-helmet": "^6.1.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3",
+    "react-scripts": "^4.0.0",
     "react-star-ratings": "^2.3.0",
     "react-to-pdf": "0.0.13",
     "style-loader": "1.2.1",
@@ -36,7 +35,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build --max-old-space-size=512",
+    "winBuild": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build --max-old-space-size=8192",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -54,5 +54,19 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@typescript-eslint/eslint-plugin": "^4.0.0",
+    "@typescript-eslint/parser": "^4.0.0",
+    "eslint": "^7.5.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8"
   }
 }

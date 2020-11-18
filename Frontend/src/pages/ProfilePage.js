@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import UserStore from "../stores/UserStore";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../components/SubmitButton";
 import EditFieldModal from '../components/EditFieldModal';
 
 class ProfilePage extends Component {
+    // Capitalises the first letter of a string
     capitaliseName(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
@@ -47,6 +48,7 @@ class ProfilePage extends Component {
         });
     };
 
+    // Check if user is a Google User on load
     componentDidMount() {
         console.log(UserStore.user);
         if(UserStore.user.googleUser === "True"){
@@ -55,10 +57,15 @@ class ProfilePage extends Component {
     }
 
     render() {
+        // If user accesses this page without logging in then redirect them
+        // to the login page
         if(UserStore.user == null){
             this.props.history.push('/login');
             window.location.reload(false);
-        } else{ 
+        } 
+        
+        // Otherwise display the user's profile page
+        else{ 
             return (
                 <div className="accountForm">
                     <div className="accountForm-content"><h1>👨‍💼 Manage your account 👩‍💼</h1>

@@ -1,4 +1,5 @@
 // This modal will pop up when a user wants to create a folio from a template
+
 import React, { Component } from 'react';
 import InputField from "../pages/InputField";
 import UserStore from "../stores/UserStore";
@@ -10,11 +11,13 @@ class TemplateToFolioModal extends Component {
         input : ""
     }
 
+    // Called when user presses submit
     handleSubmit(){
         this.props.createPortfolio(this.state.input, this.state.publicity)
     }
 
     render() {
+        // If user is not logged in then display a message for them to login/signup
         if(UserStore.isLoggedIn === false) {
             return (  
                 <div className="greyOutBG">
@@ -29,6 +32,8 @@ class TemplateToFolioModal extends Component {
                 </div>
             );
         } 
+
+        // Otherwise display the creation message
         return (  
             <div className="greyOutBG">
                  <div className="modal">

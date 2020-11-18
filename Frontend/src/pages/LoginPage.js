@@ -6,10 +6,15 @@ import UserStore from "../stores/UserStore";
 
 class LoginPage extends Component {
   render() {
+    // If user has already logged in then redirect
+    // them to the homepage
     if (UserStore.isLoggedIn) {
       this.props.history.push('/');
       window.location.reload(false);
-    } else {
+    } 
+    
+    // Otherwise render the login form
+    else {
       return (
         <div className="app">
           <div className="container">
