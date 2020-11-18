@@ -72,7 +72,6 @@ exports.create = async (req,res,next) =>{
         }).catch(next);
 }
 
-
 // Creates a new eportfolio given a template
 exports.createfromTemplate = async (req,res,next) =>{
      let response = {}
@@ -133,6 +132,7 @@ exports.createfromTemplate = async (req,res,next) =>{
     
 }
 
+// Deletes a template given its information
 exports.deleteTemplate = async (req,res,next) =>{
     
     let response = {}
@@ -164,6 +164,7 @@ exports.deleteTemplate = async (req,res,next) =>{
     })
 }
 
+// Updates a template given new information
 exports.saveTemplate = async (req,res,next) =>{
     let updateData = {}
     let response = {}

@@ -48,7 +48,6 @@ exports.register = async (req,res,next) =>{
         }).catch(next);
 }
 
-
 // Fetches Eportfolio by eportfolio ID
 exports.fetchOne = async (req,res) =>{
     //Password exists
