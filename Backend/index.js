@@ -55,10 +55,10 @@ app.use((req, res) => {
   res.end('<html><body><h1>Page not found :(</h1></body></html>');
 });
 
-
-
+// Creates a test server on the localhost
 const test_server = http.createServer(app);
 
+// Run the test server on localhost
 test_server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
