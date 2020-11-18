@@ -6,10 +6,9 @@ const keys = require('../config/keys');
 const passport = require('passport');
 
 // Load controllers
-const authController = require('../controllers/authentication');
+const userController = require('../controllers/user');
 const fetchController = require('../controllers/fetch');
 const errorController = require('../controllers/error');
-const userController = require('../controllers/user');
 
 // Load input validation
 const validateRegisterInput = require('../controllers/validators/register');
@@ -34,7 +33,7 @@ router.post('/login', async (req,res) => {
   // Check if logging in with Google 
   if(req.body.googleToken != null) {
     console.log("A User Logged in With Google");
-    authController.verifyGoogleToken(req.body.googleToken, res);
+    userController.verifyGoogleToken(req.body.googleToken, res);
     return;
   }
   
@@ -138,7 +137,7 @@ router.post("/", async (req,res) => {
   if (!isValid){
     return res.status(200).json(errors);
   }
-  await authController.register(req,res);
+  await userController.register(req,res);
 });
 
 // @Route PUT api/
@@ -155,7 +154,7 @@ router.put('/update',passport.authenticate('jwt', {session : false}),async funct
   }
 
   // Update the information
-  authController.update(req,res,next);
+  userController.update(req,res,next);
 });
 
 
