@@ -130,7 +130,6 @@ router.get('/searchByTitle', async function(req,res, next){
           templateList[i].templateID = tempList[i].templateID;
           
       }
-      console.log(templateList);
       return res.send(templateList);
     })
   

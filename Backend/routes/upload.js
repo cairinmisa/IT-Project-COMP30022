@@ -26,7 +26,6 @@ router.post('/', multipartMiddleware, function(req, res) {
         // Write the file to the system
         fs.writeFile(newPath, data, function (err) {
             if (err)  {
-                console.log({err: err})
                 res.send({error:"Error"});
             }
             else {
