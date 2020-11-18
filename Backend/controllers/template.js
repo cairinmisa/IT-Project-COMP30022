@@ -1,11 +1,6 @@
-const bcrypt = require('bcryptjs');
-const validator = require('validator');
-const isEmpty = require('is-empty');
 const Eportfolio = require('../models/dbschema/eportfolio');
 const Template = require('../models/dbschema/templates');
 const fetchController = require('./fetch');
-const eportController = require('./eport');
-const { updateOne, findByIdAndUpdate } = require('../models/dbschema/eportfolio');
 
 
 // Creates a template given an eportfolio
