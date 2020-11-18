@@ -13,7 +13,7 @@ const app = express();
 
 
 
-// Setup
+// Setup Middleware
 app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use(cors());
@@ -25,7 +25,7 @@ const profileRouter = require('./routes/profile');
 const templateRouter = require('./routes/template');
 const uploadRouter = require('./routes/upload');
 
-// Middleware
+// Use Passport Middleware
 app.use(passport.initialize());
 
 // passport config
@@ -50,15 +50,15 @@ app.use(function(err,req,res,next){
 // Default request, page not found
 app.use((req, res) => {
   console.log(req.headers);
-  res.statuseCode = 404;
+  res.statusCode = 404;
   res.setHeader('Content-Type', 'text/html');
   res.end('<html><body><h1>Page not found :(</h1></body></html>');
 });
 
-
-
+// Creates a test server on the localhost
 const test_server = http.createServer(app);
 
+// Run the test server on localhost
 test_server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });

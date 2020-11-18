@@ -15,7 +15,6 @@ function generateID(length) {
     return result;
  }
  
-
 // Route for uploading images
 router.post('/', multipartMiddleware, function(req, res) {
     var fs = require('fs');

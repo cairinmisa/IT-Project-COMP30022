@@ -10,19 +10,9 @@ const fetchController = require('../controllers/fetch');
 const validatenewEportInput = require('../controllers/validators/newEport');
 const validatesaveEportInput = require('../controllers/validators/saveEport');
 
-
-
 // Load User model
 const Eportfolio = require("../models/dbschema/eportfolio");
 const User = require("../models/dbschema/user");
-
-const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
-
-router.get('/', async (req, res,next)=> {
-    eportlist = await fetchController.getAllEports(req,res,next);
-    res.send(eportlist);
-})
 
 // Create a new Eportfolio
 router.post('/create',passport.authenticate('jwt', {session : false}), (req, res)=> {
@@ -61,7 +51,6 @@ router.post('/userfetch',passport.authenticate('jwt', {session : false}), (req, 
     }
     eportController.fetchAll(req,res)
 })
-
 
 // Delete Eportfolio from EportID
 router.delete('/',passport.authenticate('jwt', {session : false}), (req, res)=> {
@@ -103,6 +92,7 @@ router.get('/fetchPublic/', async (req, res)=> {
 })
 
 // Searches the database for eportfolios by title
+
 router.get('/searchByTitle', async function(req,res, next){
      // Create regex to form case insensitive search
      var eportfolioList = []

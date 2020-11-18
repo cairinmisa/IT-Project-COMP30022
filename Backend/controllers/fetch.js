@@ -1,8 +1,9 @@
 const User = require('../models/dbschema/user');
 const Eportfolio = require('../models/dbschema/eportfolio');
 const Template = require('../models/dbschema/templates');
-const errorController = require('./error');
 
+
+// Returns a list of all users in the database
 exports.getAllUsers = async (req, res, next) => {
     var userlist;
     await User.find().then(function(users){
@@ -11,6 +12,7 @@ exports.getAllUsers = async (req, res, next) => {
     return userlist;
 };
 
+// Returns a list of all eports in the database
 exports.getAllEports = async (req, res, next) => {
     var eportList;
     await Eportfolio.find().then(function(users){
@@ -19,17 +21,6 @@ exports.getAllEports = async (req, res, next) => {
     return eportList;
 };
 
-
-
-exports.getOne = async (req,res,next) => {
-    user = await this.userfromUsername(req.body.username);
-
-    if(user==null){
-        errorController.error(res,"user not found",400);
-    } else {
-        res.send(user);
-    }
-}
 
 // Returns user file if username exists, returns null if user doesn't exists
 exports.userfromUsername = async(test_username) =>{
@@ -40,6 +31,7 @@ exports.userfromUsername = async(test_username) =>{
     return target_user;
 }
 
+// Returns a user given an email
 exports.userfromEmail = async(email) =>{
     var target_user;
     await User.findOne({emailAddress : email}).then(function(user){
@@ -48,6 +40,7 @@ exports.userfromEmail = async(email) =>{
     return target_user;
 }
 
+// Returns a user given a userID
 exports.userfromUserID = async(test_userID) =>{
     var target_user;
     await User.findOne({userID : test_userID}).then(function(user){
@@ -56,6 +49,7 @@ exports.userfromUserID = async(test_userID) =>{
     return target_user;
 }
 
+// Returns an eport given an eportID
 exports.eportfromEportID = async(test_eportID) =>{
     var target_eport;
     await Eportfolio.findOne({eportID : test_eportID}).then(function(user){
@@ -64,6 +58,7 @@ exports.eportfromEportID = async(test_eportID) =>{
     return target_eport;
 }
 
+// Returns a template given a templateiD
 exports.tempfromTempID = async(test_tempID) =>{
     var target_temp;
     await Template.findOne({templateID : test_tempID}).then(function(temp){
@@ -72,6 +67,7 @@ exports.tempfromTempID = async(test_tempID) =>{
     return target_temp;
 }
 
+// Returns true if the userID exists in the database
 exports.userIDExists = async (userID) =>{
     user_check = await this.userfromUserID(userID);
     if(user_check != null){
@@ -81,6 +77,7 @@ exports.userIDExists = async (userID) =>{
     }
 }
 
+// Returns true if the username exists in the database
 exports.usernameExists = async (username) =>{
     user_check = await this.userfromUsername(username);
     if(user_check != null){
@@ -90,7 +87,7 @@ exports.usernameExists = async (username) =>{
     }
 }
 
-
+// Returns true if the email exists in the database
 exports.emailExists = async (email) =>{
     email_check = await this.userfromEmail(email);
 
@@ -101,6 +98,7 @@ exports.emailExists = async (email) =>{
     }
 }
 
+// Returns true if the eportfolio exists in the database
 exports.eportExists = async (eportID) =>{
     eport_check = await this.eportfromEportID(eportID);
     if(eport_check != null){
@@ -110,6 +108,7 @@ exports.eportExists = async (eportID) =>{
     }
 }
 
+// Returns true if the template exists in the database
 exports.templateExists = async (templateID) =>{
     temp_check = await this.tempfromTempID(templateID);
     if(temp_check != null){
@@ -119,6 +118,7 @@ exports.templateExists = async (templateID) =>{
     }
 }
 
+// Returns true if the userID exists in a given rating array
 exports.hasRated = (array, userID) =>{
     arrayLength = array.length
 
@@ -131,6 +131,7 @@ exports.hasRated = (array, userID) =>{
     return false;
 }
 
+// Removes a rating from a given userID in the rating array
 exports.remRating = (array, userID) =>{
     arrayLength = array.length
 

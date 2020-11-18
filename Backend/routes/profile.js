@@ -6,35 +6,27 @@ const keys = require('../config/keys');
 const passport = require('passport');
 
 // Load controllers
-const authController = require('../controllers/authentication');
-const fetchController = require('../controllers/fetch');
-const errorController = require('../controllers/error');
 const userController = require('../controllers/user');
+const fetchController = require('../controllers/fetch');
 
 // Load input validation
 const validateRegisterInput = require('../controllers/validators/register');
 const validateLoginInput = require('../controllers/validators/login');
-const validateDeleteInput = require('../controllers/validators/delete');
 const validategetUserInput = require('../controllers/validators/getUser');
-const validateupdateInput = require('../controllers/validators/update');
 
 
 // Load User model
 const User = require("../models/dbschema/user");
-
-
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 
 
-// @route POST api/login
-// @desc Login user and return JWT token
-// @access PUBLIC
+// Returns an access token for a user (Login)
 router.post('/login', async (req,res) => {
   // Check if logging in with Google 
   if(req.body.googleToken != null) {
     console.log("A User Logged in With Google");
-    authController.verifyGoogleToken(req.body.googleToken, res);
+    userController.verifyGoogleToken(req.body.googleToken, res);
     return;
   }
   
@@ -90,9 +82,7 @@ router.post('/login', async (req,res) => {
   });
 });
 
-// @Route GET api/
-// @desc RETURN User
-// @access PUBLIC
+// Returns information given a particular emailAddress
 router.get('/findUser/', async function(req,res,next){
   const { errors, isValid } = validategetUserInput(req.query);
   if (!isValid) {
@@ -118,32 +108,18 @@ router.get('/findUser/', async function(req,res,next){
   });
 });
 
-// GET ALL USERS
-router.get('/',async function(req,res,next){
-
-    userlist = await fetchController.getAllUsers(req,res,next);
-    res.send(userlist);
-});
-
-// @Route POST api/
-// @desc REGISTER User
-// @access PUBLIC
-
+// Register a new user
 router.post("/", async (req,res) => {
   // Form Validation
   const {errors, isValid} = validateRegisterInput(req.body);
-  console.log(req.user);
-  console.log(req.body.username);
   // Check Validation
   if (!isValid){
     return res.status(200).json(errors);
   }
-  await authController.register(req,res);
+  await userController.register(req,res);
 });
 
-// @Route PUT api/
-// @desc MODIFY User
-// @access PUBLIC
+// Update a particular user
 router.put('/update',passport.authenticate('jwt', {session : false}),async function(req,res,next){
   if(req.body.userID==null){
     return res.send({userIDGiven : "False", hasErrors : "True"})
@@ -155,13 +131,10 @@ router.put('/update',passport.authenticate('jwt', {session : false}),async funct
   }
 
   // Update the information
-  authController.update(req,res,next);
+  userController.update(req,res,next);
 });
 
-
-// @Route DELETE api/
-// @desc DELETE User
-// @access PUBLIC
+// Delete a particular user
 router.delete('/',passport.authenticate('jwt', {session : false}), function(req,res, next){
   // Check user is accessing their own account
   if(!(req.user.emailAddress == req.body.emailAddress)){
@@ -174,6 +147,7 @@ router.delete('/',passport.authenticate('jwt', {session : false}), function(req,
     userController.delete(req,res,next);
 })
 
+// Search for a user by Name
 router.get('/searchByName', async function(req,res, next){
 
   var regex = new RegExp(["^", req.query.fullName, "$"].join(""),"i");
@@ -187,6 +161,7 @@ router.get('/searchByName', async function(req,res, next){
 
 })
 
+// Return user information from User ID
 router.get('/usernameFromUserID',async function(req,res, next){
   if(req.query.userID == null){
     return res.send({hasErrors: "True", userIDGiven : "False"});

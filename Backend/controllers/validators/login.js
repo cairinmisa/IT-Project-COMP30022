@@ -2,8 +2,6 @@ const validator = require('validator');
 const isEmpty = require('is-empty');
 const bcrypt = require('bcryptjs');
 
-const User = require('../../models/dbschema/user');
-const { error } = require('../error');
 
 // Login validation and Authentication
 module.exports = function validateLoginInput(data) {

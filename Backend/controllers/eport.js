@@ -1,10 +1,6 @@
-const bcrypt = require('bcryptjs');
-const validator = require('validator');
-const isEmpty = require('is-empty');
+
 const Eportfolio = require('../models/dbschema/eportfolio');
 const fetchController = require('./fetch');
-const errorController = require('./error');
-
 
 // Adds an eportfolio to the database
 exports.register = async (req,res,next) =>{
@@ -52,8 +48,7 @@ exports.register = async (req,res,next) =>{
         }).catch(next);
 }
 
-
-
+// Fetches Eportfolio by eportfolio ID
 exports.fetchOne = async (req,res) =>{
     //Password exists
     let response = {}
@@ -82,6 +77,7 @@ exports.fetchOne = async (req,res) =>{
     
 }
 
+// Fetches all folios belonging to a user
 exports.fetchAll = async (req,res) =>{
     // Check user exists
     if(!( await fetchController.userIDExists(req.body.userID))){
@@ -98,6 +94,7 @@ exports.fetchAll = async (req,res) =>{
     });
 }
 
+// Updates an eportfolio with the given information
 exports.saveEport = async (req,res) =>{
     // Check eport exists
     if(!( await fetchController.eportExists(req.body.eportID))){
@@ -128,6 +125,7 @@ exports.saveEport = async (req,res) =>{
     })
 }
 
+// Deletes an eportfolio with the given information
 exports.delete = async (req,res) =>{
 
     let response = {}
@@ -157,34 +155,4 @@ exports.delete = async (req,res) =>{
      }
     
 }
-}
-// Returns an eportfolio with empty fields, except for data and userID
-exports.copy = async (oldeportID)=>{
-    eportInfo = {}
-    oldeport = null
-
-    // Find the old eport (Assuming it exists)
-    await Eportfolio.findOne({eportID : oldeportID}).then(async function (eport){
-        oldeport = eport;
-        console.log(oldeport)
-    });
-
-    eportInfo.data = oldeport.data;
-    eportInfo.userID = oldeport.userID;
-    eportInfo.title = "";
-
-    testID = await Eportfolio.countDocuments() + 1;
-    while(1){
-          if(!await fetchController.eportExists(testID)){
-            eportInfo.eportID = testID;
-            break;
-          }
-          testID ++;
-    }
-    console.log(eportInfo)
-    await Eportfolio.create(eportInfo).then(function(template){
-        console.log(template)
-        console.log(template.eportID)
-    })
-    return eportInfo.eportID
 }

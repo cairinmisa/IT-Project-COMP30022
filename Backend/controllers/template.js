@@ -1,11 +1,6 @@
-const bcrypt = require('bcryptjs');
-const validator = require('validator');
-const isEmpty = require('is-empty');
 const Eportfolio = require('../models/dbschema/eportfolio');
 const Template = require('../models/dbschema/templates');
 const fetchController = require('./fetch');
-const eportController = require('./eport');
-const { updateOne, findByIdAndUpdate } = require('../models/dbschema/eportfolio');
 
 
 // Creates a template given an eportfolio
@@ -72,7 +67,6 @@ exports.create = async (req,res,next) =>{
         }).catch(next);
 }
 
-
 // Creates a new eportfolio given a template
 exports.createfromTemplate = async (req,res,next) =>{
      let response = {}
@@ -133,6 +127,7 @@ exports.createfromTemplate = async (req,res,next) =>{
     
 }
 
+// Deletes a template given its information
 exports.deleteTemplate = async (req,res,next) =>{
     
     let response = {}
@@ -164,6 +159,7 @@ exports.deleteTemplate = async (req,res,next) =>{
     })
 }
 
+// Updates a template given new information
 exports.saveTemplate = async (req,res,next) =>{
     let updateData = {}
     let response = {}
