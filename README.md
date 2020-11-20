@@ -53,6 +53,10 @@ Within the repository's wiki you can find:
 - [Database Structure](https://github.com/cairinmisa/IT-Project-COMP30022/wiki/Database-Structure)
 - [Key Classes and Application Layers](https://github.com/cairinmisa/IT-Project-COMP30022/wiki/Key-Classes-and-Application-Layers)
 
+Documentation which can be found on the application (Help Document):
+
+- [Help Document](https://docs.google.com/document/d/1HoYN8A0IrbEWNTto792i_U9gfFQoHwWA-5yxTTsOQHI/edit)
+
 
 ## Current Bugs
 - Images uploaded to the editor do not display correctly in the PROD environment
