@@ -51,6 +51,7 @@ The following documentation exists:
 Within the repository's wiki you can find:
 
 - [Database Structure](https://github.com/cairinmisa/IT-Project-COMP30022/wiki/Database-Structure)
+- [Key Classes and Application Layers](https://github.com/cairinmisa/IT-Project-COMP30022/wiki/Key-Classes-and-Application-Layers)
 
 
 ## Current Bugs
