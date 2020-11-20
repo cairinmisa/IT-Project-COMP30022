@@ -418,7 +418,7 @@ export default class TextEditor extends Component {
             <div className="rightAlign">
               <Link to = "/template" >Templates</Link>{" "}|{" "}
               <Link to = "/profile" >{this.capitaliseName(UserStore.user.firstName)}</Link>{" "}|{" "}
-              <Link to = "" >Help</Link>
+              <a target="_blank" href="https://docs.google.com/document/d/1HoYN8A0IrbEWNTto792i_U9gfFQoHwWA-5yxTTsOQHI/edit">Help</a>
             </div>
           </div>
           <div className="userPanel">
