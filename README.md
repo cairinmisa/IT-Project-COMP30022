@@ -5,11 +5,12 @@
   * [Project Overview](#project-overview)
   * [Demo](#demo)
   * [Features](#features)
-  * [Changelog](#changelog)
   * [Documentation](#documentation)
   * [Current Bugs](#current-bugs)
   * [Installing and Deploying](#installing-and-deploying)
+  * [Changelog](#changelog)
   * [Licensing Agreements](#licensing-agreements)
+
 
 ## Project Overview
 
@@ -37,6 +38,46 @@ The website can be found at: eprofolio.pro
  6. Custom templates
  7. Rate different templates
  8. Ability to export portfolio as a .pdf file
+
+
+## Documentation
+Can be found in the docs/ folder. 
+
+The following documentation exists:
+
+ - Do/Be/Feel List
+ - User Stories
+ 
+Within the repository's wiki you can find:
+
+- [Database Structure](https://github.com/cairinmisa/IT-Project-COMP30022/wiki/Database-Structure)
+
+
+## Current Bugs
+- Images uploaded to the editor do not display correctly in the PROD environment
+
+
+## Installing and Deploying
+This outlines how to install and deploy the application on a local server with only the source-code.
+
+**Requirements**
+
+ - MongoDB atlas account
+ - NPM
+
+**Steps**
+1. Create a new cluster in MongoDB with a username and password
+2. Create a .env file in the Backend folder with the contents
+ `DATABASE_USER = <YOUR_USERNAME>
+  DATABASE_PASS = <YOUR_PASSWORD>`
+3. Edit the DB connection configuration in Backend/models/db.js to point to the newly created database (dbName)
+4. Run 'npm install' in the Backend folder to install the dependencies
+5. Run npm start to start the backend server
+6. Change directory to the Frontend folder and run 'npm install' to install depdendencies 
+7. Create an .env file with the contents `BASE_URL = "<BACKEND_SERVER>"`
+8. Run npm start to start the web server
+9. Open any browser and go to web server address
+10. Done!
 
 ## Changelog
 Changes can be found in Releases.
@@ -71,41 +112,7 @@ A short overview can be read here:
 * Deployed backend onto AWS, and frontend to eprofolio.pro
 ....
 
-## Documentation
-Can be found in the docs/ folder. 
-
-The following documentation exists:
-
- - Do/Be/Feel List
- - User Stories
-
-
-## Current Bugs
-- Images uploaded to the editor do not display correctly in the PROD environment
-
-
-## Installing and Deploying
-This outlines how to install and deploy the application on a local server with only the source-code.
-
-**Requirements**
-
- - MongoDB atlas account
- - NPM
-
-**Steps**
-1. Create a new cluster in MongoDB with a username and password
-2. Create a .env file in the Backend folder with the contents
- `DATABASE_USER = <YOUR_USERNAME>
-  DATABASE_PASS = <YOUR_PASSWORD>`
-3. Edit the DB connection configuration in Backend/models/db.js to point to the newly created database (dbName)
-4. Run 'npm install' in the Backend folder to install the dependencies
-5. Run npm start to start the backend server
-6. Change directory to the Frontend folder and run 'npm install' to install depdendencies 
-7. Create an .env file with the contents `BASE_URL = "<BACKEND_SERVER>"`
-8. Run npm start to start the web server
-9. Open any browser and go to web server address
-10. Done!
-
-
 ## Licensing Agreements
 This application cannot be used commercially.
+
+
