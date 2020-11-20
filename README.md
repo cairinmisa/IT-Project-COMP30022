@@ -1,9 +1,19 @@
 
 # IT-Project-COMP30022 - eProfolio.pro
 
+## Table of Contents
+  * [Project Overview](#project-overview)
+  * [Demo](#demo)
+  * [Features](#features)
+  * [Changelog](#changelog)
+  * [Documentation](#documentation)
+  * [Current Bugs](#current-bugs)
+  * [Installing and Deploying](#installing-and-deploying)
+  * [Licensing Agreements](#licensing-agreements)
+
 ## Project Overview
 
-This project comes from COMP30022, a subject titled "IT Project" from the University of Melbourne. In this semester (Semester 2, 2020) our goal was to create an application based around ePortfolios. 
+This project comes from COMP30022, a subject titled "IT Project" from the University of Melbourne. In this semester (Semester 2, 2020) our goal was to create a platform based around ePortfolios. 
 
 This is recommended to view on desktop only. This application is NOT mobile-compatible.
 
@@ -28,6 +38,38 @@ The website can be found at: eprofolio.pro
  7. Rate different templates
  8. Ability to export portfolio as a .pdf file
 
+## Changelog
+Changes can be found in Releases.
+
+A short overview can be read here:
+
+**Sprint 1**
+
+* Initialised Backend/Frontend
+* Initialised Database
+* Client's requirements recorded
+* Wireframe UI developed for Client
+
+
+**Sprint 2**
+
+* Domain Name purchased
+* SSL Certificate purchased
+* Backend routes configured
+* Backend passwords encrypted
+* Backend web tokens utilised
+...
+
+**Sprint 3**
+
+* Fetch/Delete/Save Templates implemented
+* Fetch/Delete/Save Eportfolios implemented
+* Added ability to save work within text workspace
+* Added ability to create templates from the workspace
+* Added ability to create folios from the workspace
+* Functionality added to templates page
+* Deployed backend onto AWS, and frontend to eprofolio.pro
+....
 
 ## Documentation
 Can be found in the docs/ folder. 
@@ -36,7 +78,12 @@ The following documentation exists:
 
  - Do/Be/Feel List
  - User Stories
- 
+
+
+## Current Bugs
+- Images uploaded to the editor do not display correctly in the PROD environment
+
+
 ## Installing and Deploying
 This outlines how to install and deploy the application on a local server with only the source-code.
 
