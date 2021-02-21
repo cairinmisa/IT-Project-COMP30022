@@ -18,15 +18,8 @@ This project comes from COMP30022, a subject titled "IT Project" from the Univer
 
 This is recommended to view on desktop only. This application is NOT mobile-compatible.
 
-**Student Info** (Name | Student ID | Student Email)
-1. Caitlin Grant | 911075 | caitling1@student.unimelb.edu.au 
-2. Raphael Wirth | 911436 | rwirth@student.unimelb.edu.au 
-3. Zhi Charles Teoh | 899991 | teohz2@student.unimelb.edu.au 
-4. Elijah Nicol | 995961 | ejnicol@student.unimelb.edu.au 
-5. Connor Rockliff | 901313 | crockliff@student.unimelb.edu.au
-
 ## Demo
-The website can be found at: eprofolio.pro
+The demo is no longer available.
 
 ## Features
 
